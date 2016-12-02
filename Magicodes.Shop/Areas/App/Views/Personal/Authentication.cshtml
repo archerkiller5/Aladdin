@@ -1,0 +1,181 @@
+﻿
+@model  Magicodes.WeiChat.Data.Models.User.User_Info
+@{
+    ViewBag.Title = "手机认证";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/weui/slides-full/styles")
+
+<div class="aui-content">
+    <div class="aui-input-row">
+        <i class="aui-input-addon  aui-iconfont aui-icon-phone"></i>
+        @*<div class="aui-col-xs-7">*@
+            <input type="number" class="aui-input" id="input_phone" placeholder="手机号码">
+        @*</div>*@
+        @*<div class="aui-col-xs-3">
+            <button id="btnSendCode" class="aui-btn" disabled="disabled" onclick="sendMessage()">获取校验码</button>
+        </div>*@
+    </div>
+    @*<div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input input_xym" placeholder="校验码">
+    </div>*@
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_nickname" placeholder="昵称" value="@Model.NickName">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_truename" placeholder="真实姓名" value="@Model.TrueName">
+    </div>
+
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_idcard" placeholder="身份证号" value="@Model.IdCard">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_idcard" placeholder="性别" value="@Model.Sex">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_email" placeholder="Email" value="@Model.Email">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_workplace1" placeholder="工作单位1" value="@Model.WorkPlace_1">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_businessscope1" placeholder="经营范围1" value="@Model.Business_scope_1">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_workplace2" placeholder="工作单位2" value="@Model.WorkPlace_2">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_businessscope2" placeholder="经营范围2" value="@Model.Business_scope_2">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_workplace3" placeholder="工作单位3" value="@Model.WorkPlace_3">
+    </div>
+    <div class="aui-input-row">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <input type="text" class="aui-input" id="input_businessscope3" placeholder="经营范围3"  value="@Model.Business_scope_3">
+    </div>
+    <div class="aui-btn-row">
+        <div id="but_cmt" class="aui-btn aui-success" disabled="disabled">确认</div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        var InterValObj; //timer变量，控制时间
+        var count = 60; //间隔函数，1秒执行
+        var curCount; //当前剩余秒数
+
+        $(function() {
+            console.log('进入初始化事件');
+            $('#but_cmt')
+                .on('click',
+                    function() {
+                        console.log("进入确定click事件");
+                        var tx_yzm = $(".input_xym").val();
+                        var tx_phone = $("#input_phone").val();
+                        var tx_name = $("#input_truename").val();
+
+                        var tx_nickname = $("#input_nickname").val();
+                        var tx_idcard = $("#input_idcard").val();
+                        var tx_email = $("#input_email").val();
+                        var tx_workplace1 = $("#input_workplace1").val();
+                        var tx_businessscope1 = $("#input_businessscope1").val();
+                        var tx_workplace2 = $("#input_workplace2").val();
+                        var tx_businessscope2 = $("#input_businessscope2").val();
+                        var tx_workplace3 = $("#input_workplace3").val();
+                        var tx_businessscope3 = $("#input_businessscope3").val();
+
+
+                        //var arr = [tx_yzm, tx_phone, tx_name];
+                        var arr = {
+                            yzm: tx_yzm, phone: tx_phone, name: tx_name,
+                            nickname:tx_nickname, idcard:tx_idcard, email:tx_email, workplace1:tx_workplace1, businessscope1:tx_businessscope1,
+                            workplace2:tx_workplace2, businessscope2:tx_businessscope2,
+                            workplace3: tx_workplace3, businessscope3: tx_businessscope3
+                        };
+                        wc.restApi.post({
+                            //请求地址
+                            dataType: "text", //数据格式:JSON
+                            url: '/api/Authentication/DoAuthentication', //目标地址    
+                            data: JSON.stringify(arr),
+                            //成功函数             
+                            success: function(result) {
+                                wc.message.confirm("认证成功!", "提示");
+                                setTimeout(function() {
+                                        history.back(-1);
+                                    },
+                                    1100);
+                            }
+                        });
+                    });
+
+            $("#input_phone")
+                .bind("input propertychange",
+                    function() {
+                        console.log('进入手机号propertychange事件');
+                        if ($('.input_phone').val() != "") {
+                            console.log($('#input_phone').val());
+                            $('#btnSendCode').removeAttr("disabled");
+                            $('#btnSendCode').attr("class", "aui-btn-success");
+                        } else {
+                            console.log($('.input_phone').val());
+                            $("#btnSendCode").attr("class", "aui-disabled");
+                            $('#btnSendCode').attr("class", "aui-btn");
+                        }
+                    });
+        });
+
+        function sendMessage() {
+            console.log("进入sendMessage");
+            curCount = count;
+            //设置button效果，开始计时
+            $("#btnSendCode").attr("disabled", "disabled");
+            $("#btnSendCode").removeAttr("class", "aui-btn-success");
+            $("#btnSendCode").attr("class", "aui-disabled");
+            $("#btnSendCode").html("重获校验码" + "(" + curCount + ")");
+            InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+            var tx_phone = $("#input_phone").val();
+            var data = { phoneNumber: tx_phone };
+            console.log("参数:");
+            console.log(JSON.stringify(data));
+            wc.restApi.post({
+                //请求地址
+                url: '/api/Authentication/SendBindPhoneMsg', //目标地址
+                data: JSON.stringify(tx_phone),
+                contenType: "appliction/json",
+                //成功函数
+                success: function(result) {
+                    //wc.message.success("发送成功!", "温馨提示");
+                }
+            });
+        }
+
+        //timer处理函数
+        function SetRemainTime() {
+            console.log("进入SetRemainTime");
+            if (curCount == 0) {
+                console.log("SetRemainTime___0");
+                window.clearInterval(InterValObj); //停止计时器
+                $("#btnSendCode").removeAttr("disabled"); //启用按钮
+                $("#btnSendCode").html("重发校验码");
+                $("#btnSendCode").attr("class", "aui-btn-success");
+            } else {
+                console.log("SetRemainTime___1");
+                curCount--;
+                $("#btnSendCode").html("重获校验码" + "(" + curCount + ")");
+            }
+        }
+
+
+    </script>
+}

@@ -1,0 +1,240 @@
+﻿@model Magicodes.WeiChat.Data.Models.Order.Order_Info
+
+@{
+    ViewBag.Title = "编辑";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(model => model.Id)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Code, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Code, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Code, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserID, htmlAttributes: new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.UserID, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.UserID, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TotalPrice, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.TotalPrice, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.TotalPrice, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SecondPrice, htmlAttributes: new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.SecondPrice, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.SecondPrice, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ThirdPayType, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EnumDropDownListFor(model => model.ThirdPayType, new {@class = "form-control"})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.ThirdPayType, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DealOn, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.DealOn, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.DealOn, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PaymentOn, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.PaymentOn, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.PaymentOn, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ShippingOn, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.ShippingOn, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.ShippingOn, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ReceiptOn, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.ReceiptOn, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.ReceiptOn, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Shipping, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Shipping, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Shipping, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Leave, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Leave, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Leave, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RejectReason, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.RejectReason, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.RejectReason, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.State, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EnumDropDownListFor(model => model.State, new {@class = "form-control"})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.State, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IsRefund, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.IsRefund, new {htmlAttributes = new {@class = "i-checks"}})
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.IsRefund, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Remark, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Remark, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Remark, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OpenId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.OpenId, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.OpenId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TenantId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.TenantId, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.TenantId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+
+@section Scripts {
+    @*请自行移除没用到的脚本*@
+    @Scripts.Render("~/bundles/jqueryval")
+    @*复选框脚本*@
+    @Scripts.Render("~/plugins/iCheck")
+    @*日期控件脚本*@
+    @Scripts.Render("~/plugins/dataPicker")
+    <script type="text/javascript">
+        $(function() {
+            $("input[type=checkbox]")
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+            //设置日期控件
+            $('input[type=datetime], input[type=date]')
+                .datepicker({
+                    todayBtn: "linked",
+                    //keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    language: "zh-CN"
+                });
+        });
+    </script>
+}

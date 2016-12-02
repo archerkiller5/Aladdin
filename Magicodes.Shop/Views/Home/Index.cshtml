@@ -1,0 +1,164 @@
+﻿@using Magicodes.Shop.Models
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "仪表盘";
+    var index = 1;
+}
+
+<div class="row wrapper border-bottom white-bg dashboard-header">
+
+    <div class="col-lg-10">
+        <h2>Welcome @User.Identity.GetUserName()</h2>
+        <small>以下为当前系统数据关键信息</small>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content" id="bodyContent">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-success pull-right">Totally</span>
+                    <h5>累积关注数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@ViewBag.UserSummaryCount</h1>
+                    <div class="stat-percent font-bold text-success">
+                        98% <i class="fa fa-bolt"></i>
+                    </div>
+                    <small>Total users</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-info pull-right">Weekly</span>
+                    <h5>新关注数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@ViewBag.NewUserCount</h1>
+                    <div class="stat-percent font-bold text-info">
+                        20% <i class="fa fa-level-up"></i>
+                    </div>
+                    <small>New users</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-primary pull-right">Weekly</span>
+                    <h5>取消关注数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@ViewBag.CancelUserCount</h1>
+                    <div class="stat-percent font-bold text-navy">
+                        44% <i class="fa fa-level-up"></i>
+                    </div>
+                    <small>Left users</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-danger pull-right">Weekly</span>
+                    <h5>净增用户数</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">@ViewBag.GrowUserCount</h1>
+                    <div class="stat-percent font-bold text-danger">
+                        38% <i class="fa fa-level-down"></i>
+                    </div>
+                    <small>User Growth</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>最近关注用户</h5>
+                </div>
+                <div class="ibox-content" style="height: 356px;">
+                    <ul class="list-group clear-list">
+                        @foreach (var item in ViewBag.LastUsers as List<HomeUserViewModel>)
+                        {
+                            <li class="list-group-item fist-item">
+                                <span class="pull-right">
+                                    @item.SubscribeTime
+                                </span>
+                                <span class="label label-@item.Style">@index</span> @item.NickName
+                            </li>
+                            {
+                                index++;
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>半年内公众号关注变化</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="flot-chart dashboard-chart" style="height: 280px;">
+                        @if (ViewBag.ChartEnable)
+                        {
+                            <div data-bind='component:{name: "echart",params: { ajaxUrl: "/home/UserTimeChart" }}' style="height: 280px; width: 100%"></div>
+                        }
+                        else
+                        {
+                            <div class="well">
+                                <h3>因性能问题，部分图表已禁用。</h3>
+                                PS:当关注的粉丝量过大时（超过20万粉），会出现此信息。
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>粉丝分布统计</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="flot-chart dashboard-chart" style="height: 280px;">
+                        @if (ViewBag.ChartEnable)
+                        {
+                            <div data-bind='component:{name: "echart",params: { ajaxUrl: "/home/UserAreaChart" }}' style="height: 280px; width: 100%"></div>
+                        }
+                        else
+                        {
+                            <div class="well">
+                                <h3>因性能问题，部分图表已禁用。</h3>
+                                PS:当关注的粉丝量过大时（超过20万粉），会出现此信息。
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/plugins/peity")
+    @Scripts.Render("~/plugins/echarts")
+    <script>
+        $(function() {
+            ko.applyBindings({}, document.getElementById('bodyContent'));
+        });
+    </script>
+}

@@ -1,0 +1,101 @@
+﻿@model Magicodes.WeiChat.Data.Models.Order.Order_Logistics
+
+@{
+    ViewBag.Title = "发货";
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            <div class="form-group">
+                                @Html.Label("配送地址", new {@class = "control-label col-sm-2"})
+                                <div>
+                                    @Html.Label(Model.Province + Model.City + Model.Area + " " + Model.Consignee + " " + Model.Mobile + "(收)", new {@class = "control-label"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Logistics, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Logistics, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Logistics, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ShippingCode, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.ShippingCode, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.ShippingCode, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="button" class="btn btn-primary" onclick="SendGoods();"><i class="fa fa-save"></i>&nbsp;发货</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function() {
+            mwc.bs.init();
+        });
+
+        function SendGoods() {
+            if ($("#Logistics").val().length == 0) {
+                mwc.message.success('温馨提示', "物流公司不能为空");
+                return;
+            }
+            if ($("#ShippingCode").val().length == 0) {
+                mwc.message.success('温馨提示', "物流单号不能为空");
+                return;
+            }
+            mwc.message.confirm("请确认物流信息填写正确？",
+                '温馨提示',
+                function(flag) {
+                    if (flag == true) {
+                        $.ajax({
+                            url: "@Url.Action("SendGood")",
+                            data: {
+                                ID: '@Model.Id',
+                                Logistics: $("#Logistics").val(),
+                                ShippingCode: $("#ShippingCode").val()
+                            },
+                            type: "POST",
+                            dataType: "json",
+                            success: function(json, statusText) {
+                                if (json.Success) {
+                                    if (parent.choice) {
+                                        parent.choice();
+                                    }
+                                    mwc.window.closeSeft();
+                                } else {
+                                    mwc.message.success('温馨提示', json.Message);
+                                }
+                            }
+                        });
+                    }
+                });
+        }
+    </script>
+}

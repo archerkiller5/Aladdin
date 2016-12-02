@@ -1,0 +1,118 @@
+﻿@model Magicodes.WeiChat.Data.Models.Log.Log_Withdraw
+
+@{
+    ViewBag.Title = "查看";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CreateTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.WithdrawTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.WithdrawTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ApprovalComments)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.ApprovalComments)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.OpenId)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.OpenId)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Phone)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TrueName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.TrueName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.WithdrawAmount)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.WithdrawAmount)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ActualAmount)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.ActualAmount)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Remark)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Remark)
+                        </dd>
+                    </dl>
+                    <p>
+                        @Html.ActionLink("编辑", "Edit", new {id = Model.Id}) |
+                        @Html.ActionLink("返回", "Index")
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function() {
+            $("input[type=checkbox]")
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+        });
+    </script>
+}

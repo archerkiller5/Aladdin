@@ -1,0 +1,342 @@
+﻿@using System.Data.SqlTypes
+@using System.Text
+@using Magicodes.WeiChat.Data.Models.Order
+@using EnumHelper = Magicodes.WeiChat.Unity.EnumHelper
+@model Magicodes.WeiChat.Data.Models.Order.Order_Info
+
+@{
+    ViewBag.Title = "订单详情";
+}
+
+<link href="~/Content/admin/Order/details.css" rel="stylesheet" type="text/css"/>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="row">
+    <!--订单基本明细-->
+    <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>订单基本信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row_margin">
+                    <span class="attr_label">订单编号：</span><span>@Html.DisplayFor(model => model.Code)</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">状态：</span><span class="g_state">@EnumHelper.GetEnumMemberDisplayName(Model.State)</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">买家留言：</span><span>@Html.DisplayFor(model => model.Leave)</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">备注：</span>
+                    <span>
+                            @{
+                                var remark = new StringBuilder();
+                                if (!string.IsNullOrEmpty(Model.Remark))
+                                {
+                                    foreach (var item in Model.Remark.Split('@'))
+                                    {
+                                        remark.Append(item).Append("<br />");
+                                    }
+                                }
+                            }
+                            @Html.Raw(remark.ToString())
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--订单价格信息-->
+    <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>订单价格信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row_margin">
+                    <span class="attr_label">支付方式：</span><span>@EnumHelper.GetEnumMemberDisplayName(Model.ThirdPayType)</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">订单价格：</span><span>@Html.DisplayFor(model => model.TotalPrice)</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">运费：</span><span>@Html.DisplayFor(model => model.Shipping)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--订单时间信息-->
+    <div class="col-lg-4">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>订单时间信息</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row row_margin">
+                    <span class="attr_label">成交时间：</span><span>@Html.DisplayFor(model => model.DealOn)</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">付款时间：</span><span>@(Model.PaymentOn == (DateTime) SqlDateTime.MinValue ? "" : Model.PaymentOn.ToString())</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">发货时间：</span><span>@(Model.ShippingOn == (DateTime) SqlDateTime.MinValue ? "" : Model.ShippingOn.ToString())</span>
+                </div>
+                <div class="row row_margin">
+                    <span class="attr_label">收货时间：</span><span>@(Model.ReceiptOn == (DateTime) SqlDateTime.MinValue ? "" : Model.ReceiptOn.ToString())</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--产品明细-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>商品明细</h5>
+            </div>
+            <div class="ibox-content">
+                <dl class="dl-horizontal">
+                    @{
+                        var tagName = new StringBuilder();
+                        var detail = ViewBag.Details as List<Order_Detail>;
+                        var shipping = ViewBag.Logistics as Order_Logistics;
+                    }
+
+                    <dd style="margin-left: 0px !important;">
+                        <table class="table table-striped table-bordered table-hover" id="tableRule">
+                            <tr>
+                                <th class="col-lg-2">
+                                    名称/规格
+                                </th>
+                                <th class="col-lg-2">
+
+                                </th>
+                                <th class="col-lg-2">
+                                    价格
+                                </th>
+                                <th class="col-lg-2">
+                                    数量
+                                </th>
+                                <th class="col-lg-2">
+                                    总价
+                                </th>
+                            </tr>
+                            @if ((null != detail) && (detail.Count > 0))
+                            {
+                                foreach (var item in detail)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.ProductName
+                                            <br/>
+                                            @item.Rule1Value @item.Rule2Value
+                                        </td>
+                                        <td class="td_g_img">
+                                            <img src="@item.ProductImage" class="img-small"/>
+                                        </td>
+                                        <td>
+                                            @item.Price
+                                        </td>
+                                        <td>
+                                            @item.Quantity
+                                        </td>
+                                        <td>
+                                            @(item.Price*item.Quantity)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<!--收货信息-->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>收货人信息</h5>
+            </div>
+            <div class="ibox-content">
+                <dl class="dl-horizontal">
+                    <dd style="margin-left: 0px !important;">
+                        <table class="table table-striped table-bordered table-hover" id="tableRule">
+                            <tr>
+                                <th class="col-lg-2">
+                                    收件人
+                                </th>
+                                <th class="col-lg-2">
+                                    手机
+                                </th>
+                                <th class="col-lg-2">
+                                    物流
+                                </th>
+                                <th class="col-lg-4">
+                                    地址
+                                </th>
+                            </tr>
+                            @if (null != shipping)
+                            {
+                                <tr>
+                                    <td>
+                                        @shipping.Consignee
+                                    </td>
+                                    <td>
+                                        @shipping.Mobile
+                                    </td>
+                                    <td>
+                                        @string.Concat(shipping.Logistics, " ", shipping.ShippingCode)
+                                    </td>
+                                    <td>
+                                        @string.Concat(shipping.Province, shipping.City, shipping.Area, shipping.Address)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--退款信息-->
+@{
+    var refund = ViewBag.Refund as Order_Refund;
+    var refundDetail = ViewBag.RefundDetail as List<Order_RefundDetail>;
+}
+@if (null != refund)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@(refund.Type == EnumOrderRefundType.ReturnGoods ? "退货信息" : "换货信息")</h5>
+                </div>
+                <div class="ibox-content">
+                    <dl class="dl-horizontal">
+                        <dd style="margin-left: 0px !important;">
+                            <table class="table table-striped table-bordered table-hover" id="tableRule">
+                                @if (refund.Type == EnumOrderRefundType.ReturnGoods)
+                                {
+                                    <tr>
+                                        <td colspan="4">
+                                            <label>物流编号：</label><span class="d_marginR30">@refund.ShippingCode</span>
+                                            <label>物流公司：</label><span>@refund.Logistics</span>
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th class="col-lg-2">
+                                        名称
+                                    </th>
+                                    <th class="col-lg-2">
+
+                                    </th>
+                                    <th class="col-lg-2">
+                                        价格
+                                    </th>
+                                    <th class="col-lg-2">
+                                        状态
+                                    </th>
+                                </tr>
+                                @if ((null != refundDetail) && (refundDetail.Count > 0))
+                                {
+                                    foreach (var rd in refundDetail)
+                                    {
+                                        var item = detail.SingleOrDefault(o => o.Id == rd.OrderDetail);
+                                        <tr>
+                                            <td>
+                                                @item.ProductName
+                                                <br/>
+                                                @item.Rule1Value @item.Rule2Value
+                                            </td>
+                                            <td class="td_g_img">
+                                                <img src="@item.ProductImage" class="img-small"/>
+                                            </td>
+                                            <td>
+                                                @item.Price
+                                                <br/>
+                                                @item.Quantity
+                                                <br/>
+                                                @(item.Price*item.Quantity)
+                                            </td>
+                                            <td>
+                                                @refund.Code
+                                                <br/>
+                                                @EnumHelper.GetEnumMemberDisplayName(refund.State)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                <tr class="tr_nobg">
+                                    <td colspan="5">
+                                        <label>原因：</label><span>@refund.Reason</span>
+                                    </td>
+                                </tr>
+                                <tr class="tr_nobg">
+                                    <td colspan="5">
+                                        <label>描述：</label><span>@refund.Remark</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </dd>
+                        @*<dt>
+                                    收货地址
+                                </dt>
+
+                                <dd>
+                                    @string.Concat(refund.Address, refund.Consignee, refund.Mobile)
+                                </dd>*@
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+        </div>
+    </div>
+</div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function() {
+            $("input[type=checkbox]")
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+        });
+    </script>
+}

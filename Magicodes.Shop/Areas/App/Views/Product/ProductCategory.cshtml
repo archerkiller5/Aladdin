@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "GoodsCategory";
+    Layout = "~/Areas/App/Views/Shared/_MallLayout.cshtml";
+}
+@Styles.Render("~/Content/aui/aui-flex/styles")
+@Scripts.Render("~/Content/weui/slides/scripts")
+@*<div class="aui-searchbar-wrap" id="search">
+    <div class="aui-searchbar aui-border-radius" tapmode onclick="doSearch()">
+        <i class="aui-iconfont aui-icon-search"></i>
+        <div class="aui-searchbar-text">请输入搜索内容</div>
+        <div class="aui-searchbar-input">
+            <form action="javascript:search();">
+                <input type="text" placeholder="请输入搜索内容" id="search-input">
+            </form>
+        </div>
+        <i class="aui-iconfont aui-icon-roundclosefill" tapmode onclick="clearInput()"></i>
+    </div>
+    <div class="aui-searchbar-cancel aui-text-info" tapmode onclick="cancelSearch()">取消</div>
+</div>*@
+<div class="aui-content">
+    <div class="aui-flex-col">
+        <div class="aui-flex-item-3" style="font-size: 12px;">
+            <ul class="aui-list-view demo-box aui-border-r aui-bg-default aui-tab-border" id="goodscate">
+                <li class="aui-list-view-cell aui-bg-warning aui-text-info" onclick="showDiv('BD3FB3E9-BDF0-495D-AA24-77AA15650CB0')">电子书刊</li>
+                <div class="aui-flex-item-9" style="display: none;" id="BD3FB3E9-BDF0-495D-AA24-77AA15650CB0">
+                    <ul class="aui-list-view aui-grid-view">
+                        <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                            <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                            <div class="aui-img-body">
+                                数码支架
+                            </div>
+                        </li>
+                        <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                            <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f1.png">
+                            <div class="aui-img-body">
+                                月饼
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <li class="aui-list-view-cell">音像</li>
+                <div class="aui-flex-item-9" style="display: none;">
+                    <ul class="aui-list-view aui-grid-view">
+                        <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                            <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                            <div class="aui-img-body">
+                                音响
+                            </div>
+                        </li>
+                        <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                            <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f1.png">
+                            <div class="aui-img-body">
+                                月饼
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <li class="aui-list-view-cell">英文原版</li>
+                <li class="aui-list-view-cell">影音娱乐</li>
+                <li class="aui-list-view-cell active">食品礼券</li>
+                <li class="aui-list-view-cell">休闲食品</li>
+                <li class="aui-list-view-cell">地方特产</li>
+                <li class="aui-list-view-cell">进口食品</li>
+            </ul>
+        </div>
+        <div class="aui-flex-item-9" style="display: none;" id="goodscateDetail">
+            <ul class="aui-list-view aui-grid-view">
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                    <div class="aui-img-body">
+                        数码支架
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f1.png">
+                    <div class="aui-img-body">
+                        月饼
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f2.png">
+                    <div class="aui-img-body">
+                        其它茶
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                    <div class="aui-img-body">
+                        电池/充电器
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                    <div class="aui-img-body">
+                        数码相框
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                    <div class="aui-img-body">
+                        数码支架
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f1.png">
+                    <div class="aui-img-body">
+                        月饼
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f2.png">
+                    <div class="aui-img-body">
+                        其它茶
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img aui-col-xs-4" style="font-size: 12px;">
+                    <img class="aui-img-object aui-padded-10" src="~/Content/aui/image/f3.png">
+                    <div class="aui-img-body">
+                        电池/充电器
+                    </div>
+                </li>
+            </ul>
+        </div>*
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        function showDiv(divId) {
+            $("#footerCategory").addClass("active-primary").siblings().removeClass("active-primary");
+            $(this).addClass('aui-bg-warning aui-text-info').siblings().removeClass('aui-bg-warning aui-text-info');
+            $(this)
+                .$('#goodscate li')
+                .on('click',
+                    function() {
+                        $(this)
+                            .addClass('aui-bg-warning aui-text-info')
+                            .siblings()
+                            .removeClass('aui-bg-warning aui-text-info');
+                        $(this).append($("#goodscateDetail").html()).siblings();
+                    });
+        }
+
+        function doSearch() {
+            $api.addCls($api.dom(".aui-searchbar-wrap"), "focus");
+            $api.dom('.aui-searchbar-input input').focus();
+        }
+
+        function cancelSearch() {
+            $api.removeCls($api.dom(".aui-searchbar-wrap.focus"), "focus");
+            $api.val($api.byId("search-input"), '');
+            $api.dom('.aui-searchbar-input input').blur();
+        }
+
+        function clearInput() {
+            $api.val($api.byId("search-input"), '');
+        }
+
+        function search() {
+            var content = $api.val($api.byId("search-input"));
+            if (content) {
+                api.alert({
+                    title: '搜索提示',
+                    msg: '您输入的内容为：' + content
+                });
+            } else {
+                api.alert({
+                    title: '搜索提示',
+                    msg: '您没有输入任何内容'
+                });
+            }
+            cancelSearch();
+        }
+    </script>
+}

@@ -1,0 +1,49 @@
+﻿@using Magicodes.Shop.Helpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/aui/css/styles")
+
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", false)
+    }
+</head>
+<body>
+@RenderBody()
+<footer class="aui-nav" id="aui-footer">
+    <ul class="aui-bar-tab">
+        <li id="footerHome" class="active-primary" tapmode="" onclick="javascript: location.href = '@Url.TenantAction("Default", "Mall")';">
+            <span class="aui-iconfont aui-icon-homefill"></span>
+            <p>首页</p>
+        </li>
+        @*<li id="footerCategory" tapmode="" onclick="javascript: location.href = '@Url.TenantAction("ProductCategory","Mall")'">
+                <span class="aui-iconfont aui-icon-cartfill"></span>
+                <p>商品分类</p>
+            </li>*@
+        <li id="footerCart" tapmode="" onclick="javascript: location.href = '@Url.TenantAction("ShoppingCart", "Mall")';">
+            <span class="aui-iconfont aui-icon-cartfill"></span>
+            <p>购物车</p>
+        </li>
+        <li id="footerPeople" tapmode="" onclick="javascript: location.href = '@Url.TenantAction("Index", "Presonal")';">
+            <span class="aui-iconfont aui-icon-peoplefill"></span>
+            <p>个人中心</p>
+        </li>
+    </ul>
+</footer>
+@Scripts.Render("~/Content/weui/scripts")
+@*微信配置*@
+@if (ViewBag.UseJSSDK != null)
+{
+    @Html.Partial("_JWeixinConfig")
+}
+@RenderSection("scripts", false)
+</body>
+</html>

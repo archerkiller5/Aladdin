@@ -1,0 +1,156 @@
+﻿
+@using MvcCheckBoxList.Model;
+@using Magicodes.Shop.Helpers;
+@model Magicodes.WeiChat.Data.Models.WeiChat_User
+@{
+                ViewBag.Title = "个人中心";
+                Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+
+
+< div class="aui-content my-header">
+    <div class="my-info">
+        <img src="@Model.HeadImgUrl"/>
+        <p class="nickname">@(Model.NickName)  
+            @if (@ViewBag.Authentication == true)
+        {
+                <i style="font-size:20px;" class="aui-iconfont aui-icon-rounddown"></i>
+            }   
+        </p>    
+    </div>
+</div>
+
+<div class="aui-content aui-text-center amount-info">
+    <div class="aui-col-xs-6 div_url" data-url='@Url.TenantAction("Authentication", "Personal")'>
+        <strong class="aui-iconfont aui-icon-people aui-text-info"></strong>
+        <p>手机认证</p>
+    </div>
+    <div class="aui-col-xs-6 div_url" data-url='@Url.TenantAction("MyPoints", "Personal")'>
+        <p class="aui-text-warning">
+            <strong>@ViewBag.SumPoint</strong>分
+        </p>
+        <p>我的积分</p>
+    </div>
+    @*<div class="aui-col-xs-4 div_url" data-url='@Url.TenantAction("Recharge", "Personal")'>
+        <string class="aui-iconfont aui-icon-recharge aui-text-info"></string>
+        <p>我要充值</p>
+    </div>*@
+</div>
+
+<div class="aui-content">
+    <ul class="aui-list-view aui-in">
+        <li class="aui-list-view-cell" data-url='@Url.TenantAction("MyOrder", "Personal")'>
+            <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>我的新闻
+        </li>
+
+        @*<li class="aui-list-view-cell" data-url='@Url.TenantAction("MyOrder", "Personal")'>
+            <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>我的
+        </li>
+        <li class="aui-list-view-cell" data-url="@Url.TenantAction("MyBill", "Personal")">
+         <i class="aui-iconfont aui-icon-read aui-bg-danger"></i>我的账单
+     </li>
+     <li class="aui-list-view-cell" data-url="@Url.TenantAction("CashApply", "Personal")">
+         <i class="aui-iconfont aui-icon-same aui-bg-info"></i>提现申请
+     </li>
+     <li class="aui-list-view-cell" data-url="@Url.TenantAction("CashRecord", "Personal")">
+         <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>提现记录
+     </li>
+     <li class="aui-list-view-cell" data-url="@Url.TenantAction("MyAddress", "Personal")">
+         <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我的收货地址
+     </li>
+
+    <li class="aui-list-view-cell" data-url="@Url.TenantAction("Pinjia","Personal")">
+         <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我要评价
+     </li>*@
+    </ul>
+    @*<footer class="aui-nav" id="aui-footer">
+        <ul class="aui-bar-tab">
+            <li class="active-warning">
+                <span class="aui-iconfont aui-icon-home"></span>
+                <p><a data-url='@Url.TenantAction("PhotoGallery")'>首页</a></p>
+            </li>
+            <li class="active-warning">
+                <span class="aui-iconfont aui-icon-cart"></span>                
+                <p><a data-url='@Url.TenantAction("PhotoGallery")'>购物车</a></p>
+            </li>               
+        </ul>
+    </footer>*@
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>
+@section scripts{
+    <script>
+        $(function() {
+            $('div.aui-content>ul li,div.div_url')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}
+
+@section styles{
+    <style type="text/css">
+        .my-header {
+            background-color: #e74c3c;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .my-info {
+            bottom: 0;
+            padding: 10px;
+            position: relative;
+            text-align: center;           
+            width: 100%;
+        }
+
+        .my-info img {
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+        }
+
+        .my-info p.nickname {
+            color: #ffffff;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        .aui-list-view-cell { line-height: 26px; }
+
+        .amount-info {
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .amount-info p { font-size: 0.75em; }
+
+        .amount-info p strong { font-size: 18px; }
+
+        .aui-list-view-cell { line-height: 26px; }
+
+        .amount-info .aui-col-xs-4 {
+            height: 80px;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .amount-info .aui-col-xs-4:after {
+            -webkit-transform: scale(1);
+            -webkit-transform-origin: 0 0;
+            border-left: 1px solid #ddd;
+            bottom: 0;
+            content: '';
+            display: block;
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .amount-info .aui-col-xs-4:first-child:after { border: none; }
+    </style>
+}

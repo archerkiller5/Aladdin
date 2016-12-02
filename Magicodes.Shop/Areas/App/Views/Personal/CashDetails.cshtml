@@ -1,0 +1,38 @@
+﻿@model Magicodes.WeiChat.Data.Models.Log.Log_Withdraw
+@{
+    ViewBag.Title = "提现明细";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/weui/slides-full/styles")
+@Styles.Render("~/Content/msui/styles")
+<div>
+    <div class="aui-content">
+        <ul class="aui-list-view aui-in">
+            <li class="aui-list-view-cell">
+                <div class="aui-img-body">
+                    <p>申请提现时间:@Model.CreateTime</p>
+                    <p>申请提现金额:@Model.WithdrawAmount</p>
+                    <p>状态:@Model.Status.GetEnumMemberDisplayName()</p>
+                    <p>到账金额:@Model.ActualAmount</p>
+                    <p>余额:@ViewBag.Balance</p>
+                    <p>备注:@Model.Remark</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/Content/weui/scripts")
+    @Scripts.Render("~/Content/msui/scripts")
+
+    <script type="text/javascript">
+        $(function() {
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

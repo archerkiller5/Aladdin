@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "阿里短信接口测试";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm("TestMsg", "Settings_SmsTemplate", FormMethod.Post))
+                    {
+                        <div>
+                            <div class="row">
+
+                                <div class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">接收的手机号码:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control text-box single-line" id="phoneNumber" name="phoneNumber" type="text" value="">
+                                            <span class="field-Extend"></span>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group">
+                                        <div class="col-md-2 control-label"></div>
+                                        <div class="col-sm-10">
+                                            <button type="submit" class="btn btn-primary but_submit"><i class="fa fa-save"></i>&nbsp;<strong>测试</strong></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    @Styles.Render("~/plugins/switcheryStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/switchery")
+    <script>
+        $(function() {
+            $('input[type=checkbox]').attr('data-type', 'switch');
+            mwc.bs.initFormControls();
+            mwc.bs.initCheckedChange();
+        });
+       
+        $("#but_submit")
+            .on({
+                click: function() {
+                    var rec_num = $('.phoneNumber').val(); //手机号码                   
+                    if (rec_num) {
+                        $('#field-rec_num').html('手机号码不能为空!');
+                        return;
+                    }
+                }
+            });
+    </script>
+
+}

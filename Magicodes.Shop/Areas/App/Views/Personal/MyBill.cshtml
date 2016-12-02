@@ -1,0 +1,61 @@
+﻿@using Magicodes.WeiChat.Infrastructure
+@model List<object>
+@{
+    ViewBag.Title = "我的账单";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/weui/slides-full/styles")
+<div>
+    <div class="aui-content">
+        <ul class="aui-list-view aui-in" data-bind="foreach:Bills">
+            <li class="aui-list-view-cell">
+                <div class="aui-img-body">
+
+                    <!-- ko if:Operation=="加"-->
+                    <span data-bind="text:'金额:  +'+ Money"></span>
+                    <!-- /ko-->
+                    <!-- ko if:Operation=="减"-->
+                    <span data-bind="text:'金额:  -'+ Money"></span>
+                    <!-- /ko-->
+
+                    <em style="color: green; float: right; font-size: 10px;" data-bind="text:'类别:'+Business"></em>
+                    <p class="aui-ellipsis-1" data-bind="text:'时间:'+CreateTime"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.Bills = ko.observableArray([]);
+
+            //重新加载
+            this.reload = function() {
+                wc.restApi.get({
+                    url:
+                        '/api/MyBillApi/get?tenantId=@WeiChatApplicationContext.Current.TenantId',
+                    success: function(data) {
+                        self.Bills(data);
+                        console.warn("返回出参:" + JSON.stringify(data));
+                    }
+                });
+            };
+            self.reload();
+        };
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

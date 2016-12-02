@@ -1,0 +1,115 @@
+.job-partners { padding-bottom: 50px; }
+
+/*Our-clients*/
+
+.our-clients {
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.our-clients li {
+    /* background: #f7f7f7; */
+    border: 1px solid #eee;
+    border-radius: 2px !important;
+    margin: 3px;
+    margin-bottom: 6px;
+    padding: 0;
+    width: 105px;
+}
+
+.our-clients img {
+    height: auto;
+    padding: 15px;
+    vertical-align: middle;
+    width: 142px;
+}
+
+/*Image-hover*/
+
+figure {
+    margin: 0;
+    position: relative;
+}
+
+figure img {
+    display: inline-block;
+    height: auto;
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+    z-index: 10;
+}
+
+figure .img-hover {
+    display: block;
+    position: absolute;
+    z-index: 5;
+}
+
+figure h4 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600 !important;
+}
+
+#effect-2 figure .img-hover {
+    -moz-backface-visibility: hidden;
+    -moz-transform: rotateY(-180deg);
+    -moz-transition: all 0.5s;
+    -ms-backface-visibility: hidden;
+    -ms-transform: rotateY(-180deg);
+    -ms-transition: all 0.5s;
+    -o-transform: rotateY(-180deg);
+    -o-transition: all 0.5s;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: rotateY(-180deg);
+    -webkit-transition: all 0.5s;
+    backface-visibility: hidden;
+    background-color: #72c02c;
+    height: 100%;
+    left: 0;
+    line-height: 8.5em;
+    padding: 0 10px;
+    text-align: center;
+    top: 0;
+    transform: rotateY(-180deg);
+    transition: all 0.5s;
+    width: 100%;
+}
+
+#effect-2 figure .img-hover h4 {
+    display: inline-block;
+    font-weight: 200;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+#effect-2 figure img {
+    -moz-backface-visibility: hidden;
+    -moz-transition: all 0.5s;
+    -ms-backface-visibility: hidden;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all 0.5s;
+    backface-visibility: hidden;
+    transition: all 0.5s;
+}
+
+.no-touch #effect-2 figure:hover img,
+#effect-2 figure.hover img {
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.no-touch #effect-2 figure:hover .img-hover,
+#effect-2 figure.hover .img-hover {
+    -moz-transform: rotateY(0);
+    -ms-transform: rotateY(0);
+    -o-transform: rotateY(0);
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+}

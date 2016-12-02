@@ -1,0 +1,69 @@
+﻿@using Magicodes.WeChat.SDK
+@using Magicodes.WeiChat.Infrastructure.Identity
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                【@(User.Identity.GetTenantInfo().Name)（微信号：@WeChatConfigManager.Current.GetConfig().WeiXinAccount）】&nbsp;&nbsp;
+            </li>
+            <li>
+                欢迎 @User.Identity.GetUserName() ！
+            </li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li>@Html.Action("GetSystemAdminHomeHtml", "Unity")</li>
+            }
+            <li class="dropdown" id="notify">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">
+                    <i class="fa fa-bell"></i>  <span class="label label-primary" data-bind="text:Notifies().length">8</span>
+                </a><div class="dropdown-backdrop"></div>
+                <ul class="dropdown-menu dropdown-alerts">
+                    <!-- ko foreach:Notifies -->
+                    <li>
+                        <a data-bind="attr:{href:typeof(Href)=='undefined'?'':Href}">
+                            <div>
+                                <i class="fa fa-envelope fa-fw" data-bind="css:typeof(IconCls)=='undefined'?'':IconCls"></i> <label data-bind="text:Title"></label>
+                                <span class="pull-right text-muted small" data-bind="text:$root.GetTime(UpdateTime)">刚刚</span>
+                                <i class="fa fa-times" data-bind="click:$root.Remove"></i>
+                            </div>
+                            <div data-bind="text:Message">
+
+                            </div>
+                            <!-- ko if: TaskPercentage>0 -->
+                            <div class="progress progress-mini">
+                                <div data-bind="style:{width:TaskPercentage+'%'}" class="progress-bar"></div>
+                            </div>
+                            <!-- /ko -->
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <!-- /ko -->
+                    <li>
+                        <div class="text-center link-block">
+                            <a href="/Site_Notify">
+                                <strong>查看所有通知</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <i class="fa fa-sign-out"></i> 注销
+                </a>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-top-links navbar-right">
+        <li>@Html.ActionLink("登陆", "Login", "Account", null, new { id = "loginLink" })</li>
+    </ul>
+}

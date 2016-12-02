@@ -1,0 +1,273 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "订单详情";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+<div class="aui-content" data-bind="with:Order">
+    <div class="aui-col-xs-12">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell">
+                <div class="aui-col-xs-12 ">
+                    <div>
+                        订单状态
+                        <strong class="aui-pull-right aui-text-red" style="color: red; font-size: 14px; padding-right: 25px;" data-bind="text:val.StateName"></strong><br/>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    <div>
+                        支付方式
+                        <strong class="aui-pull-right aui-text-red" style="color: red; font-size: 14px; padding-right: 25px;" data-bind="text:'微信支付'"></strong><br/>@*+Order.ThirdPayType*@
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 "> 收货地址</div>
+            </li>
+            <li class="aui-list-view-cell">
+                <div class="aui-swipe-handle ">
+                    <div class="aui-text-default" style="margin-top: -8px;">
+                        <strong style="font-size: 12px" data-bind="text:'收件人：'+ Logistics.Consignee"></strong><br/>
+                        <strong style="font-size: 12px" data-bind="text:'联系电话：'+ Logistics.Mobile"></strong> <br/>
+                        <strong style="font-size: 12px" data-bind="text:'详细地址：'+ Logistics.Province+Logistics.City+Logistics.Area+Logistics.Address"></strong>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    订单商品
+                </div>
+            </li>
+            <!-- ko template:{name:'tplGoods',foreach:Details} -->
+            <!-- /ko -->
+        </ul>
+
+        <!-- ko if: val.StateName=="已发货" -->
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    物流信息
+                    <div class="aui-pull-right aui-btn" data-bind="click:$root.showExpressDetail" style="margin: 0px; padding: 2px; text-align: right">获取物流详情</div><br/>
+                </div>
+            </li>
+        </ul>
+        <ul class="aui-list-view" data-bind="with:$parent.Express">
+            <!-- ko if: resultcode=="200" -->
+            <li>
+                <strong style="font-size: 12px; padding-left: 10px;" data-bind="text:'快递公司：'+ result.company"></strong><br/>
+                <strong style="font-size: 12px; padding-bottom: 8px; padding-left: 10px;" data-bind="text:'快递单号：'+ result.no"></strong> <br/>
+                <ul class="aui-list-view" data-bind="foreach:result.list">
+                    <li class="aui-list-view-cell" style="content: none;">
+                        <div class="aui-swipe-handle">
+                            <div class="aui-text-default" style="margin-top: -8px;">
+                                <strong style="font-size: 12px" data-bind="text:'    时间：'+ datetime"></strong><br/>
+                                <strong style="font-size: 12px" data-bind="text:'    状态：'+ remark"></strong><br/>
+                                <strong style="font-size: 12px" data-bind="text:'所在区域：'+ zone"></strong><br/>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!--/ko-->
+        </ul>
+        <!-- /ko -->
+
+        <ul class="aui-list-view" id="htmlAppend">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12">
+                    运费 <span class="aui-pull-right" style="padding-right:35px;color:red" data-bind="text:'￥'+ Order.Shipping.toFixed(2)"></span>
+                </div>
+            </li>
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12">
+                    总金额 <span class="aui-pull-right" style="padding-right:35px;color:red" data-bind="text:'￥'+ (Order.TotalPrice + Order.Shipping).toFixed(2)"></span>
+                </div>
+            </li>
+
+
+            <!-- ko if:val.StateName=="待发货"-->
+            <li class="aui-list-view-cell">
+                <div class="aui-col-xs-12 aui-btn aui-btn-info" data-bind="click:$root.ToApplyRefund">
+                    申请退款
+                </div>
+            </li>
+            <!-- /ko-->
+            <!-- ko if: val.StateName=="待收货" -->
+            @*<li class="aui-list-view-cell">
+                <div class="aui-col-xs-12 aui-btn" data-bind="click:$root.ToApplyRefund">
+                    申请退款
+                </div>
+            </li>*@
+            <li class="aui-list-view-cell">
+                <div class="aui-col-xs-12 aui-btn aui-btn-danger" data-bind="click:$root.ConfirmReceipt">
+                    确认收货
+                </div>
+            </li>
+            <!-- /ko -->
+
+            <!-- ko if:val.StateName=="已收货" -->
+            <li class="aui-list-view-cell">
+                <div class="aui-col-xs-12 aui-btn aui-btn-info">
+                    申请退货
+                </div>
+            </li>
+            <!-- /ko-->
+
+            <!-- ko if:val.StateName =="待付款"-->
+            <li class="aui-list-view-cell">
+                <div class="aui-col-xs-12 aui-btn aui-btn-danger" data-bind="click:$root.toPay">
+                    点击支付
+                </div>
+            </li>
+            <!-- /ko -->
+        </ul>
+
+
+    </div>
+
+</div>
+<p style="line-height: 55px;"> &nbsp; </p>
+
+<script type="text/html" id="tplGoods">
+          <li class="aui-list-view-cell aui-img">
+                    <div class="aui-swipe-handle">
+                        <img class="aui-img-object aui-pull-left" data-bind="attr:{src:ProductImage}">
+                        <div class="aui-img-body">
+                            <span data-bind="text: ProductName"></span>
+                            <em class="aui-text-right aui-pull-right" data-bind="text:'数量 x '+ Quantity"></em>
+                            <p class='aui-ellipsis-1' style="color:red" data-bind="text:'单价 ¥ '+ Price.toFixed(2)"></p>
+                            <p class='aui-ellipsis-1' style="color:red" data-bind="text:'小计 ¥ '+ (Price*Quantity).toFixed(2)"></p>
+                        </div>
+                    </div>
+           </li>
+</script>
+
+@section scripts{
+    @Scripts.Render("~/Content/weui/scripts")
+    <script src="~/Content/aui/script/api.js"></script>
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.Order = ko.observable();
+            var _orderid = '@(ViewBag.OrderId)';
+            this.Express = ko.observable(); //快递对象
+            this.reload = function() {
+                wc.restApi.get({
+                    url: '/api/MyOrder/Detail?id=' + _orderid,
+                    success: function(data) {
+                        self.Order(ko.toJS(data));
+                    }
+                });
+            };
+            //支付
+            this.toPay = function() {
+                wc.restApi.get({
+                    isBlockUI: false,
+                    url: '/api/MyOrder/Pay/' + _orderid,
+                    success: function(result) {
+                        CallPay(ko.toJS(result));
+                    }
+                });
+            };
+            //确认收货
+            this.ConfirmReceipt = function() {
+                console.warn("进入确认收货方法!");
+                wc.message.confirm("您确认进行收货操作吗？",
+                    "温馨提示",
+                    function() {
+                        wc.restApi.post({
+                            url: '/api/MyOrder/ConfirmReceiptGoods/' + _orderid,
+                            success: function(result) {                               
+                                //操作成功再跳转到我的订单页面
+                                window.location.href = '@Url.TenantAction("MyOrder", "Personal")';
+                            }
+                        });
+                    });
+            };
+            //退款申请
+            this.ToApplyRefund = function() {
+                console.warn(_orderid);
+                window.location.href = '@Url.TenantAction("ApplyRefund", "Personal")&orderID=' + _orderid;
+            };
+            //获取订单的物流信息,并显示在前台 Add by zp 2016-07-22
+            this.showExpressDetail = function() {
+                console.warn("进入获取订单物流信息前台函数");
+                var arr = [_orderid];
+                console.warn(_orderid);
+                wc.restApi.post({
+                    url: '/api/Order/GetExpress',
+                    data: JSON.stringify(arr),
+                    success: function(data) {
+                        /*得到物流数据后需要在前台show出来*/
+                        var _json = JSON.parse(data);
+                        if (_json.resultcode != "200")
+                            wc.message.success("" + _json.reason + "", "温馨提示");
+                        console.warn("data:" + data);
+                        self.Express(_json);
+                        console.warn("Express：" + self.Express);
+                    }
+                });
+            };
+            self.reload();
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+   
+            //监听微信返回事件，重定向url
+            pushHistory();      
+            window.addEventListener("popstate", function (e) {                 
+                    console.log('我监听到了浏览器的返回按钮事件啦');
+                    window.location.href = '@Url.TenantAction("MyOrder", "Personal")';
+             
+            }, false);
+          
+            function pushHistory() {
+                var state = {
+                    title: "订单详情",
+                    url: "#"
+                };
+                window.history.pushState(state, "订单详情", "#");
+            }
+            //重定向完毕
+        });
+
+
+        ///////////////////支付开始//////////////////////
+        function onBridgeReady(data) {
+            WeixinJSBridge.invoke('getBrandWCPayRequest',
+                data,
+                function(res) {
+                    is_suc = true;
+                    if (res.err_msg == "get_brand_wcpay_request:ok") { //支付成功后
+                        location.href = '@Url.TenantAction("PaySuccess", "Personal")';
+                    } else {
+
+                    }
+                });
+        }
+
+        function CallPay(data) {
+            if (typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady(data), false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady(data));
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady(data));
+                }
+            } else {
+                onBridgeReady(data);
+            }
+        }
+        //////////////////支付结束///////////////////////////
+    </script>
+}

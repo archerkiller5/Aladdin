@@ -1,0 +1,106 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<Magicodes.Shop.Models.CustomViewModel>
+@{
+    ViewBag.Title = "客服管理";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                客服管理
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <div class="ibox-tools">
+                        <a class="btn btn-primary " href="@Url.Action("Add")" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                    </div>
+                    <table class="table table-striped" style="overflow-x: scroll">
+                        <tr>
+                            <th>
+                                客服账号
+                            </th>
+                            <th>
+                                客服昵称
+                            </th>
+                            <th>
+                                客服工号
+                            </th>
+                            @*<th>
+                                    客服头像
+                                </th>*@
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                        <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Account</td>
+                                <td>@item.NickName</td>
+                                <td>@item.Id</td>
+                                @*<td>
+                                            @item.HeadImgUrl
+                                        </td>*@
+                                <td>
+                                    <button type="button" data-action="remove" data-account="@item.Account" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-warning"></i>&nbsp;<span class="bold">删除</span></button>
+                                    <button type="button" data-action="edit" data-account="@item.Account" class="btn btn-outline btn-primary btn-sm"><i class="fa fa-edit"></i>&nbsp;修改</button>
+                                </td>
+                            </tr>
+                        }
+
+                        </tbody>
+
+                    </table>
+                </div>
+                @Html.Partial("_BootStrapPager", Model)
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(function() {
+            $('button[data-action="remove"]')
+                .click(function() {
+                    if (!confirm("确定要删除么？")) {
+                        return;
+                    }
+                    var $btn = $(this);
+                    $.post('/Custom/Remove',
+                        { Account: $btn.data('account') },
+                        function(msg) {
+                            if (msg.MessageType > 1) {
+                                toastr.error('警告', msg.Message);
+                            } else {
+                                toastr.success('温馨提示', msg.Message);
+                                setTimeout(function() {
+                                        location.reload();
+                                    },
+                                    1000);
+                            }
+                        });
+                });
+            $('button[data-action="edit"]')
+                .click(function() {
+                    window.location.href = "Edit/" + encodeURIComponent($(this).data('account'));
+                });
+        });
+    </script>
+}

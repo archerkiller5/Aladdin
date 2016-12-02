@@ -1,0 +1,65 @@
+﻿@model Magicodes.WeiChat.Data.Models.Activity.Activity_Survey
+<div class="form-group">
+    @Html.LabelFor(model => model.AllowNumberPerPerson, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.AllowNumberPerPerson, new { htmlAttributes = new { @class = "form-control" } })
+        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+        @Html.ValidationMessageFor(model => model.AllowNumberPerPerson, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.AllowNumberPerDay, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.AllowNumberPerDay, new { htmlAttributes = new { @class = "form-control" } })
+        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+        @Html.ValidationMessageFor(model => model.AllowNumberPerDay, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+        @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+        @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.IsEnable, htmlAttributes: new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.IsEnable, new { htmlAttributes = new { @class = "i-checks" } })
+            @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+            @Html.ValidationMessageFor(model => model.IsEnable, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>

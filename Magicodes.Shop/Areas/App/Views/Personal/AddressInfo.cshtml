@@ -1,0 +1,341 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "添加收货地址";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/msui/styles")
+@Styles.Render("~/Content/aui/css/styles")
+
+<div class="aui-content">
+    <div class="aui-content aui-card aui-noborder" style="margin-top: 5px;">
+        <div class="aui-form">
+            <div class="aui-input-row">
+                <span class="aui-input-addon">收货人:</span>
+                <input type="text" class="aui-input" id="nickname" required placeholder="收货人"/>
+            </div>
+            <div class="aui-input-row">
+                <span class="aui-input-addon">联系方式:</span>
+                <input type="text" class="aui-input" id="mobile" required placeholder="联系方式"/>
+            </div>
+            <div class="aui-input-row">
+                <span class="aui-input-addon">所在地区:</span>
+                @*<input id="area" class="aui-input" style="font-size:18px;" placeholder="请选择所在地区"  readonly >*@
+                <input type="text" class="aui-input" id="city-picker" required placeholder="请选择所在地区"/>
+            </div>
+            <div class="aui-input-row">
+                <span class="aui-input-addon">详细地址:</span>
+                <input type="text" class="aui-input" placeholder="地址" required id="address"/>
+            </div>
+            <div class="aui-input-row">
+                <span class="aui-input-addon">设为默认地址:</span>
+                <div class="aui-pull-left">
+                    <input class="aui-radio aui-radio-info" type="radio" name="select" value="1"> <span class="aui-radio-name">是</span>
+                    <input class="aui-radio aui-radio-warning" type="radio" name="select" value="0" checked="checked"> <span class="aui-radio-name">否</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-primary" onclick="SaveAdd()">确认</div>
+    </div>
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>
+@*<p style="margin-top:50px">&nbsp;</p>*@
+
+@*<form id="billingForm" method="post" action="@Url.TenantAction("AddressInfo", "Presonal")">
+            <input type="hidden" name="addressinfo" />
+        </form>*@
+@section scripts
+{
+    @Scripts.Render("~/Content/msui/scripts")
+    <script>
+        var cityData;
+
+        function GetCity() {
+            console.log("进入GetCity");
+            wc.restApi.post({
+                url: '/api/MyAddress/GetCity',
+                contenType: "appliction/json",
+                success: function(result) {
+                    cityData = result;
+                    console.log(result);
+                    //需要给下拉插件的集合赋值
+                    $.smConfig.rawCitiesData = cityData;
+
+                    setTimeout(function() {
+
+                            + function($) {
+                                "use strict";
+                                var format = function(data) {
+                                    var result = [];
+                                    for (var i = 0; i < data.length; i++) {
+                                        var d = data[i];
+                                        if (d.name === "请选择") continue;
+                                        result.push(d.name);
+                                    }
+                                    if (result.length) return result;
+                                    return [""];
+                                };
+
+                                var sub = function(data) {
+                                    if (!data.sub) return [""];
+                                    return format(data.sub);
+                                };
+
+                                var getCities = function(d) {
+                                    for (var i = 0; i < raw.length; i++) {
+                                        if (raw[i].name === d) return sub(raw[i]);
+                                    }
+                                    return [""];
+                                };
+
+                                var getDistricts = function(p, c) {
+                                    for (var i = 0; i < raw.length; i++) {
+                                        if (raw[i].name === p) {
+                                            for (var j = 0; j < raw[i].sub.length; j++) {
+                                                if (raw[i].sub[j].name === c) {
+                                                    return sub(raw[i].sub[j]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return [""];
+                                };
+                                console.debug("$.smConfig.rawCitiesData", $.smConfig.rawCitiesData);
+                                var raw = $.smConfig.rawCitiesData;
+                                console.debug("raw", raw);
+
+                                var provinces = raw.map(function(d) {
+                                    return d.name;
+                                });
+                                var initCities = sub(raw[0]);
+                                var currentProvince = provinces[0];
+                                var currentCity = initCities[0];
+                                var initDistricts = getDistricts(currentProvince, currentCity);
+                                var currentDistrict = initDistricts[0];
+
+
+                                var t;
+                                var defaults = {
+                                    cssClass: "city-picker",
+                                    rotateEffect: false, //为了性能
+
+                                    onChange: function(picker, values, displayValues) {
+                                        console.debug(picker, values, displayValues);
+                                        var newProvince = picker.cols[0].value;
+                                        var newCity;
+                                        if (newProvince !== currentProvince) {
+                                            // 如果Province变化，节流以提高reRender性能
+                                            clearTimeout(t);
+
+                                            t = setTimeout(function() {
+                                                    var newCities = getCities(newProvince);
+                                                    newCity = newCities[0];
+                                                    var newDistricts = getDistricts(newProvince, newCity);
+                                                    picker.cols[1].replaceValues(newCities);
+                                                    picker.cols[2].replaceValues(newDistricts);
+                                                    currentProvince = newProvince;
+                                                    currentCity = newCity;
+                                                    picker.updateValue();
+                                                },
+                                                200);
+                                            return;
+                                        }
+                                        newCity = picker.cols[1].value;
+                                        if (newCity !== currentCity) {
+                                            picker.cols[2].replaceValues(getDistricts(newProvince, newCity));
+                                            currentCity = newCity;
+                                            picker.updateValue();
+                                        }
+                                    },
+
+                                    cols: [
+                                        {
+                                            textAlign: 'center',
+                                            values: provinces,
+                                            cssClass: "col-province"
+                                        },
+                                        {
+                                            textAlign: 'center',
+                                            values: initCities,
+                                            cssClass: "col-city"
+                                        },
+                                        {
+                                            textAlign: 'center',
+                                            values: initDistricts,
+                                            cssClass: "col-district"
+                                        }
+                                    ]
+                                };
+
+                                $.fn.setRaw = function(data) {
+                                    raw = data;
+                                };
+
+                                $.fn.cityPicker = function(params) {
+                                    return this.each(function() {
+                                        if (!this) return;
+                                        var p = $.extend(defaults, params);
+                                        console.debug(p);
+                                        //计算value
+                                        if (p.value) {
+                                            $(this).val(p.value.join(' '));
+                                        } else {
+                                            var val = $(this).val();
+                                            val && (p.value = val.split(' '));
+                                        }
+
+                                        if (p.value) {
+                                            //p.value = val.split(" ");
+                                            console.log("p.vale:" + p.value);
+                                            if (p.value[0]) {
+                                                currentProvince = p.value[0];
+                                                p.cols[1].values = getCities(p.value[0]);
+                                            }
+                                            if (p.value[1]) {
+                                                currentCity = p.value[1];
+                                                p.cols[2].values = getDistricts(p.value[0], p.value[1]);
+                                            } else {
+                                                p.cols[2].values = getDistricts(p.value[0], p.cols[1].values[0]);
+                                            }
+                                            !p.value[2] && (p.value[2] = '');
+                                            currentDistrict = p.value[2];
+                                        }
+                                        $(this).picker(p);
+                                    });
+                                };
+
+
+                                $.fn.cityPickerNew = function(params, data) {
+                                    //这里直接更新 raw
+                                    raw = data;
+                                    return this.each(function() {
+                                        if (!this) return;
+                                        var p = $.extend(defaults, params);
+                                        //计算value
+                                        if (p.value) {
+                                            $(this).val(p.value.join(' '));
+                                        } else {
+                                            var val = $(this).val();
+                                            val && (p.value = val.split(' '));
+                                        }
+
+                                        if (p.value) {
+                                            //p.value = val.split(" ");
+                                            if (p.value[0]) {
+                                                currentProvince = p.value[0];
+                                                p.cols[1].values = getCities(p.value[0]);
+                                            }
+                                            if (p.value[1]) {
+                                                currentCity = p.value[1];
+                                                p.cols[2].values = getDistricts(p.value[0], p.value[1]);
+                                            } else {
+                                                p.cols[2].values = getDistricts(p.value[0], p.cols[1].values[0]);
+                                            }
+                                            !p.value[2] && (p.value[2] = '');
+                                            currentDistrict = p.value[2];
+                                        }
+                                        $(this).picker(p);
+                                    });
+                                };
+
+                            }(Zepto);
+
+                            $("#city-picker")
+                                .cityPicker({
+                                    toolbarTemplate: '<header class="bar bar-nav">\
+                                    <button class="button button-link pull-right close-picker">确定</button>\
+                                    <h1 class="title">选择收货地址</h1>\
+                                  </header>'
+                                });
+                        },
+                        500);
+                }
+            });
+        }
+
+
+        var Province = "";
+        var City = "";
+        var District = "";
+
+        function SaveAdd() {
+            var strCtiy = $("#city-picker").val().split(" ");
+            $.each(strCtiy,
+                function(i, value) {
+                    switch (i) {
+                    case 0:
+                        Province = value;
+                        break;
+                    case 1:
+                        City = value;
+                        break;
+                    case 2:
+                        District = value;
+                        break;
+                    }
+                });
+            /*验证手机号*/
+            var regex = {
+                mobile: /^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$/
+            };
+            var v_mobile = $("#mobile").val().trim();
+            var v_name = $("#nickname").val().trim();
+            var v_address = $("#address").val().trim();
+
+            //if (!regex.test($("#mobile").val().trim())) {
+            if (!(/^1[3|4|5|7|8]\d{9}$/.test(v_mobile))) {
+                wc.message.success("联系方式格式有误!请修改!", "温馨提示");
+                $("#mobile").focus();
+                return;
+            }
+            if (v_name.length < 2) {
+                wc.message.success("姓名格式有误!请修改!", "温馨提示");
+                $("#nickname").focus();
+                return;
+            }
+            if (v_address.length < 5) {
+                wc.message.success("地址格式有误!请修改!", "温馨提示");
+                $("#address").focus();
+                return;
+            }
+
+            var data = {
+                Name: $("#nickname").val().trim(),
+                PhoneNumber: $("#mobile").val().trim(),
+                Province: Province,
+                City: City,
+                District: District,
+                Street: $("#address").val(),
+                IsDefault: $('input[name="select"]:checked').val() == "1" ? 1 : 0,
+            };
+            wc.restApi.post({
+                url: '/api/MyAddress/AddAddress',
+                data: JSON.stringify(data),
+                contenType: "appliction/json",
+                success: function(result) {
+                    window.location.href = '@Url.TenantAction("OrderGeneratedByAddress", "Mall")';
+//document.referrer;//返回上一页并刷新
+                }
+            });
+        }
+
+
+        $(function() {
+            console.log("进入页面初始化方法");
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+            GetCity();
+
+            //console.log($.smConfig.rawCitiesData);
+            //$("#city-picker").setRaw({ cityData});
+
+
+        });
+    </script>
+    }

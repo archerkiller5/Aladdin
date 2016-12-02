@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "报表";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+
+    <div class="row">
+        <div class="flot-chart dashboard-chart" style="height: 310px; padding: 12px">
+            <div data-bind='component:{name: "echart",params: { ajaxUrl: "/Report/OrderMouthReport"}}' style="height: 300px; width: 100%"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="flot-chart dashboard-chart" style="height: 310px; padding: 12px">
+            <div data-bind='component:{name: "echart",params: { ajaxUrl: "/Report/UserMouthAddReport"}}' style="height: 300px; width: 100%"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="flot-chart dashboard-chart" style="height: 310px; padding: 12px">
+            <div data-bind='component:{name: "echart",params: { ajaxUrl: "/Report/OrderStateReport"}}' style="height: 300px; width: 100%"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="flot-chart dashboard-chart" style="height: 310px; padding: 12px">
+            <div data-bind='component:{name: "echart",params: { ajaxUrl: "/Report/UserMouthTransmissionReport"}}' style="height: 300px; width: 100%"></div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/plugins/peity")
+    @Scripts.Render("~/plugins/echarts")
+    <script>
+        $(function() {
+            ko.applyBindings({}, document.getElementById('mainBody'));
+        });
+    </script>
+}

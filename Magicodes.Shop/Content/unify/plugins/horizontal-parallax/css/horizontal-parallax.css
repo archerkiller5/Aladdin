@@ -1,0 +1,376 @@
+/*
+Theme created for use with Sequence.js (http://www.sequencejs.com/)
+
+Theme: Sliding Horizontal Parallax
+Version: 1.0
+Theme Author: Ian Lunn @IanLunn
+Author URL: http://www.ianlunn.co.uk/
+Theme URL: http://www.sequencejs.com/themes/sliding-horizontal-parallax/
+
+This is a FREE theme and is available under a MIT License:
+http://www.opensource.org/licenses/mit-license.php
+
+Sequence.js and its dependencies are (c) Ian Lunn Design 2012 unless otherwise stated.
+
+/* prefix declarations */
+/* THEME STYLES */
+
+/* Inner Slider */
+.sequence-inner,
+.sequence-inner h2,
+.sequence-inner .info p { background: none; }
+
+/* End Inner Slider */
+
+.sequence-inner {
+    background: #fff;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#fff), to(#defce7));
+    background: -webkit-linear-gradient(#fff, #defce7);
+    background: -moz-linear-gradient(#fff, #defce7);
+    background: -ms-linear-gradient(#fff, #defce7);
+    background: -o-linear-gradient(#fff, #defce7);
+    background: linear-gradient(#fff, #defce7);
+    border-bottom: solid 2px #e8e7e7;
+}
+
+#sequence-theme {
+    -webkit-backface-visibility: hidden;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0 auto;
+    max-width: 2560px;
+    overflow: hidden;
+    position: relative;
+    /* prevent graphical glitches in WebKit browsers when using transitions */
+}
+
+#sequence-theme .next,
+#sequence-theme .prev {
+    -moz-transition-duration: 0.4s;
+    -ms-transition-duration: 0.4s;
+    -o-transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    color: white;
+    cursor: pointer;
+    display: none;
+    font-size: 80px;
+    font-weight: bold;
+    height: 41px;
+    opacity: 0.4;
+    position: absolute;
+    top: 50%;
+    transition-duration: 0.4s;
+    width: 39px;
+    z-index: 20;
+}
+
+#sequence-theme .prev {
+    left: 30px;
+    position: absolute;
+}
+
+#sequence-theme .next {
+    position: absolute;
+    right: 30px;
+}
+
+#sequence-theme .next:hover,
+#sequence-theme .prev:hover {
+    -moz-transform: scale(1.2);
+    -moz-transition-duration: 0.4s;
+    -ms-transform: scale(1.2);
+    -ms-transition-duration: 0.4s;
+    -o-transform: scale(1.2);
+    -o-transition-duration: 0.4s;
+    -webkit-transform: scale(1.2);
+    -webkit-transition-duration: 0.4s;
+    opacity: 1;
+    transform: scale(1.2);
+    transition-duration: 0.4s;
+}
+
+#sequence-theme #sequence li > * { position: absolute; }
+
+#sequence-theme #sequence {
+    margin: 0 auto;
+    max-width: 1400px;
+    min-height: 420px;
+    position: relative;
+}
+
+#sequence-theme .info {
+    -moz-transition-duration: 4s;
+    -ms-transition-duration: 4s;
+    -o-transition-duration: 4s;
+    -webkit-transition-duration: 4s;
+    font-size: 1.5em;
+    line-height: 1.4em;
+    right: 150%;
+    top: 120px;
+    transition-duration: 4s;
+    vertical-align: middle;
+    width: 40%;
+    z-index: 10;
+}
+
+#sequence-theme h2 {
+    background: rgba(114, 192, 44, 0.8);
+    box-shadow: none;
+    color: #fff;
+    display: inline-block;
+    font-size: 2em;
+    font-weight: 200;
+    line-height: 1.2em;
+    padding: 5px 8px;
+}
+
+#sequence-theme .info p {
+    background: rgba(114, 192, 44, 0.8);
+    color: #fff;
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
+#sequence-theme .animate-in .info {
+    -moz-transition-duration: 4s;
+    -ms-transition-duration: 4s;
+    -o-transition-duration: 4s;
+    -webkit-transition-duration: 4s;
+    right: 15%;
+    transition-duration: 4s;
+}
+
+#sequence-theme .animate-out .info {
+    -moz-transition-duration: 4s;
+    -ms-transition-duration: 4s;
+    -o-transition-duration: 4s;
+    -webkit-transition-duration: 4s;
+    right: -150%;
+    transition-duration: 4s;
+}
+
+#sequence-theme .balloon {
+    -moz-transition-property: left top;
+    -ms-transition-property: left top;
+    -o-transition-property: left top;
+    -webkit-transition-property: left top;
+    left: -140%;
+    max-width: 40%;
+    top: 150px;
+    transition-property: left top;
+    z-index: 6;
+}
+
+#sequence-theme .animate-in .balloon {
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top;
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top;
+    -o-transition-duration: 4s;
+    -o-transition-property: left top;
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top;
+    left: 15%;
+    top: 70px;
+    transition-duration: 4s;
+    transition-property: left top;
+    z-index: 4;
+}
+
+#sequence-theme .animate-out .balloon {
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top;
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top;
+    -o-transition-duration: 4s;
+    -o-transition-property: left top;
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top;
+    left: 140%;
+    top: -30px;
+    transition-duration: 4s;
+    transition-property: left top;
+    z-index: 2;
+}
+
+#sequence-theme .aeroplane {
+    -moz-transition-property: left top;
+    -ms-transition-property: left top;
+    -o-transition-property: left top;
+    -webkit-transition-property: left top;
+    left: -50%;
+    max-width: 40%;
+    top: 800px;
+    transition-property: left top;
+    z-index: 6;
+}
+
+#sequence-theme .animate-in .aeroplane {
+    -moz-transform: rotate(20deg);
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top -moz-transform;
+    -ms-transform: rotate(20deg);
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top -ms-transform;
+    -o-transform: rotate(20deg);
+    -o-transition-duration: 4s;
+    -o-transition-property: left top -o-transform;
+    -webkit-transform: rotate(20deg);
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top -webkit-transform;
+    left: 10%;
+    top: 100px;
+    transform: rotate(20deg);
+    transition-duration: 4s;
+    transition-property: left top transform;
+    z-index: 4;
+}
+
+#sequence-theme .animate-out .aeroplane {
+    -moz-transform: rotate(40deg);
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top -moz-transform;
+    -ms-transform: rotate(40deg);
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top -ms-transform;
+    -o-transform: rotate(40deg);
+    -o-transition-duration: 4s;
+    -o-transition-property: left top -o-transform;
+    -webkit-transform: rotate(40deg);
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top -webkit-transform;
+    left: 70%;
+    top: -900px;
+    transform: rotate(40deg);
+    transition-duration: 4s;
+    transition-property: left top transform;
+    z-index: 2;
+}
+
+#sequence-theme .sky {
+    -moz-transition-property: left top;
+    -ms-transition-property: left top;
+    -o-transition-property: left top;
+    -webkit-transition-property: left top;
+    height: auto;
+    left: -6%;
+    opacity: 0;
+    top: 0;
+    transition-property: left top;
+    vertical-align: middle;
+    width: 100%;
+    z-index: 1;
+}
+
+#sequence-theme .animate-in .sky {
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top;
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top;
+    -o-transition-duration: 4s;
+    -o-transition-property: left top;
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top;
+    left: 0%;
+    opacity: 1;
+    top: 0;
+    transition-duration: 4s;
+    transition-property: left top;
+    z-index: 1;
+}
+
+#sequence-theme .animate-out .sky {
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top;
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top;
+    -o-transition-duration: 4s;
+    -o-transition-property: left top;
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top;
+    left: 6%;
+    opacity: 0;
+    top: 0;
+    transition-duration: 4s;
+    transition-property: left top;
+    z-index: 1;
+}
+
+#sequence-theme .kite {
+    -moz-transform-origin: 100%;
+    -moz-transition-property: left top;
+    -ms-transform-origin: 100%;
+    -ms-transition-property: left top;
+    -o-transform-origin: 100%;
+    -o-transition-property: left top;
+    -webkit-transform-origin: 100%;
+    -webkit-transition-property: left top;
+    left: -30%;
+    max-width: 40%;
+    opacity: 0;
+    top: 300px;
+    transform-origin: 100%;
+    transition-property: left top;
+    z-index: 6;
+}
+
+#sequence-theme .animate-in .kite {
+    -moz-transform: rotate(80deg);
+    -moz-transform-origin: 100%;
+    -moz-transition-duration: 4s;
+    -moz-transition-property: left top -moz-transform;
+    -ms-transform: rotate(80deg);
+    -ms-transform-origin: 100%;
+    -ms-transition-duration: 4s;
+    -ms-transition-property: left top -ms-transform;
+    -o-transform: rotate(80deg);
+    -o-transform-origin: 100%;
+    -o-transition-duration: 4s;
+    -o-transition-property: left top -o-transform;
+    -webkit-transform: rotate(80deg);
+    -webkit-transform-origin: 100%;
+    -webkit-transition-duration: 4s;
+    -webkit-transition-property: left top -webkit-transform;
+    left: -15%;
+    opacity: 1;
+    top: 300px;
+    transform: rotate(80deg);
+    transform-origin: 100%;
+    transition-duration: 4s;
+    transition-property: left top transform;
+    z-index: 4;
+}
+
+#sequence-theme .animate-out .kite {
+    -moz-transform: rotate(200deg);
+    -moz-transform-origin: 100%;
+    -moz-transition-duration: 3s;
+    -moz-transition-property: left top -moz-transform;
+    -ms-transform: rotate(200deg);
+    -ms-transform-origin: 100%;
+    -ms-transition-duration: 3s;
+    -ms-transition-property: left top -ms-transform;
+    -o-transform: rotate(200deg);
+    -o-transform-origin: 100%;
+    -o-transition-duration: 3s;
+    -o-transition-property: left top -o-transform;
+    -webkit-transform: rotate(200deg);
+    -webkit-transform-origin: 100%;
+    -webkit-transition-duration: 3s;
+    -webkit-transition-property: left top -webkit-transform;
+    left: -15%;
+    opacity: 0;
+    top: 300px;
+    transform: rotate(200deg);
+    transform-origin: 100%;
+    transition-duration: 3s;
+    transition-property: left top transform;
+    z-index: 2;
+}
+
+#sequence-theme .sequence-fallback .animate-in .kite {
+    left: 20%;
+    top: 200px;
+}
+
+#sequence-theme ul { list-style: none; }

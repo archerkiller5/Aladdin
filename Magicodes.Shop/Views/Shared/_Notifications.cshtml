@@ -1,0 +1,10 @@
+﻿@using Magicodes.Shop.Models
+@if (ViewData["Messages"] != null)
+{
+    foreach (MessageInfo item in ViewBag.Messages)
+    {
+        <div class="alert alert-@item.MessageType.ToString().ToLower()">
+            @Html.Raw(item.Message)
+        </div>
+    }
+}

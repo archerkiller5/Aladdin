@@ -1,0 +1,161 @@
+﻿@using Magicodes.WeiChat.Unity
+@model List<Magicodes.WeiChat.Data.Models.Log.Log_Withdraw>
+@{
+    ViewBag.Title = "申请提现";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <style type="text/css">
+        .aui-content {
+            font-family: "微软雅黑", "黑体", "宋体";
+            line-height: 40px;
+        }
+
+        .money {
+            font-size: 28px;
+            margin-bottom: 40px;
+        }
+
+        .dialog-money { color: #ccc8c8; }
+
+        img {
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+        }
+
+        table {
+            font-size: 12px;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        table thead tr {
+            background-color: #ccc8c8;
+            border-bottom: 1px solid #000000;
+        }
+    </style>
+}
+<div class="aui-content">
+    <div class="aui-col-xs-12" style="padding: 8% 10px; text-align: center;">
+        <img src="@ViewBag.HeadImgUrl"/>
+        <div style="font-size: 14px;">@ViewBag.NickName</div>
+        <div class="">可提现余额</div>
+        <div class="money">￥@ViewBag.Balance</div>
+        @if (ViewBag.Setting != null)
+        {
+            if (ViewBag.Setting.IsEnableWithdraw == true)
+            {
+                if (ViewBag.Balance >= ViewBag.Setting.MinimumWithdrawalAmount)
+                {
+                    <div class="aui-btn aui-btn-success aui-btn-block tx" tapmode onclick="show()">提 现</div>
+                }
+                else
+                {
+                    <div class="aui-btn aui-btn-block">提 现</div>
+                    <p style="color: red; font-size: 12px;">*您还没有达到最低提现金额 @ViewBag.Setting.MinimumWithdrawalAmount 元</p>
+                }
+            }
+            else
+            {
+                <div class="aui-btn aui-btn-primary">提 现</div>
+                <p style="color: red; font-size: 12px;">* 系统未开放提现权限给您!</p>
+            }
+        }
+    </div>
+    <input type="hidden" id="balance" name="balance" value="@ViewBag.Balance"/>
+    <div class="aui-dialog aui-hidden" id="dialog">
+        <div class="aui-dialog-header">申请提现</div>
+        <div class="aui-dialog-body aui-text-left">
+            请输入提现金额
+            <input type="number" id="tx_balance" name="tx_balance" class="money"/>
+            <div class="dialog-money">
+                可提现余额￥@ViewBag.Balance&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="javascript:void(0)" onclick="allmoney()">全部提现</a>
+            </div>
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn aui-text-danger" tapmode onclick="cancel()">取消</div>
+            <div class="aui-dialog-btn aui-text-info" tapmode onclick="confirm()">确定</div>
+        </div>
+    </div>
+    <table cellpadding="0" border="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td>申请时间</td>
+            <td>提现金额</td>
+            <td>状态</td>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.CreateTime.ToString("yyyy-MM-dd HH:ss:mm")</td>
+                <td>@m.WithdrawAmount</td>
+                <td>@m.Status.GetEnumMemberDisplayName()</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+@section scripts{
+    @Scripts.Render("~/Content/weui/scripts")
+    <script type="text/javascript">
+        apiready = function() {
+            api.parseTapmode();
+        };
+
+        function show() {
+            $(".tx").removeClass("aui-btn-success");
+            $api.append($api.dom("body"), '<div class="aui-mask"></div>');
+            $api.removeCls($api.dom(".aui-dialog.aui-hidden"), "aui-hidden");
+        }
+
+        function allmoney() {
+            $("#tx_balance").val($("#balance").val());
+        }
+
+        function cancel() {
+            $(".tx").addClass("aui-btn-success");
+            $api.remove($api.dom(".aui-mask"));
+            $api.addCls($api.dom(".aui-dialog"), "aui-hidden");
+        }
+
+        function confirm() {
+            var tx_balance = $("#tx_balance").val();
+            if (tx_balance > 0) {
+                var data = { tx_balance: tx_balance };
+                wc.ui.block();
+                cancel();
+                console.log("点击确认");
+                wc.restApi.post({
+                    dataType: "text", //数据格式:JSON
+                    //请求地址
+                    url: '/api/Cash/ApplicationWithdrawals',
+                    data: JSON.stringify(data),
+                    //成功函数
+                    success: function(data) {
+                        wc.notify.success("申请提现成功!");
+                        window.setTimeout(location.reload(), 1000);
+
+                        //$api.remove($api.dom(".aui-mask"));
+                        //$api.addCls($api.dom(".aui-dialog"), "aui-hidden");
+                    }
+                });
+            } else {
+                wc.message.warn("请输入正确数字", "提示");
+            }
+        }
+
+        $(function() {
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

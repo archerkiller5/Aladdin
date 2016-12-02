@@ -1,0 +1,44 @@
+﻿<div class="aui-content" style="height: 290px">
+    <div class="aui-col-xs-2">&nbsp;</div>
+    <div class="aui-col-xs-8 aui-bg-default @ViewBag.TitleCls aui-text-center">
+        <h1>
+            <i class="aui-iconfont @ViewBag.IconCls" style="font-size: 128px"></i>
+        </h1>
+        <h1 style="font-weight: bold; text-align: center;">@ViewBag.Title</h1>
+        <p class="aui-padded-5"></p>
+        <p style="text-align: left">
+            @ViewBag.Message
+        </p>
+    </div>
+    <div class="aui-col-xs-2">&nbsp;</div>
+</div>
+<p class="aui-padded-10"></p>
+<div class="aui-content aui-content-padded">
+    @if (!string.IsNullOrEmpty(ViewBag.OkUrl))
+    {
+        <p>
+            <div class="aui-btn aui-btn-success aui-btn-block" data-url="@ViewBag.OkUrl">
+                <span class="aui-iconfont @ViewBag.OkIconcls"></span>@ViewBag.OkText</div>
+        </p>
+    }
+
+    @if (!string.IsNullOrEmpty(ViewBag.CancelUrl))
+    {
+        <p class="aui-padded-10"></p>
+        <p>
+            <div class="aui-btn aui-btn-default aui-btn-block" data-url="@ViewBag.CancelUrl">
+                <span class="aui-iconfont @ViewBag.CanceIconcls"></span>@ViewBag.CancelText</div>
+        </p>
+    }
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(function() {
+            $('li[data-url], div[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

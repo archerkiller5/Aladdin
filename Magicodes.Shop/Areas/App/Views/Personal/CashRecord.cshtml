@@ -1,0 +1,39 @@
+﻿@using Magicodes.WeiChat.Infrastructure
+@using Magicodes.WeiChat.Unity
+@model List<Magicodes.WeiChat.Data.Models.Log.Log_Withdraw>
+@{
+    ViewBag.Title = "提现记录";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/weui/slides-full/styles")
+<div>
+    <div class="aui-content">
+        <ul class="aui-list-view aui-in">
+            @foreach (var m in Model)
+            {
+                <li class="aui-list-view-cell" onclick="window.location.href = '@Url.Action("CashDetails", "Personal", new
+                                                                                {
+                                                                                    id = m.Id, WeiChatApplicationContext.Current.TenantId
+                                                                                })'">
+                    <div class="aui-img-body">
+                        <span>提现金额:@m.WithdrawAmount <em style="color: green; float: right; font-size: 10px;">状态:@(m.Status.GetEnumMemberDisplayName())</em></span>
+                        <p class='aui-ellipsis-1'>@m.CreateTime</p>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>
+@section scripts{
+    @Scripts.Render("~/Content/weui/scripts")
+    <script type="text/javascript">
+        $(function() {
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            //$('li[data-url]').on('click', function () {
+            //    location.href = $(this).data('url');
+            //});
+        });
+    </script>
+}

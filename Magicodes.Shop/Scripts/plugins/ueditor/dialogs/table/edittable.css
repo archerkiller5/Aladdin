@@ -1,0 +1,81 @@
+body {
+    overflow: hidden;
+    width: 540px;
+}
+
+.wrapper {
+    font-size: 12px;
+    height: 315px;
+    margin: 10px auto 0;
+    overflow: hidden;
+    width: 520px;
+}
+
+.clear { clear: both; }
+
+.wrapper .left {
+    float: left;
+    margin-left: 10px;
+    ;
+}
+
+.wrapper .right {
+    border-left: 2px dotted #EDEDED;
+    float: right;
+    padding-left: 15px;
+}
+
+.section {
+    margin-bottom: 15px;
+    overflow: hidden;
+    width: 240px;
+}
+
+.section h3 {
+    border-bottom: 1px solid #EDEDED;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+
+.section ul {
+    clear: both;
+    list-style: none;
+    overflow: hidden;
+}
+
+.section li {
+    float: left;
+    width: 120px;
+    ;
+}
+
+.section .tone {
+    width: 80px;
+    ;
+}
+
+.section .preview { width: 220px; }
+
+.section .preview table {
+    color: #666;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.section .preview caption { font-weight: bold; }
+
+.section .preview td {
+    border-style: solid;
+    border-width: 1px;
+    height: 22px;
+}
+
+.section .preview th {
+    background-color: #F7F7F7;
+    border-color: #DDD;
+    border-style: solid;
+    border-width: 2px 1px 1px 1px;
+    height: 22px;
+}

@@ -1,0 +1,234 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    //轻量模式
+    var isLightLayout = Request.QueryString["lightLayout"] == "1";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    @*<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>*@
+    @*加载自定义样式*@
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", false)
+    }
+    @*<style type="text/css">
+        .dropdown-menu {
+            padding: 0;
+            border: none;
+            min-width: 200px;
+            border-radius: 0;
+            z-index: 9999 !important;
+            border-top: solid 2px #72c02c;
+            border-bottom: solid 2px #687074;
+        }
+    </style>*@
+    @*加载主体样式*@@Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/plugins/toastrStyles")
+    @Styles.Render("~/plugins/sweetalertStyles")
+</head>
+<body class="top-navigation">
+@if (isLightLayout)
+{
+    <!-- Wrapper-->
+    <div id="wrapper">
+        <!-- Page wraper -->
+        <div id="page-wrapper" style="display: none; margin: 0 0 0 0;" class="gray-bg">
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom: 0;">
+                <!-- Main view -->
+                @RenderBody()
+            </div>
+        </div>
+        <!-- End page wrapper-->
+    </div>
+    <!-- End wrapper-->
+}
+else
+{
+    <!-- Wrapper-->
+    <div id="wrapper">
+
+        @*左侧导航菜单*@
+        @*@Html.Partial("_Navigation")*@
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+            <div class="row border-bottom white-bg">
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+                        <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                            <i class="fa fa-reorder"></i>
+                        </button>
+                        <a href="#" class="navbar-brand">
+                            <img src="~/Images/logo-l.png" height="47" style="margin-top: -13px"/>
+                        </a>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar">
+                        <ul class="nav navbar-nav">
+                            <li class="@Html.IsSelected("Menus") dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-th-large"></i> 菜单管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li class="@Html.IsSelected("Menus", "Index")">
+                                        <a href="@Url.Action("Index", "Menus")">自定义菜单</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@Html.IsSelectesControllers("WeiChat_User,WeiChat_UserGroup,WeiChatUsers,WeiChat_KFCInfo") dropdown">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users"></i> 粉丝&客服管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_User")">
+                                        <a href="@Url.Action("Index", "WeiChat_User")">粉丝管理</a>
+                                    </li>
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_UserGroup")">
+                                        <a href="@Url.Action("Index", "WeiChat_UserGroup")">用户组管理</a>
+                                    </li>
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_KFCInfo")">
+                                        <a href="@Url.Action("Index", "WeiChat_KFCInfo")">客服管理</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@Html.IsSelectesControllers("Material,Site_Resources,Site_Article,Site_News,Site_NewsArticle")">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-image-o"></i> 素材管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    @*Site_ResourcesController*@
+                                    <li class="@Html.IsSelectesUrl("Site_Resources?resourceType=0")">
+                                        <a href="@Url.Action("Index", "Site_Resources", new {resourceType = 0})">图片管理</a>
+                                    </li>
+                                    <li class="@Html.IsSelectesUrl("Site_Resources?resourceType=1")">
+                                        <a href="@Url.Action("Index", "Site_Resources", new {resourceType = 1})">语音管理</a>
+                                    </li>
+                                    <li class="@Html.IsSelectesUrl("Site_Resources?resourceType=2")">
+                                        <a href="@Url.Action("Index", "Site_Resources", new {resourceType = 2})">视频管理</a>
+                                    </li>
+                                    @*<li class="@Html.IsSelected(action: "Images")"><a href="@Url.Action("Images", "Material")">图片管理</a></li>
+                                            <li class="@Html.IsSelected(action: "Voices")"><a href="@Url.Action("Voices", "Material")">语音管理</a></li>*@
+                                    @*<li class="@Html.IsSelected(action: "Messages")"><a href="@Url.Action("Messages", "Material")">图文消息管理</a></li>*@
+                                    <li class="@Html.IsSelected(action: "Index", controller: "Site_News")">
+                                        <a href="@Url.Action("Index", "Site_News")">图文消息管理</a>
+                                    </li>
+                                    <li class="@Html.IsSelected(action: "Index", controller: "Site_Article")">
+                                        <a href="@Url.Action("Index", "Site_Article")">文章管理</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@Html.IsSelectesControllers("GroupMessage,WeiChat_MessagesTemplate")">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-comments-o"></i> 消息管理 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li class="@Html.IsSelectesUrl("Send?type=0")">
+                                        <a href="@Url.Action("Send", "GroupMessage", new {type = 0})">文本推送</a>
+                                    </li>
+                                    <li class="@Html.IsSelectesUrl("Send?type=1")">
+                                        <a href="@Url.Action("Send", "GroupMessage", new {type = 1})">图片推送</a>
+                                    </li>
+                                    <li class="@Html.IsSelectesUrl("Send?type=3")">
+                                        <a href="@Url.Action("Send", "GroupMessage", new {type = 3})">语音推送</a>
+                                    </li>
+                                    <li class="@Html.IsSelectesUrl("Send?type=4")">
+                                        <a href="@Url.Action("Send", "GroupMessage", new {type = 4})">视频推送</a>
+                                    </li>
+                                    <li class="@Html.IsSelectesUrl("Send?type=5")">
+                                        <a href="@Url.Action("Send", "GroupMessage", new {type = 5})">图文推送</a>
+                                    </li>
+                                    @*<li class="@Html.IsSelected(action: "SendNews")"><a href="@Url.Action("SendNews", "GroupMessage")">图文推送</a></li>*@
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_MessagesTemplate")">
+                                        <a href="@Url.Action("Index", "WeiChat_MessagesTemplate")">模板消息</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@Html.IsSelected("WeiChat_QRCode")">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-qrcode"></i> 场景二维码 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_QRCode")">
+                                        <a href="@Url.Action("Index", "WeiChat_QRCode")">二维码管理</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@Html.IsSelectesControllers("WeiChat_KeyWordAutoReply,WeiChat_SubscribeReply,WeiChat_NotAnswerReply")">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-slack"></i> 智能回复 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_KeyWordAutoReply")">
+                                        <a href="@Url.Action("Index", "WeiChat_KeyWordAutoReply")">关键字回复</a>
+                                    </li>
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_SubscribeReply")">
+                                        <a href="@Url.Action("Index", "WeiChat_SubscribeReply")">关注时回复</a>
+                                    </li>
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_NotAnswerReply")">
+                                        <a href="@Url.Action("Index", "WeiChat_NotAnswerReply")">答不上来配置</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="@Html.IsSelectesControllers("WeiChat_KeyWordReplyLog,WeiChat_LocationEventLog")">
+                                <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-line-chart"></i> 数据与统计 <span class="caret"></span></a>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_KeyWordReplyLog")">
+                                        <a href="@Url.Action("Index", "WeiChat_KeyWordReplyLog")">关键字回复统计</a>
+                                    </li>
+                                    <li class="@Html.IsSelected(action: "Index", controller: "WeiChat_LocationEventLog")">
+                                        <a href="@Url.Action("Index", "WeiChat_LocationEventLog")">位置统计</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Main view -->
+            @RenderBody()
+            <!-- Footer -->
+            @Html.Partial("_Footer")
+        </div>
+        <!-- End page wrapper-->
+    </div>
+}
+
+<!-- End wrapper-->
+@*加载主要脚本*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/plugins/slimScroll")
+@Scripts.Render("~/bundles/inspinia")
+@Scripts.Render("~/plugins/toastr")
+@Scripts.Render("~/bundles/jquery.blockUI")
+@Scripts.Render("~/plugins/sweetalert")
+@Scripts.Render("~/plugins/spin")
+@Scripts.Render("~/bundles/knockout")
+<script src="~/Scripts/plugins/layer/layer.js"></script>
+@*Magicodes.WeiChat JS框架*@
+@Scripts.Render("~/bundles/nwc")
+<script>
+    mwc.log.level = @(HttpContext.Current.IsDebuggingEnabled ? "mwc.log.levels.DEBUG" : "mwc.log.levels.WARN");
+</script>
+@if (isLightLayout)
+{
+    <script>
+        if ($('div.page-heading').length > 0) {
+            $('div.page-heading').remove();
+        }
+        $('#page-wrapper').show();
+        $('nav').show();
+    </script>
+}
+else
+{
+    <script>
+        if (self != parent) {
+            if ($('div.page-heading').length > 0) {
+                $('div.page-heading').remove();
+            }
+            $('nav').remove();
+            $('#page-wrapper').show().css('margin', '0 0 0 0');
+        } else {
+            $('nav').show();
+        }
+    </script>
+}
+@*加载自定义脚本*@
+@RenderSection("scripts", false)
+</body>
+</html>

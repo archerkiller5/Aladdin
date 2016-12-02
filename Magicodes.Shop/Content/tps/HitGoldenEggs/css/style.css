@@ -1,0 +1,139 @@
+﻿.egg-bg {
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+    background: url('../images/bg.png') no-repeat center 100%;
+    -ms-background-size: cover;
+    background-size: cover;
+    -webkit-background-size:100% 100%;
+}
+
+.egg {
+    height: 400px;
+    margin: 50px auto auto auto;
+    width: 660px;
+}
+
+    .egg ul li {
+        z-index: 10;
+    }
+
+.eggList {
+    padding-top: 110px;
+    position: relative;
+    width: 360px;
+}
+
+    .eggList li {
+        background: url(../images/egg_1.png) no-repeat bottom;
+        cursor: pointer;
+        float: left;
+        height: 187px;
+        list-style-type: none;
+        margin-left: 35px;
+        margin-top: 20px;
+        position: relative;
+        width: 138px;
+    }
+
+        .eggList li span {
+            color: #ff0;
+            font-size: 42px;
+            font-weight: bold;
+            height: 60px;
+            left: 68px;
+            position: absolute;
+            top: 64px;
+            width: 30px;
+        }
+
+        .eggList li.curr {
+            background: url(../images/egg_2.png) no-repeat bottom;
+            cursor: default;
+            z-index: 300;
+        }
+
+            .eggList li.curr sup {
+                background: url(../images/img-4.png) no-repeat;
+                height: 181px;
+                left: -34px;
+                position: absolute;
+                top: -36px;
+                width: 232px;
+                z-index: 800;
+            }
+
+.hammer {
+    background: url(../images/img-6.png) no-repeat;
+    height: 87px;
+    left: 133px;
+    position: absolute;
+    text-indent: -9999px;
+    top: 70px;
+    width: 74px;
+    z-index: 10;
+}
+
+.resultTip {
+    background: #ffc;
+    color: #f60;
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    /*overflow: hidden;*/
+    padding: 6px;
+    text-align: center;
+    top: 200px;
+    width: 148px;
+    z-index: 500;
+}
+
+    .resultTip b {
+        font-size: 14px;
+        line-height: 24px;
+    }
+
+.egg-des {
+    position: absolute;
+    top: 77%;
+    left: 10%;
+    width: 82%;
+    font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+}
+
+.egg-win {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 17%;
+    left: 11%;
+    background: url('../images/win.png') no-repeat center 100%;
+    -ms-background-size: cover;
+    background-size: cover;
+    z-index: 999;
+    display: none;
+}
+
+    .egg-win span {
+        top: 180px;
+        width: 300px;
+        position: absolute;
+        text-align: center;
+        font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+        color: #f60;
+        font-size: 23px;
+        font-weight: bolder;
+    }
+
+.egg-nowin {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 17%;
+    left: 11%;
+    background: url('../images/nowin.png') no-repeat center 100%;
+    -ms-background-size: cover;
+    background-size: cover;
+    z-index: 999;
+    display: none;
+}

@@ -1,0 +1,94 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<Magicodes.Shop.Models.AdminUserViewModel>
+@{
+    ViewBag.Title = "管理员管理";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                系统管理
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <div class="ibox-tools">
+                        <a class="btn btn-primary " href="@Url.Action("CreateAdminUser")" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                    </div>
+                    <table class="table table-striped" style="overflow-x: scroll">
+                        <tr>
+                            <th>
+                                用户名
+                            </th>
+                            <th>
+                                手机号码
+                            </th>
+                            <th>
+                                操作
+                            </th>
+                        </tr>
+                        <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>
+                                    <button type="button" data-action="remove" data-id="@item.Id" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-warning"></i>&nbsp;<span class="bold">删除</span></button>
+                                </td>
+                            </tr>
+                        }
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="col-lg-12 animated fadeInLeft">
+                    @Html.Pager(Model, new PagerOptions {PageIndexParameterName = "pageIndex", ContainerTagName = "div", CssClass = "btn-group", Id = "bootstrappager"})
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(function() {
+            $('button[data-action="remove"]')
+                .click(function() {
+                    if (!confirm("确定要删除么？")) {
+                        return;
+                    }
+                    var $btn = $(this);
+                    $.post('/System/AdminUser/Remove',
+                        { Id: $btn.data('id') },
+                        function(msg) {
+                            if (msg.MessageType > 1) {
+                                toastr.error('警告', msg.Message);
+                            } else {
+                                toastr.success('温馨提示', msg.Message);
+                                setTimeout(function() {
+                                        location.reload();
+                                    },
+                                    1000);
+                            }
+                        });
+                });
+        });
+    </script>
+}

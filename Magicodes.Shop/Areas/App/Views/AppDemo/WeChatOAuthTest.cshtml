@@ -1,0 +1,117 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat_User
+@{
+    ViewBag.Title = "WeChatOAuth测试";
+}
+<div class="aui-content my-header">
+    <div class="my-info">
+        <img src="@Model.HeadImgUrl"/>
+        <p class="nickname">@Model.NickName</p>
+        <span><a href="#">关于如何获取OPENID，请查看开发文档</a></span>
+    </div>
+</div>
+
+<div class="aui-content">
+    <ul class="aui-grid-nine" id="iconList">
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("ProductPromotion")'>
+            <span class="aui-iconfont aui-icon-home aui-text-danger"></span>
+            <p>产品宣传</p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("RoadMap")'>
+            <span class="aui-iconfont aui-icon-share aui-text-primary"></span>
+            <p>
+                <a>RoadMap</a>
+            </p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("PhotoGallery")'>
+            <span class="aui-iconfont aui-icon-pic aui-text-danger"></span>
+            <p>
+                <a>微相册</a>
+            </p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("ExceptionTest")'>
+            <span class="aui-iconfont aui-icon-close aui-text-pink"></span>
+            <p>
+                <a>异常测试</a>
+            </p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("SuccessMessage")'>
+            <span class="aui-iconfont aui-icon-check aui-text-pink"></span>
+            <p>
+                <a>成功提醒</a>
+            </p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("WarnMessage")'>
+            <span class="aui-iconfont aui-icon-warn aui-text-pink"></span>
+            <p>
+                <a>警告提醒</a>
+            </p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("PersonalCenter")'>
+            <span class="aui-iconfont aui-icon-people aui-text-warning"></span>
+            <p>
+                <a>个人中心</a>
+            </p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center" data-url='@Url.TenantAction("ShoppingCart")'>
+            <span class="aui-iconfont aui-icon-cart aui-text-info"></span>
+            <p>购物车</p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center">
+            <span class="aui-iconfont aui-icon-copy aui-text-pink"></span>
+            <p>栏目与文章</p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center">
+            <span class="aui-iconfont aui-icon-voice aui-text-dark"></span>
+            <p>录音</p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center">
+            <span class="aui-iconfont aui-icon-location aui-text-warning"></span>
+            <p>签到</p>
+        </li>
+        <li class="aui-col-xs-4 aui-text-center">
+            <span class="aui-iconfont aui-icon-friend aui-text-success"></span>
+            <p>用户绑定</p>
+        </li>
+    </ul>
+</div>
+@section scripts{
+    <script>
+        $(function() {
+            $('#iconList li')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}
+@section styles{
+    <style type="text/css">
+        .my-header {
+            background-color: #FAA732;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .my-info {
+            bottom: 0;
+            padding: 20px 0;
+            position: relative;
+            text-align: center;
+            vertical-align: center;
+            width: 100%;
+        }
+
+        .my-info img {
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+        }
+
+        .my-info p.nickname {
+            color: #ffffff;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+    </style>
+}

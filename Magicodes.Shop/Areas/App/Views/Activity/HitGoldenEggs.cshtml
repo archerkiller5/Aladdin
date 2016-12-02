@@ -1,0 +1,81 @@
+﻿@model Magicodes.WeiChat.Data.Models.Activity.Activity_Lottery
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.HideFooter = true;
+    ViewBag.UseJSSDK = true;
+}
+@section Styles
+{
+    <link href="~/Content/tps/HitGoldenEggs/css/style.css" rel="stylesheet" />
+}
+<div class="egg-bg">
+    <div class="egg">
+        <ul class="eggList">
+            <p class="hammer" id="hammer">锤子</p>
+            <p class="resultTip" id="resultTip"><b id="result"></b></p>
+            <li><span>&nbsp;</span><sup></sup></li>
+            <li><span>&nbsp;</span><sup></sup></li>
+            @*<li><span>3</span><sup></sup></li>
+            <li><span>4</span><sup></sup></li>*@
+        </ul>
+    </div>
+    <div class="egg-des">@Html.Raw(Model.Description)</div>
+    <div class="egg-win">
+        <span></span>
+    </div>
+    <div class="egg-nowin"></div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        var isWinning = eval('@ViewBag.IsWinning.ToString().ToLower()');
+        var result = '@ViewBag.Result';
+        var hasClick = false;
+
+        function eggClick(obj) {
+            var _this = obj;
+            if (hasClick) {
+                alert("蛋都碎了，别砸了！");
+                return false;
+            }
+            hasClick = true;
+            wc.restApi.get({ url: '/api/Activity/Lottery/@ViewBag.OpenId', isBlockUI: false });
+            //_this.unbind('click');
+            $(".hammer").css({ "top": _this.position().top - 55, "left": _this.position().left + 185 });
+            $(".hammer")
+                .animate(
+                    {
+                        "top": _this.position().top - 25,
+                        "left": _this.position().left + 125
+                    },
+                    30,
+                    function() {
+                        _this.addClass("curr"); //蛋碎效果
+                        _this.find("sup").show(); //金花四溅
+                        $(".hammer").hide();
+                        if (isWinning) {
+                            $('.egg-win').fadeIn().find('span').html(result);
+                            //TODO:转到我的抽奖页面
+                        } else {
+                            $('.egg-nowin').fadeIn().on('click', function() {
+                                location.reload();
+                            });
+                        }
+                    }
+                );
+        }
+
+        $(".eggList li")
+            .on('click',
+                function() {
+                    $(this).children("span").hide();
+                    eggClick($(this));
+                })
+            .on('hover',
+                function() {
+                    var posL = $(this).position().left + $(this).width();
+                    $("#hammer").show().css('left', posL);
+                });
+    </script>
+}

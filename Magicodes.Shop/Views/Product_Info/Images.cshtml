@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "商品相册管理";
+    ViewBag.TwoTitle = "商品信息管理";
+    ViewBag.ThreeTitle = "【" + ViewBag.ProductName + "】 相册管理";
+    var productId = ViewBag.ProductId;
+}
+@Html.Partial("_FormHead")
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content" style="padding-top: 0;">
+                    <div class="file-manager" style="padding-left: 0">
+                        <tag-list params="type:'Gallery',showUploadButton:true" style="position: static; zoom: 1;">
+                            <ul class="tag-list" style="padding: 0;">
+                                <li id="uploadImgs" class="text-danger">
+                                    <a><i class="fa fa-cloud-upload"></i>&nbsp;&nbsp;上传</a>
+                                </li>
+                                <li class="text-danger">
+                                    <div style="margin:10px 0 0 10px;color:red;font-weight:bold">至少上传一张照片商品才能上架</div>
+                                </li>
+                            </ul>
+                        </tag-list>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12" data-bind="foreach:Items">
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="#">
+                                <span class="corner"></span>
+                                <div class="image">
+                                    <img alt="image" class="img-responsive" data-bind="attr:{src:Url},click:$root.ImageClick" onerror="$(this).attr('url', $(this).attr('errorurl'));">
+                                </div>
+                                <div class="file-name">
+                                    <span>产品图片</span>
+                                    <br>
+                                    <small data-bind="text:CreateTime"></small>
+                                    <span class="pull-right"><i class="fa fa-trash" data-bind="click:$root.Delete"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        function tagClick(tag) {
+            window.tag = tag;
+            window.CurrentModel.Init();
+        }
+
+        $(function() {
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+            $("#uploadImgs")
+                .on('click',
+                    function() {
+                        var url = '/Product_Info/Upload/@productId';
+                        var title = "上传产品图片";
+                        mwc.window.show(title, url);
+                    });
+        });
+
+        function ViewModel() {
+            var self = this;
+            this.Items = ko.observableArray([]);
+            //初始化，加载数据
+            this.Init = function() {
+                mwc.restApi.get({
+                    url: '@Url.Action("ListItems")',
+                    data: { Id: '@productId' },
+                    success: function(data) {
+                        self.Items(data);
+                    }
+                });
+            };
+            this.IsInIframe = function() {
+                return window.parent != window.self;
+            };
+            this.ImageClick = function() {
+                if (self.IsInIframe()) {
+                    self.Choice(this);
+                } else {
+                    mwc.window.show(this.Name, this.url, null, null, true);
+                }
+            };
+            this.Delete = function () {
+                var model = this;
+                var message = "确定要删除么？";
+                //获取图片张数
+                if ($(".file-box").length <= 1) {
+                    message = "至少需要一张图片，否则商品将会下架，是否继续？";
+                }
+                mwc.message.confirm(message,
+                    function (result) {
+                        if (result) {
+                            mwc.restApi.delete({
+                                url: '@Url.Action("Delete")',
+                                data: { id: model.Id },
+                                success: function(data) {
+                                    mwc.notify.success(data.Message);
+                                    self.Init();
+                                }
+                            });
+                        }
+                    });
+            };
+            this.Init();
+        }
+    </script>
+}

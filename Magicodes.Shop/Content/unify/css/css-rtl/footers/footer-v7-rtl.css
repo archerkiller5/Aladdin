@@ -1,0 +1,194 @@
+/*Contacts Section
+------------------------------------*/
+.contacts-section {
+    background: #333 url(../../../img/bg/3.jpg) center fixed;
+    background-size: cover;
+    color: #fff;
+    position: relative;
+}
+
+.contacts-section:after {
+    background: rgba(0, 0, 0, 0.7);
+    content: " ";
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+.contacts-section:before {
+    background: url(../../../img/patterns/gridtile.png) repeat;
+    content: " ";
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+/*Contacts Title*/
+
+.contacts-section .title-v1 p,
+.contacts-section .title-v1 h2 { color: #fff; }
+
+/*Contacts Content*/
+
+.contacts-in {
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.contacts-in h3 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.contacts-in ul { margin-top: 20px; }
+
+.contacts-in li {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 200;
+    margin: 15px 0;
+}
+
+.contacts-in li a { color: #fff; }
+
+.contacts-in li i {
+    background: rgba(255, 255, 255, 0.1);
+    display: inline-block;
+    font-size: 18px;
+    margin-left: 5px;
+    padding: 8px;
+    text-align: center;
+    width: 35px;
+}
+
+.contacts-in form label {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.contacts-in form .form-control {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: #eee;
+    box-shadow: none;
+    color: #fff;
+}
+
+.contacts-in form .form-control:focus {
+    background: rgba(0, 0, 0, 0.6);
+    border-color: #bbb;
+}
+
+.contacts-in form .btn-u.btn-brd.btn-u-dark {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: #fff;
+    color: #fff;
+}
+
+.contacts-in form .btn-u.btn-brd.btn-u-dark:hover {
+    background: rgba(0, 0, 0, 0.6) !important;
+    border-color: #bbb;
+}
+
+/*Copyright Section*/
+
+.copyright-section {
+    background: #fff;
+    padding: 25px 0 20px;
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+.copyright-section p { font-size: 14px; }
+
+.copyright-section p a {
+    color: #555;
+    text-decoration: underline;
+}
+
+.copyright-section p a:hover { text-decoration: none; }
+
+.copyright-section ul.social-icons li {
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.copyright-section i.back-to-top {
+    background: #fff;
+    color: #555;
+    font-size: 20px;
+    margin-right: -15px;
+    padding: 8px 10px;
+    position: absolute;
+    right: 50%;
+    top: -35px;
+}
+
+.copyright-section i.back-to-top:hover { color: #72c02c; }
+
+/*Sky Form
+------------------------------------*/
+
+/*Error State*/
+
+.sky-form .state-error input,
+.sky-form .state-error textarea { border-color: #e0aaaa; }
+
+.sky-form .state-error + em {
+    color: #ee9393;
+    display: block;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 15px;
+    margin-top: 6px;
+    padding: 0 1px;
+}
+
+.sky-form .rating.state-error + em {
+    margin-bottom: 4px;
+    margin-top: -4px;
+}
+
+/*Success State*/
+
+.sky-form .state-success input { border-color: #f0fff0; }
+
+/*Disabled State*/
+
+.sky-form .input.state-disabled input { border-color: #f0fff0; }
+
+/*Submited State*/
+
+.sky-form .message {
+    color: #6fb679;
+    display: none;
+}
+
+.sky-form .message i {
+    border: 1px solid #6fb679;
+    border-radius: 50%;
+    display: block;
+    font-size: 30px;
+    height: 81px;
+    line-height: 81px;
+    margin: 0 auto 20px;
+    width: 81px;
+}
+
+.sky-form.submited fieldset,
+.sky-form.submited footer { display: none; }
+
+.sky-form.submited .message {
+    display: block;
+    font: 300 18px/27px 'Open Sans', Helvetica, Arial, sans-serif;
+    padding: 25px 30px;
+    text-align: center;
+}
+
+.sky-form.submited .message p { color: #fff; }

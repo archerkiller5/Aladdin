@@ -1,0 +1,157 @@
+﻿@using System.Text.RegularExpressions
+@model Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_MessagesTemplate
+@{
+    ViewBag.Title = "编辑";
+    Layout = "~/Views/Shared/_LightLayout.cshtml";
+    var content = Model.Content.Replace("\n", "<br>");
+    var rm = Regex.Matches(content, @"\{\{(.+?)\}\}");
+    if ((rm != null) && (rm.Count > 0))
+    {
+        foreach (Match item in rm)
+        {
+            content = content.Replace(item.Value, string.Format("<a href=\"#\" id=\"{0}\" class=\"x-editable\" data-type=\"text\" data-pk=\"1\" data-title=\"请输入内容\" data-placeholder=\"{1}\" data-value=\"\"></a>&nbsp;&nbsp;<a data-color=\"#173177\" id=\"{0}_COLOR\" class=\"colorpicker \" style=\"color:#173177\" href=\"#\">#173177</a>", item.Value.Trim('{').Trim('}'), item.Value));
+        }
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <hr style="margin: 2px 2px 10px 2px;"/>
+                <h3>请编辑下面划线的文字：</h3>
+                <div class="well">
+                    @Html.Raw(content)
+                    <hr/>
+                    链接：<a href="#" id="url" class="x-editable" data-pk="1" data-title="请输入链接" data-placeholder="请输入链接" data-value="http://weichat.chinacloudsites.cn/"></a><br/>
+                    接收人：<a href="#" id="ReceiverId" data-pk="1" data-title="请输入内容" data-placeholder="请选择用户" data-value=""></a>
+                    <p class="pull-right">
+                        <button type="button" id="btnSend" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;发送</button>
+                    </p>
+                </div>
+
+                <h3>消息示例：</h3>
+                <div class="well">
+                    @Html.Raw(Model.Demo.Replace("\n", "<br>"))
+                </div>
+                @Html.HiddenFor(model => model.TemplateNo)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @*x-editable*@
+    <link href="~/Content/plugins/x-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    @*select2*@
+    @Styles.Render("~/Content/plugins/select2/select2Styles")
+    @Styles.Render("~/Content/plugins/colorpicker/colorpickerStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/colorpicker")
+    <script src="~/Scripts/plugins/x-editable/bootstrap-editable.min.js"></script>
+    <script>
+        $(function() {
+            $.fn.editable.defaults.mode = 'inline';
+            $('a.x-editable')
+                .editable(
+                    {
+                        validate: function(value) {
+                            if ($.trim(value) == '') return '该项必须填写，请输入！';
+                        },
+                        emptytext: '请点此进行编辑'
+                    }
+                );
+            //颜色取色器
+            $('.colorpicker')
+                .colorpicker()
+                .on('changeColor',
+                    function(ev) {
+                        $(this).css('color', ev.color.toHex()).html(ev.color.toHex());
+                        $(this).prev('a').css('color', ev.color.toHex());
+                    });
+
+            $('#ReceiverId')
+                .editable({
+                    emptytext: '请点此进行编辑',
+                    type: 'select2',
+                    display: function(value) {
+                        if (value == '' || value == null) {
+                            $(this).text('请点此进行编辑');
+                            return;
+                        }
+                        console.debug(value);
+                        var arr = value;
+                        var str = '';
+                        for (var i = 0; i < arr.length; i++) {
+                            str += arr[i].split(';')[0] + ' ； ';
+                        }
+                        $(this).text(str);
+                    },
+                    select2: {
+                        placeholder: '请选择用户',
+                        allowClear: true,
+                        tags: true,
+                        width: 300,
+                        language: "zh-CN",
+                        id: function(item) {
+                            return item.NickName + ';' + item.OpenId;
+                        },
+                        ajax: {
+                            url: "/api/WeiChatUser",
+                            dataType: 'json',
+                            data: function(params) {
+                                mwc.log.debug(params);
+                                return {
+                                    key: params,
+                                    ids: $('#ReceiverId').val()
+                                };
+                            },
+                            results: function(data, page) {
+                                return { results: data };
+                            }
+                        },
+                        formatResult: function(e) {
+                            return e.NickName;
+                        },
+                        formatSelection: function(e) {
+                            return e.NickName;
+                        }
+                    }
+                });
+
+            $('#btnSend')
+                .on('click',
+                    function() {
+                        var $editInputs = $('a.x-editable, #ReceiverId');
+                        var error = $editInputs.editable('validate');
+                        for (var item in error) {
+                            mwc.message.warn(error[item], item);
+                            return;
+                        }
+                        var dataJson = $editInputs.editable('getValue');
+                        //设置颜色
+                        $('a.colorpicker')
+                            .each(function() {
+                                eval("dataJson['" + $(this).attr('id') + "']='" + $(this).text() + "'");
+                            });
+                        mwc.log.debug(dataJson);
+                        mwc.restApi.post({
+                            url: "@Model.Id",
+                            contentType: "application/x-www-form-urlencoded",
+                            data: dataJson,
+                            success: function(data) {
+                                if (data.Success && data.Result)
+                                    location
+                                        .href = '/WeiChat_MessagesTemplateSendLog?templateId=@Model.Id&batchNumber=' +
+                                        data.Result;
+                                else
+                                    mwc.message.warn('操作失败，具体原因请查看系统日志！');
+                            }
+                        });
+                    });
+
+        });
+    </script>
+}

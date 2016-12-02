@@ -1,0 +1,105 @@
+﻿body, ul, ol, li, p, h1, h2, h3, h4, h5, h6, form, fieldset, table, td, img, div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    color: #333;
+    font-size: 12px;
+    font-family: "Microsoft YaHei";
+}
+
+ul, ol {
+    list-style-type: none;
+}
+
+select, input, img, select {
+    vertical-align: middle;
+}
+
+input {
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+    a:hover {
+        color: #c00;
+        text-decoration: none;
+    }
+
+.clear {
+    clear: both;
+}
+
+/* 大转盘样式 */
+.banner {
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    margin-top: 30%;
+}
+
+    .banner .turnplate {
+        display: block;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+    }
+
+        .banner .turnplate canvas.item {
+            width: 100%;
+        }
+
+        .banner .turnplate img.pointer {
+            position: absolute;
+            width: 31.5%;
+            height: 42.5%;
+            left: 34.6%;
+            top: 23%;
+        }
+
+.turnplate {
+    background-image: url(images/turnplate-bg.png);
+    -ms-background-size: 100% 100%;
+    background-size: 100% 100%;
+}
+
+.bg {
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+    background: url('./images/bg.png') no-repeat center 100%;
+    -ms-background-size: cover;
+    background-size: cover;
+    -webkit-background-size: 100% 100%;
+}
+
+.nowin {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 17%;
+    left: 11%;
+    background: url('./images/nowin.png') no-repeat center 100%;
+    -ms-background-size: cover;
+    background-size: cover;
+    z-index: 999;
+    display: none;
+}
+
+.des {
+    position: absolute;
+    top: 78%;
+    left: 10%;
+    font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+    font-size: 18px;
+    width: 82%;
+}

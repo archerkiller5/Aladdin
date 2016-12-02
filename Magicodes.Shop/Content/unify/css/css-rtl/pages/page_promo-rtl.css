@@ -1,0 +1,92 @@
+/*Promo Page
+------------------------------------*/
+/*Slider Part*/
+.fullwidthbanner-container.slider-promo { max-height: 460px !important; }
+
+.slider-promo-info-bg {
+    background: url(../../../img/bg-black.png) repeat;
+    padding: 25px 20px 20px;
+}
+
+.slider-promo-info span.big-size {
+    color: #fff;
+    display: block;
+    font-size: 30px;
+    margin-bottom: 25px;
+    text-shadow: 0 !important;
+}
+
+.slider-promo-info p {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+/*Promo Box*/
+
+.promo-box {
+    margin: 25px 0 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.promo-box i { font-size: 50px; }
+
+.promo-box p {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.promo-box strong,
+.promo-box strong a {
+    color: #555;
+    display: block;
+    font-size: 20px;
+    font-weight: 200;
+    margin: 20px 0 15px;
+}
+
+.promo-box:hover strong,
+.promo-box:hover strong a { color: #e74c3c; }
+
+/*Promo Work*/
+
+.promo-work { margin: 20px 0; }
+
+/*Promo Service*/
+
+.promo-service { margin: 20px 0; }
+
+.promo-service a.btn-u { margin: 0 0 10px 20px; }
+
+.promo-service .carousel { margin-top: 10px; }
+
+/*Promo Elements*/
+
+.title-box {
+    border-bottom: solid 1px #eee;
+    font-size: 16px;
+    margin: 20px 0;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.title-box .title-box-text {
+    color: #555;
+    display: block;
+    font-size: 35px;
+    font-weight: 200;
+}
+
+.block-blockquote {
+    border: dashed 1px #ccc;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.block-blockquote-inner { padding: 15px; }
+
+.block-blockquote p {
+    font-size: 26px;
+    margin-bottom: 0;
+}

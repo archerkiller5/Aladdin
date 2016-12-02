@@ -1,0 +1,92 @@
+﻿@model List<Magicodes.WeiChat.Data.Models.Site.Site_Menu>
+@{
+    var controller = Request.RequestContext.RouteData.Values["controller"].ToString();
+    var action = Request.RequestContext.RouteData.Values["action"].ToString();
+    var url = Request.Url.AbsoluteUri;
+    var cssClass = "active";
+}
+<nav class="navbar-default navbar-static-side" role="navigation" style="display: none;">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="logo-element">
+                </div>
+            </li>
+            @*一级菜单*@
+            @foreach (var item in Model.Where(p => p.ParentId == null).OrderBy(p => p.OrderNo))
+            {
+                //获取二级菜单
+                var lv2children = Model.Where(p => p.ParentId == item.Id).OrderBy(p => p.OrderNo).ToList();
+                <li controller="@item.Controller.ToLower()">
+                    <a>
+                        @if (!string.IsNullOrWhiteSpace(item.IconCls))
+                        {
+                            <i class="@item.IconCls"></i>
+                        }
+                        <span class="nav-label">@item.Title</span> <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        @foreach (var childItem in lv2children)
+                        {
+                            var threeChildren = Model.Where(p => p.ParentId == childItem.Id).OrderBy(p => p.OrderNo).ToList();
+                            <li controller="@childItem.Controller.ToLower()">
+                                <a href="@childItem.Url">
+                                    @if (!string.IsNullOrWhiteSpace(childItem.IconCls))
+                                    {
+                                        <i class="@childItem.IconCls"></i>
+                                    }
+                                    @childItem.Title
+                                    @if (threeChildren.Count > 0)
+                                    {
+                                        <span class="fa arrow"></span>
+                                    }
+                                </a>
+                                @if (threeChildren.Count > 0)
+                                {
+                                    <ul class="nav nav-third-level collapse">
+                                        @foreach (var threeChildItem in threeChildren)
+                                        {
+                                            <li controller="@threeChildItem.Controller.ToLower()" url="@threeChildItem.Url.ToLower()">
+                                                <a href="@threeChildItem.Url">
+                                                    @if (!string.IsNullOrWhiteSpace(threeChildItem.IconCls))
+                                                    {
+                                                        <i class="@threeChildItem.IconCls"></i>
+                                                    }
+                                                    @threeChildItem.Title
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+<script type="text/javascript">
+    $(function() {
+        $("li")
+            .each(function() {
+                var active = false;
+                var controller = $(this).attr("controller");
+                if (controller == "@controller.ToLower()") {
+                    var url = $(this).attr("url");
+                    if (url != null && url != "") {
+                        if ("@url.ToLower()".indexOf(url) > 0) {
+                            active = true;
+                        }
+                    } else {
+                        active = true;
+                    }
+                }
+                if (active) {
+                    $(this).addClass("@cssClass");
+                    $(this).parent().parent().addClass("@cssClass");
+                    $(this).parent().parent().parent().parent().addClass("@cssClass");
+                }
+            });
+    });
+</script>

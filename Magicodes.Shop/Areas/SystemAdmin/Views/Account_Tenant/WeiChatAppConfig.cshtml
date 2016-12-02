@@ -1,0 +1,183 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat_App
+
+@{
+    ViewBag.Title = "公众号设置";
+    ViewBag.ShowPageHeader = false;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">租户管理</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.ValidationMessageFor(model => model.TenantId, "", new {@class = "text-danger"})
+                            @if (Model.TenantId != default(int))
+                            {
+                                @Html.HiddenFor(model => model.TenantId)
+                            }
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AppId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.AppId, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.AppId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AppSecret, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.AppSecret, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.AppSecret, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.WeiXinAccount, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.WeiXinAccount, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.WeiXinAccount, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.WeChatAppType, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EnumDropDownListFor(model => model.WeChatAppType, new {@class = "form-control"})
+                                    <span class="help-block m-b-none">
+                                        不同的公众号类型具备不同的接口权限，具体信息请<a href="https://mp.weixin.qq.com/wiki/7/2d301d4b757dedc333b9a9854b457b47.html" target="_blank">点击此处</a>。
+
+                                    </span>
+                                    @Html.ValidationMessageFor(model => model.WeChatAppType, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CopyrightInformation, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.CopyrightInformation, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.CopyrightInformation, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CustomerInformation, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.CustomerInformation, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.CustomerInformation, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Token, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Token, new {htmlAttributes = new {@class = "form-control"}})
+                                    <span class="help-block m-b-none">填写服务器配置时必须，为了安全，请生成自己的Token。注意：正式公众号的Token只允许英文或数字的组合，长度为3-32字符。</span>
+                                    @Html.ValidationMessageFor(model => model.Token, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Token">URL：</label>
+                                <div class="col-sm-10">
+                                    <span class="help-block m-b-none">
+                                        @if (Model.TenantId != default(int))
+                                        {
+                                            <text>@string.Format("{0}://{1}/WeiChat/{2}", Request.Url.Scheme, Request.Url.Host, Model.TenantId)</text>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Token">消息加解密方式：</label>
+                                <div class="col-sm-10">
+                                    <span class="help-block m-b-none">
+                                        明文模式 (如需使用安全模式请在管理中心修改，仅限服务号和认证订阅号)
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2">同步类型</label>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="1" checked="checked" name="Sync_WeiChat_User"> 同步粉丝信息
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="1" checked="checked" name="Sync_WeiChat_UserGroup"> 同步用户组
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="1" name="Sync_MessagesTemplates"> 同步模板消息
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="1" name="Sync_MKF"> 同步客服信息
+                                            </label>
+                                        </div>
+                                        <span class="help-block m-b-none">
+                                            如果粉丝信息过多，请耐心等待！（粉丝量过大请不要在此处进行同步。不同步粉丝信息并不影响OPENID的获取。）
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts
+{
+    @Scripts.Render("~/plugins/iCheck")
+    <script>
+        $(function() {
+            mwc.bs.init({
+                iCheck: true,
+                checkAll: false,
+                modalClick: false,
+                batchOperation: false
+            });
+        });
+    </script>
+}

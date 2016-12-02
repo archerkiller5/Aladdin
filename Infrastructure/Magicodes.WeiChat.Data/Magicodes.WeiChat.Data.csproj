@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5A1DE5FD-0CC9-4204-9A7F-CA915E42645D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Magicodes.WeiChat.Data</RootNamespace>
+    <AssemblyName>Magicodes.WeiChat.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.DynamicFilters, Version=2.4.0.0, Culture=neutral, PublicKeyToken=146423a1b8d60775, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.DynamicFilters.2.4.0\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Utilities, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EFUtilities.1.0.2\lib\EntityFramework.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magicodes.Data.Multitenant, Version=1.0.6113.28642, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Magicodes.Data.Multitenant.1.0.6113.28642\lib\net45\Magicodes.Data.Multitenant.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magicodes.Logger, Version=1.0.6121.36843, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Magicodes.Logger.1.0.6121.36843\lib\net45\Magicodes.Logger.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magicodes.Notify, Version=1.0.6165.29478, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Magicodes.Notify.1.0.6165.29478\lib\net45\Magicodes.Notify.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magicodes.Sms, Version=1.0.0.20548, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Magicodes.Sms.1.0.0.20548\lib\net45\Magicodes.Sms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magicodes.Storage, Version=1.0.6121.37084, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Magicodes.Storage.1.0.6121.37084\lib\net45\Magicodes.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magicodes.WeChat.SDK, Version=1.0.6158.39612, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Magicodes.WeChat.SDK.1.0.6158.39612\lib\net45\Magicodes.WeChat.SDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppDbContext.cs" />
+    <Compile Include="AppDbContext.Shop.cs" />
+    <Compile Include="BatchOperation\BatchOperationExtend.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Activity\Activity_Base.cs" />
+    <Compile Include="Models\Activity\Activity_EssayQuestionTopic.cs" />
+    <Compile Include="Models\Activity\Activity_Lottery.cs" />
+    <Compile Include="Models\Activity\Activity_LotteryPrizeOption.cs" />
+    <Compile Include="Models\Activity\Activity_Survey.cs" />
+    <Compile Include="Models\Activity\Activity_SurveyChoiceTopic.cs" />
+    <Compile Include="Models\Activity\Activity_SurveyOption.cs" />
+    <Compile Include="Models\Activity\Activity_SurveyTopicBase.cs" />
+    <Compile Include="Models\Activity\LotteryTypes.cs" />
+    <Compile Include="Models\Activity\Personal_Lottery.cs" />
+    <Compile Include="Models\Activity\Personal_Survey.cs" />
+    <Compile Include="Models\Activity\Personal_SurveyAnswer.cs" />
+    <Compile Include="Models\Activity\SurveyTopicTypes.cs" />
+    <Compile Include="Models\Advert\Advert.cs" />
+    <Compile Include="Models\Advert\Advert_Type.cs" />
+    <Compile Include="Models\Card\Card_BaseInfo.cs" />
+    <Compile Include="Models\Interface\IAdminCreate.cs" />
+    <Compile Include="Models\Interface\IAdminUpdate.cs" />
+    <Compile Include="Models\Interface\IDeleted.cs" />
+    <Compile Include="Models\Interface\ITenant.cs" />
+    <Compile Include="Models\Interface\ITenantId.cs" />
+    <Compile Include="Models\Logistics\Logistics_Areas.cs" />
+    <Compile Include="Models\Logistics\Logistics_Company.cs" />
+    <Compile Include="Models\Logistics\Logistics_FreightTemplate.cs" />
+    <Compile Include="Models\Logistics\Logistics_Traces.cs" />
+    <Compile Include="Models\Log\Log_WeChat.cs" />
+    <Compile Include="Models\Log\Log_Admin.cs" />
+    <Compile Include="Models\Order\Cart_Info.cs" />
+    <Compile Include="Models\Order\Order_Info.cs" />
+    <Compile Include="Models\Order\Order_Detail.cs" />
+    <Compile Include="Models\Order\Order_Refund.cs" />
+    <Compile Include="Models\Order\Order_RefundDetail.cs" />
+    <Compile Include="Models\Order\Order_Logistics.cs" />
+    <Compile Include="Models\PhotoGallery\Site_Photo.cs" />
+    <Compile Include="Models\PhotoGallery\Site_PhotoGallery.cs" />
+    <Compile Include="Models\Product\Product_Category.cs" />
+    <Compile Include="Models\Product\Product_Comment.cs" />
+    <Compile Include="Models\Product\Product_Info.cs" />
+    <Compile Include="Models\Product\Product_Photo.cs" />
+    <Compile Include="Models\Product\Product_Tag.cs" />
+    <Compile Include="Models\Product\Product_Type.cs" />
+    <Compile Include="Models\Settings\Settings_SmsTemplate.cs" />
+    <Compile Include="Models\Settings\Setting_AliMsg.cs" />
+    <Compile Include="Models\Settings\Settings.cs" />
+    <Compile Include="Models\Settings\SmsTypes.cs" />
+    <Compile Include="Models\Shop\Shop_Album.cs" />
+    <Compile Include="Models\Shop\Shop_Info.cs" />
+    <Compile Include="Models\Shop\Shop_Photo.cs" />
+    <Compile Include="Models\Settings\Settings_TemplateMessage.cs" />
+    <Compile Include="Models\Site\Menu.cs" />
+    <Compile Include="Models\Site\Site_Notify.cs" />
+    <Compile Include="Models\Site\Site_ReadNotify.cs" />
+    <Compile Include="Models\System\BackgroundJobLog.cs" />
+    <Compile Include="Models\User\User_Address.cs" />
+    <Compile Include="Models\User\User_BindPhone.cs" />
+    <Compile Include="Models\User\User_Info.cs" />
+    <Compile Include="Models\WeChatStore\Store_Info.cs" />
+    <Compile Include="Models\WeiChat_AdminBase.cs" />
+    <Compile Include="Models\WeiChat\KeyWords.cs" />
+    <Compile Include="Models\WeiChat\Material.cs" />
+    <Compile Include="Models\WeiChat\GroupMessage.cs" />
+    <Compile Include="Models\WeiChat\Menu.cs" />
+    <Compile Include="Models\WeiChat\MessagesTemplate.cs" />
+    <Compile Include="Models\Site\SiteResources.cs" />
+    <Compile Include="Models\WeiChat\NotAnswerReply.cs" />
+    <Compile Include="Models\WeiChat\SubscribeReply.cs" />
+    <Compile Include="Models\WeiChat\UsersAndGroups.cs" />
+    <Compile Include="Models\WeiChat\WeiChat_App.cs" />
+    <Compile Include="Models\WeiChat\WeiChat_LocationEventLog.cs" />
+    <Compile Include="Models\WeiChat\WeiChat_QRCode.cs" />
+    <Compile Include="Models\WeiChat_WeChatBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Unity\Magicodes.WeiChat.ComponentModel\Magicodes.WeiChat.ComponentModel.csproj">
+      <Project>{628a3418-49b3-49fa-b323-da6668e9cb1d}</Project>
+      <Name>Magicodes.WeiChat.ComponentModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Models\WeiChat\KeyWords.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。启用“NuGet 程序包还原”可下载这些程序包。有关详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

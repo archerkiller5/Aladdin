@@ -1,0 +1,187 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "填写订单";
+}
+@section styles{
+    <style type="text/css">
+        body { font-family: Arial, Helvetica, sans-serif, 宋体; }
+    </style>
+}
+<div class="aui-content" data-bind="with:Data">
+    <div class="aui-col-xs-12">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    收货地址
+                </div>
+            </li>
+            <li class="aui-list-view-cell">
+                <!-- ko if:Dizhi() == null -->
+                <h2 class="aui-text-center aui-text-blue" style="margin-top: 50px">
+                    您还没有添加收货地址，赶紧<a href="@Url.TenantAction("AddressInfo", "Personal")">去添加</a>！
+                </h2>
+                <!-- /ko -->
+                <!-- ko if:Dizhi()!=null -->
+                <div class="aui-col-xs-12" data-bind="with:Dizhi">
+                    <span class="aui-btn aui-btn-block aui-btn-outlined" onclick="window.location.href = '@Url.TenantAction("MyAddress", "Personal")'">更换地址</span>
+                    <span class="aui-pull" style="font-size: 12px; padding-right: 35px;" id="PayType" data-bind="text:'收件人：'+Name"></span><br/>
+                    <span class="aui-pull" style="font-size: 12px; padding-right: 35px;" data-bind="text:'联系电话：'+PhoneNumber"></span> <br/>
+                    <span class="aui-pull" style="font-size: 12px; padding-right: 35px;" data-bind="text:Province+City+District+Street"></span>
+                </div>
+                <!-- /ko -->
+            </li>
+        </ul>
+        <div class="aui-input-row">
+            <span class="aui-input-addon">运费模板:</span>
+            <div class="aui-list-item-input">
+                <select id="yunfeiSelect" data-bind="options:YunFeiList,optionsText:'Name',optionsValue:'Id',value:YunFei,optionsCaption:'请选择'"></select>
+            </div>
+        </div>
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    订单商品
+                </div>
+            </li>
+            @foreach (var v in ViewBag.Result)
+            {
+                <li class="aui-list-view-cell aui-img">
+                    <div class="aui-swipe-handle">
+                        <img class="aui-img-object aui-pull-left" src="@v.Url">
+                        <div class="aui-img-body">
+                            @v.Name <span class="aui-pull-right" style="color: red; padding-right: 10px;">￥@v.Price</span>
+                            <p class='aui-ellipsis-1'>数量 x @v.Quantity</p>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+        <ul class="aui-list-view" id="htmlAppend">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    订单留言
+                    <div style="height: 40px">
+                        <input type="text" placeholder="请店家认真核实发货清单！" data-bind="value:Remark" id="txtLiuyan" style="border-bottom: 1px; border-left: 0px; border-right: 0px; border-top: 0px; font-size: 14px;">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-view-cell ">         
+                <div class="aui-col-xs-12 "  style="font-size: 14px; font-weight: bold; margin-right: 10px; text-align: right;">
+                    商品金额：<span class="aui-badge-danger" id="OrderPrice">￥@(ViewBag.Price)</span>
+                </div>
+            </li>
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 " style="font-size: 14px; font-weight: bold; margin-right: 10px; text-align: right;">
+                    订单运费： <span class="aui-badge-danger" data-bind="text:'￥'+ $root.currentYunfeiPrice()"></span>
+                    @*<span class="aui-pull-right" style="color: red; padding-right: 20px;" data-bind="text:'￥'+ $root.currentYunfeiPrice()"></span>*@
+                </div>
+            </li>
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 " style="font-size: 14px; font-weight: bold; margin-right: 10px; text-align: right;">
+                        合计：<span class="aui-badge-danger"  data-bind="text:'￥'+ $root.currentTotalPrice()"></span>
+                    @*<span class="aui-pull-right" style="color: red; padding-right: 20px;" data-bind="text:'￥'+ $root.currentTotalPrice()"></span>*@
+                </div>              
+            </li>
+          
+        </ul>
+    </div>
+</div>
+<p style="line-height: 55px;">&nbsp;</p>
+<footer class="aui-nav" id="aui-footer">
+    <ul class="aui-bar-tab">
+        <li class="aui-list-view-cell">
+            <div class="aui-col-xs-12 aui-btn aui-bg-blue" data-bind="click:$root.SubmitOrder">
+                提交订单
+            </div>
+        </li>
+    </ul>
+</footer>
+@section scripts{
+    <script>
+        function viewModel() {
+            var self = this;
+            productPice = 0;
+            this.Data = {
+                Dizhi: ko.observable(null),
+                YunFei: ko.observable(null),
+                Products: eval('@Html.Raw(ViewBag.Ids)'),
+                TotalPrice: parseFloat('@ViewBag.Price'),
+                YunFeiList: ko.observableArray([]),
+                Remark: ko.observable(''),
+                AddressId: ko.observable(null)
+            };
+            //加载
+            this.reload = function() {
+                self.GetAddress();
+                self.GetFreight();
+            };
+            //获取设置订单地址
+            this.GetAddress = function() {
+                var _addressid = '@(Request.QueryString["AddressId"])';
+                var _url = "/api/MyAddress/Address";
+                if (_addressid != '')
+                    _url = "/api/MyAddress/Address?Id=" + _addressid;
+                wc.restApi.get({
+                    url: _url,
+                    success: function(data) {
+                        if (data || null) {
+                            self.Data.AddressId = data.Id || null;
+                            self.Data.Dizhi(data);
+                        }
+                    }
+                });
+            };
+            //获取运费模板
+            this.GetFreight = function() {
+                wc.restApi.get({
+                    url: "/api/MyOrder/getFreight",
+                    success: function(data) {
+                        self.Data.YunFeiList(data);
+                        $.each(data, function (i, v) {
+                            if (v.IsDefault)
+                                self.Data.productPice = v.Price;
+                            self.Data.YunFei(v.Id);
+                        });
+                        if (self.Data.YunFei() == null) {
+                            alert('商家未设置运费模板，请联系商家！');
+                        }
+                    }
+                });
+            };
+            //当前结算金额
+            this.currentTotalPrice = ko.computed(function () {
+                return (self.Data.YunFeiList().length == 0 || self.Data.YunFei() == null) ? self.Data.TotalPrice : ((self.Data.TotalPrice + $.grep(self.Data.YunFeiList(), function (v) { return v.Id == self.Data.YunFei(); })[0].Price).toFixed(2));
+            }, this);
+            this.currentYunfeiPrice = ko.computed(function () {
+                return (self.Data.YunFeiList().length == 0 || self.Data.YunFei() == null) ? 0 : (($.grep(self.Data.YunFeiList(), function (v) { return v.Id == self.Data.YunFei(); })[0].Price).toFixed(2));
+            }, this);
+            //提交订单
+            this.SubmitOrder = function() {
+                //此处要验证是否有地址,如未启用则提示
+                if (self.Data.AddressId == null) {
+                    wc.notify.warn('提交订单必须输入地址！');
+                    return;
+                }
+                var data = ko.toJS(self.Data);
+                delete data.YunFeiList;
+                wc.restApi.post({
+                    isBlockUI: false,
+                    url: '/api/MyOrder/Add',
+                    data: ko.toJSON(data),
+                    success: function(result) {
+                        location.href = '@Url.TenantAction("OrderDetails", "Personal")' + '&id=' + result;
+                    }
+                });
+            };
+            self.reload();
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+        $(document).ready(function () {
+            window.history.forward(1);
+        });
+    </script>
+}

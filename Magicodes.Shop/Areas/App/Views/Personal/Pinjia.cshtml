@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "评价测试";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/msui/styles")
+
+<div class="aui-content">
+    <header class="aui-bar aui-bar-nav aui-bar-dark">产品评价</header>
+    <div class="aui-content">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell">
+                多选
+            </li>
+            <li class="aui-list-view-cell">
+                <input class="aui-checkbox" type="checkbox">
+                <div class="aui-checkbox-name">选项一</div>
+            </li>
+            <li class="aui-list-view-cell">
+                <input class="aui-checkbox" type="checkbox">
+                <div class="aui-checkbox-name">选项二</div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="aui-content">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell">
+                其他需求:
+            </li>
+            <li class="align-top">
+                <div class="item-input">
+                    <textarea></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="aui-content">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell">
+                是否需要早餐?
+            </li>
+
+            <li class="aui-list-view-cell">
+                <input class="aui-radio" type="radio" name="demo1" checked>
+                <div class="aui-radio-name">需要,自行去餐厅享用</div>
+            </li>
+
+            <li class="aui-list-view-cell">
+                <input class="aui-radio" type="radio" name="demo1">
+                <div class="aui-radio-name">需要，送至房间</div>
+            </li>
+
+            <li class="aui-list-view-cell">
+                <input class="aui-radio" type="radio" name="demo1">
+                <div class="aui-radio-name">不需要</div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="aui-content">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell">
+                是否需要一次性洗漱用品？(一次性洗漱用品包含牙刷、牙膏、梳子、肥皂和浴帽)
+            </li>
+
+            <li class="aui-list-view-cell">
+                <input class="aui-radio" type="radio" name="demo2" checked>
+                <div class="aui-radio-name">需要一份单人的</div>
+            </li>
+
+            <li class="aui-list-view-cell">
+                <input class="aui-radio" type="radio" name="demo2">
+                <div class="aui-radio-name">需要一份双人的</div>
+            </li>
+
+            <li class="aui-list-view-cell">
+                <input class="aui-radio" type="radio" name="demo2">
+                <div class="aui-radio-name">不需要</div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-primary">提交</div>
+    </div>
+    @*<p class="aui-text-center">新增 下划线缩进 15px .aui-in</p>*@
+    @*<div class="aui-content">
+                <ul class="aui-list-view aui-in">
+                    <li class="aui-list-view-cell">
+                        <input class="aui-radio" type="radio" name="demo1" checked><div class="aui-radio-name">需要,自行去餐厅享用</div>
+                    </li>
+                    <li class="aui-list-view-cell">
+                        <input class="aui-radio" type="radio" name="demo1"><div class="aui-radio-name">需要，送至房间</div>
+                    </li>
+                    <li class="aui-list-view-cell">
+                        <input class="aui-radio" type="radio" name="demo1"><div class="aui-radio-name">不需要</div>
+                    </li>
+                </ul>
+            </div>*@
+
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>

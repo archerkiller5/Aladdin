@@ -1,0 +1,36 @@
+.wrapper {
+    margin: 10px auto;
+    width: 370px;
+    zoom: 1;
+}
+
+.tabbody { height: 360px; }
+
+.tabbody .panel {
+    background: #fff;
+    height: 360px;
+    position: absolute;
+    width: 100%;
+}
+
+.tabbody .panel h1 {
+    font-size: 26px;
+    margin: 5px 0 0 5px;
+}
+
+.tabbody .panel p {
+    font-size: 12px;
+    margin: 5px 0 0 5px;
+}
+
+.tabbody table {
+    line-height: 20px;
+    margin: 5px 0 0 5px;
+    width: 90%;
+    ;
+}
+
+.tabbody table thead {
+    font-weight: bold;
+    line-height: 25px;
+}

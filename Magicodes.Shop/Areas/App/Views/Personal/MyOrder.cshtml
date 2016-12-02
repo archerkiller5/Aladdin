@@ -1,0 +1,204 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "我的订单";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/weui/slides-full/styles")
+<link href="~/Content/aui/css/aui-flex.css" rel="stylesheet"/>
+@section styles{
+    <style>
+        p { margin-bottom: 15px; }
+
+        .aui-content-padded { margin-top: 10px; }
+
+        .aui-tab { margin-bottom: 15px; }
+
+        .order {
+            background: #fff;
+            margin-bottom: 8px;
+        }
+
+        .order-info {
+            font-size: 0.875em;
+            width: 100%;
+        }
+
+        .order-info span {
+            color: #333;
+            margin-right: 5px;
+        }
+
+        .order-info time {
+            color: #999999;
+            font-size: 0.80em;
+            margin-right: 20px;
+        }
+
+        .order-info i.aui-iconfont {
+            color: #999;
+            font-size: 0.875em;
+        }
+
+        .order-icon img {
+            border-radius: 5px;
+            width: 80%;
+        }
+
+        .order-title {
+            color: #333;
+            font-size: 1em;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+
+        .order-title > i.aui-iconfont {
+            color: #999999;
+            font-size: 0.87em;
+        }
+
+        p.goods-list {
+            color: #999;
+            font-size: 0.75em;
+            margin-bottom: 5px;
+        }
+
+        p.count-info {
+            color: #999;
+            font-size: 0.75em;
+            padding-bottom: 3px;
+        }
+
+        p.count-info span { margin: 0 2px; }
+
+        p.count-info strong {
+            color: #666;
+            font-size: 1em;
+            font-weight: 700;
+        }
+
+        .btn { /*margin: 5px;*/ }
+
+        .btn .aui-btn { font-size: 0.75em; }
+
+        .btn .aui-btn:first-child { margin-right: 10px; }
+
+        .aui-border-b:after { border-color: #ddd; }
+    </style>
+}
+<div class="aui-content-padded">
+    <div class="aui-tab aui-tab-danger">
+        <ul class="aui-tab-nav aui-tab-border">
+            <li class="active" data-bind="click:function(){tabClick(0);}">全部</li>
+            <li data-bind="click:function(){tabClick(1);}">待付款</li>
+            <li data-bind="click:function(){tabClick(2);}">待发货</li>
+            <li data-bind="click:function(){tabClick(3);}">待收货</li>
+        </ul>
+    </div>
+</div>
+<!-- ko template: { name: 'tplOrder', foreach: Orders } -->
+<!-- /ko -->
+<p style="line-height: 40px;">&nbsp;</p>
+
+@section scripts{
+    <script type="text/html" id="tplOrder">
+        <section class="aui-content order">
+            <div class="aui-flex-col order-info aui-padded-10">
+                <div class="aui-flex-item-12">
+                    <span style="font-size:12px;">订单状态:</span>
+                    <span class="aui-text-danger" style="font-size:12px;" data-bind="text:Status"></span>
+                    <!-- ko if:Status=="交易完成" -->
+                    <a class="aui-iconfont aui-icon-mark" style="float:right;font-size:10px; font-weight:bold; padding-right:5px;" data-bind="click:$root.ToComment">去评价</a>
+                    <!-- /ko -->
+                    <!-- ko if:Status=="待付款" -->
+                    <i class="aui-iconfont aui-icon-delete aui-pull-right" data-bind="click:$root.deleteOrder"></i>
+                    <!-- /ko -->                  
+                    <time class="aui-pull-right"   data-bind="text:CreateTime"></time>                   
+                </div>
+            </div>
+            <div class="aui-flex-col" data-bind="click:$root.payOrder">
+                <div class="aui-flex-item-2 order-icon aui-text-right">
+                    <img data-bind="attr:{src:Image}"/>
+                </div>
+                <div class="aui-flex-item-10 aui-padded-0-15">
+                    <!-- ko template: { name: 'tplGoods', foreach: ProductList } -->
+                    <!-- /ko -->                   
+                    <p class="aui-text-right aui-border-b count-info">
+                        @*共<span data-bind="text:TotalSum"></span>份，*@ 
+                        订单金额：<strong class="aui-text-danger" data-bind="text:'￥'+TotalPrice"></strong>
+                    </p>
+                    
+                </div>
+            </div>
+        </section>
+    </script>
+    <script type="text/html" id="tplGoods">
+        <p class="goods-list">
+            <span data-bind="text:ProductName"></span>
+            <em class="aui-pull-right" data-bind="text:'× '+Quantity"></em>
+        </p>
+    </script>
+    <script type="text/javascript">
+
+        function viewModel() {
+            var self = this;
+            this.Orders = ko.observableArray([]);
+            this.orderstate = 0;
+            //重新加载
+            this.reload = function() {
+                wc.restApi.get({
+                    url: '/api/MyOrder/Get?orderstate=' + self.orderstate,
+                    success: function(data) {
+                        self.Orders(data);
+                    }
+                });
+            };
+
+            this.tabClick = function(status) {
+                self.orderstate = status;
+                self.reload();
+            };
+
+            //删除订单 Add by zp 2016-07-07
+            this.deleteOrder = function () {
+                console.log("进入删除订单方法");
+                wc.restApi.post({
+                    url: '/api/MyOrder/DelOrder/' + this.OrderId,
+                    success: function(result) {
+                        self.reload();
+                    }
+                });
+                console.log("删除订单完毕");
+            };
+            //点击订单验证如果是未支付的订单则跳转到支付页面
+            this.payOrder = function() {
+                window.location.href = '@Url.TenantAction("OrderDetails", "Personal")' + '&id=' + this.OrderId;
+            };
+            //交易完成后跳转到评价页面
+            this.ToComment = function () {
+                window.location.href = '@Url.TenantAction("ProductComment", "Product")' + '&orderId=' + this.OrderId;
+            }
+            self.reload();
+        };
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+
+        $(function() {
+            $('.aui-tab-nav li')
+                .on('click',
+                    function() {
+                        $(this).addClass('active').siblings().removeClass('active');
+                    });
+        });
+        $(function() {
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

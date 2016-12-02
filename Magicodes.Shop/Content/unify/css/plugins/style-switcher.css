@@ -1,0 +1,174 @@
+/*   
+ * Template Name: Unify - Responsive Bootstrap Template
+ * Description: Business, Corporate, Portfolio, E-commerce, Blog and One Page Template.
+ * Version: 1.7
+ * Author: @htmlstream
+ * Website: http://htmlstream.com
+*/
+
+/*Style Switcher
+------------------------------------*/
+/*General*/
+i.style-switcher-btn {
+    background: #222;
+    border-radius: 3px 0 0 3px !important;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 9px 10px;
+    position: fixed;
+    right: 0;
+    top: 37px;
+    z-index: 555555;
+}
+
+i.style-switcher-btn:hover { background: #000; }
+
+i.style-switcher-btn-option {
+    background: #9097a0;
+    top: 38px;
+}
+
+i.style-switcher-btn-option:hover { background: #707985; }
+
+.style-switcher {
+    background: #333;
+    border-radius: 3px 0 0 3px !important;
+    color: #fff;
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 37px;
+    width: 235px;
+    z-index: 555555;
+}
+
+/*Others*/
+
+.style-switcher .style-switcher-heading {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 200;
+    margin-bottom: 10px;
+}
+
+.style-switcher-logo {
+    border-top: solid 1px #4c5159;
+    margin-top: 10px;
+    padding-top: 15px;
+}
+
+.style-switcher-logo a {
+    display: block;
+    text-align: center;
+}
+
+.style-switcher .btn-u {
+    border: solid 1px #555;
+    border-radius: 2px !important;
+    color: #fff;
+    font-weight: 200;
+}
+
+.style-switcher .btn-u.active-switcher-btn,
+.style-switcher .btn-u.active-switcher-btn { border: solid 1px #bbb; }
+
+/*Style Swticher Header*/
+
+.style-swticher-header {
+    background: #252525;
+    border-bottom: solid 1px #222;
+    border-radius: 3px 0 0 0 !important;
+    padding: 9px 10px 5px 15px;
+}
+
+.style-swticher-header .style-switcher-heading {
+    font-size: 16px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.style-swticher-header .theme-close {
+    position: absolute;
+    right: 6px;
+    top: 9px;
+}
+
+.style-swticher-header .theme-close i {
+    color: #999;
+    cursor: pointer;
+    font-size: 22px;
+    padding: 5px;
+}
+
+.style-swticher-header .theme-close i:hover { color: #fff; }
+
+/*Style Swticher Body*/
+
+.style-swticher-body .no-col-space {
+    padding: 0 10px;
+    text-align: center;
+}
+
+.style-swticher-body hr {
+    border-color: #454545;
+    margin: 11px 0;
+}
+
+.style-swticher-body .no-col-space .col-xs-6 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.style-swticher-body { padding: 15px 10px 15px 15px; }
+
+/*Theme Colors*/
+
+.style-switcher li {
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    background: #c00;
+    border-radius: 10% !important;
+    cursor: pointer;
+    display: inline-block;
+    height: 26px;
+    margin: 0 6px 6px 0;
+    transition: all 0.2s ease-in-out;
+    width: 26px;
+}
+
+.style-switcher li.last { margin-right: 0; }
+
+.style-switcher li:hover,
+.style-switcher li.theme-active {
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    border: solid 2px #fff;
+    transform: scale(1.1);
+}
+
+.style-switcher li.theme-default { background: #72c02c; }
+
+.style-switcher li.theme-blue { background: #3498db; }
+
+.style-switcher li.theme-orange { background: #e67e22; }
+
+.style-switcher li.theme-red { background: #e74c3c; }
+
+.style-switcher li.theme-light { background: #ecf0f1; }
+
+.style-switcher li.theme-purple { background: #9b6bcc; }
+
+.style-switcher li.theme-aqua { background: #27d7e7; }
+
+.style-switcher li.theme-brown { background: #9c8061; }
+
+.style-switcher li.theme-dark-blue { background: #4765a0; }
+
+.style-switcher li.theme-light-green { background: #79d5b3; }
+
+.style-switcher li.theme-dark-red { background: #a10f2b; }
+
+.style-switcher li.theme-teal { background: #18ba9b; }

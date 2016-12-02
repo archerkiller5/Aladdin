@@ -1,0 +1,384 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeChatStore.Store_Info
+
+@{
+    ViewBag.Title = "新建";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">门店管理</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin:2px 2px 10px 2px;" />
+                    <h2>创建门店</h2>
+
+                    <div class="wizard-big hide" id="wiz-form">
+                        @Html.AntiForgeryToken()
+                        <h1>选择门店位置</h1>
+                        <fieldset data-bind="with:EditModel">
+                            <h2>请选择门店位置信息</h2>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <iframe id="mapPage" width="100%" height="500" frameborder=0
+                                            src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=EP5BZ-WYECF-KIFJT-NFKKP-R7TSK-ZQFOL&referer=myapp"></iframe>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group" data-bind="if:$root.Areas()!=0">
+                                        <h2 data-bind="text:$root.Areas"></h2>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>详细地址 *</label>
+                                        <textarea id="Address" name="Address" data-bind="value:Address" type="text" class="form-control required" style="height:150px"></textarea>
+                                    </div>
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-map-marker" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <h1>填写基本信息</h1>
+                        <fieldset data-bind="with:EditModel">
+                            <h2>请填写门店基本信息</h2>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Categorys)<span>*</span>
+                                        <select data-bind="options:$root.CategoryList,optionsCaption: '请选择类目',value:Categorys" class="form-control"></select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Name)<span>*</span>
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",data_bind= "value:Name" } })
+                                        <span>门店名不得含有区域地址信息（如，北京市XXX公司）</span>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.BranchName)<span>*</span>
+                                        @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control", data_bind = "value:BranchName" } })
+                                        <span>分店名不得含有区域地址信息（如，“北京国贸店”中的“北京”）</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Telephone)<span>*</span>
+                                        @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Telephone" } })
+                                        <span>固定电话需加区号；区号、分机号均用“-”连接</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <h1>填写服务信息</h1>
+                        <fieldset data-bind="with:EditModel">
+                            <h2>请填写门店服务信息</h2>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Introduction)
+                                        @Html.EditorFor(model => model.Introduction, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Introduction", style = "height:150px" } })
+                                        <span>对品牌或门店的简要介绍</span>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Special)
+                                        @Html.EditorFor(model => model.Special, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Special", style = "height:150px" } })
+                                        <span>如，免费停车，WiFi</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Recommend)
+                                        @Html.EditorFor(model => model.Recommend, new { htmlAttributes = new { @class = "form-control", data_bind = "value:Recommend", style = "height:150px" } })
+                                        <span>如，推荐菜，推荐景点，推荐房间</span>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OpenTime)
+                                        @Html.EditorFor(model => model.OpenTime, new { htmlAttributes = new { @class = "form-control", data_bind = "value:OpenTime" } })
+                                        <span>如，10:00-21:00</span>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AvgPrice)
+                                        @Html.EditorFor(model => model.AvgPrice, new { htmlAttributes = new { @class = "form-control", data_bind = "value:AvgPrice" } })
+                                        <span>大于零的整数，须如实填写，默认单位为人民币</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <h1>上传门店图片</h1>
+                        <fieldset>
+                            <h2>请上传门店图片</h2>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <form class="dropzone" style="background-color:white;" id="my-awesome-dropzone" enctype="multipart/form-data" action="@Url.Action("Upload")">
+                                        <div class="dropzone-previews"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/wizardStepsStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+}
+@section scripts {
+    @Scripts.Render("~/plugins/wizardSteps")
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/validate")
+    @Scripts.Render("~/plugins/dropZone")
+    <script>
+
+        function ViewModel() {
+            var self = this;
+            this.EditModel = ko.observable(null)
+            this.Areas = ko.pureComputed({
+                read: function () {
+                    var model = self.EditModel();
+                    return model.Province() + model.City() + model.District();
+                }
+            });
+            //类目列表
+            this.CategoryList = ko.observableArray([]);
+            this.InitStoreInfo = function () {
+                mwc.restApi.get({
+                    url: '@Url.Action("GetStoreInfo")',
+                    blockUI: false,
+                    success: function (data) {
+                        self.EditModel(ko.mapping.fromJS(data));
+                        //$('select').select2();
+                    }
+                });
+            };
+            this.InitCategoryList = function () {
+                if (self.CategoryList().length > 0) return;
+                mwc.restApi.get({
+                    blockUI: false,
+                    url: '@Url.Action("GetCategoryList")',
+                    success: function (data) {
+                        self.CategoryList(data);
+                        //$('select').select2();
+                    }
+                });
+            };
+            this.SetFileUrl = function (url) {
+                var urls = self.EditModel().PhotoList();
+                if (urls == null) urls = '';
+                urls += url + ',';
+                self.EditModel().PhotoList(urls);
+            };
+            //提交
+            this.Submit = function () {
+                mwc.restApi.post({
+                    url: '@Url.Action("Add")',
+                    data: ko.toJSON(self.EditModel()),
+                    success: function (data) {
+                        location.href = '@Url.Action("Index")';
+                    }
+                });
+            };
+            //初始化，加载数据
+            this.Init = function () {
+                self.InitStoreInfo();
+                self.InitCategoryList();
+                window.addEventListener('message', function (event) {
+                    // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
+                    var loc = event.data;
+                    if (loc && loc.module == 'locationPicker') {//防止其他应用也会向该页面post信息，需判断module是否为'locationPicker'
+                        console.log('location', loc);
+                        self.EditModel().Address(loc.poiaddress + loc.poiname);
+                        var lat = loc.latlng.lat;
+                        var lng = loc.latlng.lng;
+                        self.EditModel().Latitude(lat);
+                        self.EditModel().Longitude(lng);
+
+                        var province = '';
+                        if (loc.poiaddress.indexOf('省') != -1) {
+                            province = loc.poiaddress.split('省')[0] + '省';
+                        } else {
+                            province = loc.poiaddress.split('市')[0] + '市';
+                        }
+                        self.EditModel().Province(province);
+
+                        var cityname = loc.cityname;
+                        self.EditModel().City(cityname);
+
+                        var area = '';
+                        if (loc.poiaddress.indexOf('区') != -1) {
+                            area = loc.poiaddress.split('市')[1].split('区')[0] + '区';
+                        } else if (loc.poiaddress.indexOf('县') != -1) {
+                            area = loc.poiaddress.split('市')[1].split('县')[0] + '县';
+                        }
+                        self.EditModel().District(area);
+
+                    }
+                }, false);
+            };
+            self.Init();
+        }
+        $(function () {
+            $("#wiz-form").steps({
+                labels: {
+                    cancel: "取 消",
+                    current: "当 前：",
+                    pagination: "Pagination",
+                    finish: "完 成",
+                    next: "下一步",
+                    previous: "上一步",
+                    loading: "加载中 ..."
+                },
+                bodyTag: "fieldset",
+                onStepChanging: function (event, currentIndex, newIndex) {
+                    if (newIndex == 2) {
+                        window.CurrentModel.InitCategoryList();
+                    }
+                    if (currentIndex > newIndex) {
+                        return true;
+                    }
+                    return true;
+                    //// Forbid suppressing "Warning" step if the user is to young
+                    //if (newIndex === 3 && Number($("#age").val()) < 18) {
+                    //    return false;
+                    //}
+
+                    //var form = $(this);
+
+                    //// Clean up if user went backward before
+                    //if (currentIndex < newIndex) {
+                    //    // To remove error styles
+                    //    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    //    $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                    //}
+
+                    //// Disable validation on fields that are disabled or hidden.
+                    //form.validate().settings.ignore = ":disabled,:hidden";
+
+                    //// Start validation; Prevent going forward if false
+                    //return form.valid();
+                },
+                onStepChanged: function (event, currentIndex, priorIndex) {
+                    // Suppress (skip) "Warning" step if the user is old enough.
+                    //if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                    //    $(this).steps("next");
+                    //}
+
+                    // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                    //if (currentIndex === 2 && priorIndex === 3) {
+                    //    $(this).steps("previous");
+                    //}
+                },
+                onFinishing: function (event, currentIndex) {
+                    window.CurrentModel.Submit();
+                    return true;
+                    //var form = $(this);
+                    //// Disable validation on fields that are disabled.
+                    //// At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                    //form.validate().settings.ignore = ":disabled";
+
+                    //// Start validation; Prevent form submission if false
+                    //return form.valid();
+                },
+                onFinished: function (event, currentIndex) {
+                    //var form = $(this);
+
+                    //// Submit form input
+                    //form.submit();
+                }
+            }).toggleClass('hide');
+
+
+            Dropzone.options.myAwesomeDropzone = {
+                autoProcessQueue: true,
+                parallelUploads: 100,
+                maxFilesize: 1, //M
+                paramName: "files",
+                acceptedFiles: ".jpg",
+                // Dropzone settings
+                init: function () {
+                    myDropzone = this;
+                    this.on("sendingmultiple",
+                        function () {
+                        });
+                    this.on("successmultiple",
+                        function (files, response) {
+                            console.debug(files, response, "successmultiple");
+                            //showUploadMessage(myDropzone, JSON.parse(file.xhr.response));
+                        });
+                    this.on("success",
+                        function (file) {
+                            console.debug(file, "success");
+                            if (file.xhr && file.xhr.response && file.xhr.response.indexOf('{') != -1) {
+                                var data = JSON.parse(file.xhr.response);
+                                if (typeof (data.Success) === "undefined") {
+                                    window.CurrentModel.SetFileUrl(data.url);
+                                } else {
+                                    mwc.notify.warn(data.Message);
+                                }
+                            }
+                        });
+                    this.on("complete",
+                        function (file) {
+                            console.debug(file, "complete");
+                            //if (file.xhr && file.xhr.response && file.xhr.response.indexOf('{') != -1) {
+                            //    var data = JSON.parse(file.xhr.response);
+                            //    window.CurrentModel.SetFileUrl(data.url);
+                            //}
+                        });
+                    this.on("completemultiple",
+                        function (f) {
+                            console.debug(f, "completemultiple");
+                        });
+                    this.on("errormultiple",
+                        function (files, response) {
+                            //var data = JSON.parse(response);
+                            //if (!data.Success) {
+                            //    mwc.notify.warn(data.Message);
+                            //}
+                        });
+                    this.on("queuecomplete",
+                        function () {
+                            console.debug(myDropzone, "queuecomplete");
+
+                        });
+                }
+
+            };
+
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+        });
+    </script>
+}

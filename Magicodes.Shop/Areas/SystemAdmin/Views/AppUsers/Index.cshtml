@@ -1,0 +1,222 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<Magicodes.WeiChat.Data.Models.AppUser>
+
+@{
+    ViewBag.Title = "租户成员管理";
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            @using (Html.BeginForm("Index", Request.RequestContext.RouteData.GetRequiredString("controller"), FormMethod.Get))
+                            {
+                                <input type="hidden" name="roleId" value="@Request.QueryString["roleId"]"/>
+                                if (!string.IsNullOrEmpty(Request.QueryString["tenantId"]))
+                                {
+                                    <input type="hidden" name="tenantId" value="@Request.QueryString["tenantId"]"/>
+                                }
+                                if (!string.IsNullOrEmpty(Request.QueryString["check"]))
+                                {
+                                    <input type="hidden" name="check" value="@Request.QueryString["check"]"/>
+                                }
+                                <div class="input-group">
+                                    @Html.TextBox("q", ViewBag.q as string, new {placeholder = "请输入关键字", @class = "input-sm form-control"})
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i>&nbsp;搜索</button>
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                        @if (string.IsNullOrEmpty(Request.QueryString["check"]))
+                        {
+                            if (!string.IsNullOrEmpty(Request.QueryString["roleId"]))
+                            {
+                                <a class="btn btn-warning btn-sm" id="btnAdd" href="javascript:void(0)" data-title="添加成员" data-url="@Url.Action("Index", "AppUsers", new {roleId = Request.QueryString["roleId"], lightLayout = 1, check = 1})" data-clicktype="modal"><i class="fa fa-plus"></i>&nbsp;添加</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("Create", new {tenantId = Request.QueryString["tenantId"]})" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                            }
+                        }
+                        else
+                        {
+                            <a class="btn btn-warning btn-sm" id="btnOk" data-action="AddUsersToRole" data-param="@Request.QueryString["roleId"]" data-reloadparent="true"><i class="fa fa-plus"></i>&nbsp;确定添加</a>
+                        }
+                    </div>
+                    <div>
+                        <table class="table table-striped table-bordered table-hover" style="overflow-x: scroll">
+                            <tr>
+                                @if (!string.IsNullOrEmpty(Request.QueryString["check"]))
+                                {
+                                    <th>
+                                        <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks"/>
+                                    </th>
+                                }
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OpenId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LockoutEnabled)
+                                </th>
+                                @if (string.IsNullOrEmpty(Request.QueryString["check"]))
+                                {
+                                    <th></th>
+                                }
+
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @if (!string.IsNullOrEmpty(Request.QueryString["check"]))
+                                    {
+                                        <td>
+                                            <input type="checkbox" name="ids" class="i-checks" value="@(item.Id)"/>
+                                        </td>
+                                    }
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OpenId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LockoutEnabled)
+                                    </td>
+                                    @if (string.IsNullOrEmpty(Request.QueryString["check"]))
+                                    {
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="@Url.Action("Details", new {id = item.Id})" class="btn btn-white">查看</a>
+                                                <a href="@Url.Action("ChangePassword", new {id = item.Id})" class="btn btn-white">修改密码</a>
+                                                <a href="@Url.Action("Bind", new {id = item.Id})" class="btn btn-white">绑定微信</a>
+                                                <a class="btn btn-white" data-clicktype='modal' data-title="角色设置" data-url="@Url.Action("Roles", new {userId = item.Id})">角色设置</a>
+                                                <button data-toggle="dropdown" class="btn btn-white dropdown-toggle">更多操作 <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li>@Html.ActionLink("编辑", "Edit", new {id = item.Id})</li>
+                                                    <li>@Html.ActionLink("删除", "Delete", new {id = item.Id})</li>
+                                                    @*分割线*@
+                                                    @*<li class="divider"></li>*@
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="row">
+                        @Html.Partial("_BootStrapPager", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        function batchOperation(operation, comfirmMessage, param, reloadParent) {
+            var $checkInputs = $("input[type=checkbox][name=ids]:checked");
+            if ($checkInputs.length === 0) {
+                mwc.message.warn("请至少选择一项！");
+                return;
+            }
+
+            function post() {
+                var ids = new Array();
+                $.each($("input[type=checkbox][name=ids]:checked").serializeArray(),
+                    function(i, v) {
+                        ids.push(v.value);
+                    });
+                var apiData = { ids: ids };
+                if (param)
+                    apiData.param = param;
+
+                mwc.restApi.post({
+                    url: '@Request.RequestContext.RouteData.GetRequiredString("controller")/BatchOperation/' +
+                        operation,
+                    contentType: "application/x-www-form-urlencoded",
+                    data: apiData,
+                    success: function(data) {
+                        console.debug(reloadParent);
+                        if (reloadParent)
+                            parent.location.reload();
+                        else
+                            location.reload();
+                    }
+                });
+            }
+
+            if (comfirmMessage) {
+                mwc.message.confirm("",
+                    comfirmMessage,
+                    function(isConfirmed) {
+                        isConfirmed && post();
+                    });
+            } else {
+                post();
+            }
+
+        }
+
+        $(function() {
+            $('input[type=checkbox]')
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green'
+                });
+            $("#chkCheckAll")
+                .on('ifToggled',
+                    function(e) {
+                        $("input[type=checkbox][name=ids]").iCheck(e.currentTarget.checked ? "check" : "uncheck");
+                    });
+            //将clicktype='modal'属性的链接均用弹窗打开
+            $("a[data-clicktype='modal']")
+                .on('click',
+                    function() {
+                        var url = $(this).data('url');
+                        var title = $(this).data('title');
+                        mwc.window.show(title, url);
+                    });
+            //批量操作
+            $("#toolBar button[data-action], a[data-action]")
+                .on('click',
+                    function() {
+                        batchOperation($(this).data("action"),
+                            $(this).data("comfirmmessage"),
+                            $(this).data("param"),
+                            $(this).data("reloadparent"));
+                    });
+        });
+    </script>
+}

@@ -1,0 +1,211 @@
+﻿@model Magicodes.WeiChat.Data.Models.Logistics.Logistics_Area
+
+@{
+    ViewBag.Title = "编辑";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <input class="form-control text-box single-line" id="ParentId" name="ParentId" type="text" value="" hidden="hidden" style="display: none">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AreaName, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.AreaName, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.AreaName, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AreaLevel, new {@class = "control-label  col-sm-2"})
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        @Html.EnumDropDownListFor(model => model.AreaLevel, new {@class = "form-control arealevel"})
+                                    </div>
+
+                                    <div class="col-md-2 div_sel_Country" hidden="hidden">
+                                        <select class="form-control area_parent_Country select_paren" data-val="true" id="select_Country" name="select_Country">
+                                            @for (var i = 0; i < ViewBag.Country.Count; i++)
+                                            {
+                                                <option value="@ViewBag.Country[i].Id">@ViewBag.Country[i].AreaName</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 div_sel_Province" hidden="hidden">
+                                        <select class="form-control area_parent_Province select_paren" data-val="true" id="select_Province" name="select_Province">
+                                            @for (var i = 0; i < ViewBag.Province.Count; i++)
+                                            {
+                                                <option value="@ViewBag.Province[i].Id">@ViewBag.Province[i].AreaName</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2 div_sel_City" hidden="hidden">
+                                        <select class="form-control area_parent_City" data-val="true" id="select_City" name="select_City">
+                                            @for (var i = 0; i < ViewBag.City.Count; i++)
+                                            {
+                                                <option value="@ViewBag.City[i].Id"> @ViewBag.City[i].AreaName</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Pinyinma, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Pinyinma, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Pinyinma, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PostCode, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.PostCode, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.PostCode, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SortNumber, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.SortNumber, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.SortNumber, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            console.log("进入初始化事件");
+
+
+            $(".arealevel")
+                .change(function() {
+                    var selVal;
+                    console.log("进入onactivate事件");
+                    selVal = $(this).children('option:selected').val();
+                    console.log("selVal：" + selVal);
+                    $(".div_sel_Country").hide();
+                    $(".div_sel_Province").hide();
+                    $(".div_sel_City").hide();
+
+                    switch (selVal) {
+                    case "1": //省  show出国家下拉即可
+                        $(".div_sel_Country").show();
+                        console.warn("设置成功1");
+                        break;
+                    case "2": //城市 show出国家、省份
+                        $(".div_sel_Country").show();
+                        $(".div_sel_Province").show();
+                        console.warn("设置成功2");
+                        break;
+                    case "3": //区
+                        $(".div_sel_Country").show();
+                        $(".div_sel_Province").show();
+                        $(".div_sel_City").show();
+                        console.warn("设置成功3");
+                        break;
+                    default:
+                        $(".div_sel_Country").show();
+                        console.warn("设置成功0");
+                        break;
+                    }
+                });
+
+            //省下拉更改事件
+            $(".select_paren")
+                .change(function() {
+                    console.log("进入area_parent_Province.onactivate事件");
+                    var selVal;
+                    var url;
+                    var $citys;
+
+                    switch ($(this).attr("id")) {
+                    case "select_Country":
+                        $citys = $(".area_parent_Province");
+                        break;
+                    case "select_Province":
+                        $citys = $(".area_parent_City");
+                        break;
+                    }
+                    console.log($citys);
+                    selVal = $(this).children('option:selected').val();
+                    $("input[id=ParentId]").attr("value", selVal); //
+                    console.log("父级id:" + $("input[id=ParentId]").val());
+                    //调用后台action 获取对应的数据  然后填充给子下拉
+                    console.log("selVal:" + selVal);
+                    AddOption($citys, selVal);
+                });
+
+            function AddOption($select, selVal) {
+                var options = [];
+                $.post("/Logistics_Areas/GetAreas",
+                    { ParaentId: selVal },
+                    function(data) {
+                        console.log(data);
+                        $select.empty(); //清空option
+                        $.each(data,
+                            function(index, value) {
+                                options.push("<option value='" + value.Id + "'>" + value.AreaName + "</option>");
+                            });
+                        $select.append(options.join(''));
+                    });
+            }
+        });
+    </script>
+}

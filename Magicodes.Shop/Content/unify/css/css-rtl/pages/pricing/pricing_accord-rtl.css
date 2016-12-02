@@ -1,0 +1,374 @@
+/*Pricing Page
+------------------------------------*/
+/*Pricing Head*/
+.pricing {
+    border-radius: 3px;
+    box-shadow: 0 0 5px #eee;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.pricing:hover { box-shadow: 0 0 15px #b5b5b5; }
+
+.pricing:hover h4 { color: #74C52C; }
+
+.pricing-head { text-align: center; }
+
+.pricing h3,
+.pricing h4 {
+    font-weight: bold !important;
+    line-height: normal;
+    margin: 0;
+}
+
+.pricing p {
+    font-size: 11px;
+    padding-top: 10px;
+}
+
+.pricing-head h3 span,
+.pricing-head h4 span {
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.pricing-head h3 {
+    background: #74C52C;
+    border-radius: 3px 0 0 3px;
+    color: #fafafa;
+    font-family: Arial;
+    font-size: 35px;
+    padding: 12px 0;
+    text-shadow: 0 1px 0 #32a20f;
+}
+
+.pricing-head h4 {
+    border-bottom: solid 1px #f5f9e7;
+    color: #888;
+    font-size: 70px;
+    padding: 5px 0;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.pricing-head h4 i {
+    font-size: 28px;
+    font-style: normal;
+    position: relative;
+    top: -8px;
+}
+
+.pricing-head h4 span {
+    font-size: 14px;
+    font-style: normal;
+    position: relative;
+    top: -10px;
+}
+
+/*Pricing Content*/
+
+.pricing-content { margin-bottom: 0px; }
+
+.pricing-content li {
+    border-bottom: solid 1px #f5f9e7;
+    color: #888;
+    font-size: 12px;
+    padding: 7px 15px;
+}
+
+.pricing-content li i {
+    color: #72c02c;
+    font-size: 16px;
+    margin-left: 5px;
+    position: relative;
+}
+
+/*Pricing Footer*/
+
+.pricing-footer {
+    border-radius: 0 3px 3px 0;
+    color: #777;
+    font-size: 11px;
+    line-height: 17px;
+    padding: 0 20px 19px;
+    text-align: center;
+}
+
+/*Pricing Active*/
+
+.price-active,
+.pricing:hover {
+    margin-top: -15px;
+    z-index: 9;
+}
+
+.price-active h4 { color: #74C52C; }
+
+/*Pricing Extra*/
+
+.bg-color { background-color: #f9f9f9; }
+
+.easy-bg-v2 {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    background: rgba(231, 76, 60, 1);
+    color: #fff;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: bold;
+    left: -49px;
+    letter-spacing: 2px;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    top: 13px;
+    transform: rotate(45deg);
+    width: 150px;
+}
+
+
+
+/*Pricing Table accord-inner Version 
+------------------------------------*/
+
+.pricing-accord-inner [class^="col-"],
+.pricing-accord-inner [class*=" col-"] { padding: 0px; }
+
+.pricing-accord .price-active,
+.pricing-accord .pricing-accord-inner .pricing:hover { margin-top: 0; }
+
+.pricing-accord-inner .pricing {
+    box-shadow: none;
+    overflow: hidden;
+}
+
+.pricing-accord-inner h3 {
+    background: url("../../img/breadcrumbs.png")
+                repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    color: #888;
+    font-weight: normal !important;
+    text-shadow: none;
+}
+
+.pricing-accord-inner .pricing .rating li {
+    border-bottom: none;
+    padding: 0;
+}
+
+.pricing-accord-inner .rating li i {
+    color: #888;
+    font-size: 20px;
+    margin: 7px 0;
+    padding-top: 0;
+}
+
+.pricing-accord-inner li {
+    color: #888;
+    text-align: center;
+}
+
+.pricing-accord-inner .pricing-footer {
+    margin: 0px;
+    padding: 2px 0px 19px;
+}
+
+.pricing-accord .tab-pane h4 {
+    color: #888;
+    font-size: 30px;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.pricing-accord-inner .pricing-footer h4 {
+    background: url("../../img/breadcrumbs.png")
+                repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    color: #888;
+    font-size: 60px;
+    font-weight: normal !important;
+    margin: -2px 0 0px;
+    padding: 5px;
+    text-shadow: none;
+}
+
+.pricing-accord-inner .pricing-footer h4 i {
+    font-size: 28px;
+    font-style: normal;
+    top: -8px;
+}
+
+.pricing-accord-inner .pricing-footer h4 span {
+    display: block;
+    font-size: 14px;
+    font-style: normal;
+    margin-bottom: 5px;
+    top: -5px;
+}
+
+.pricing-accord-inner .pricing-footer p {
+    color: #888;
+    line-height: 17px;
+    padding: 15px 20px 5px;
+}
+
+.pricing-accord-inner .pricing:hover h4,
+.pricing-accord-inner .pricing:hover h3,
+.pricing-accord-inner .pricing:hover p,
+.pricing-accord-inner .pricing:hover li,
+.pricing-accord-inner .pricing:hover li i { color: #717984; }
+
+.pricing-accord-inner .pricing-footer .btn-u,
+.shadow-wrapper .btn-u {
+    background: #fff;
+    border: 1px solid #888;
+    padding: 7px 59px;
+}
+
+.pricing-accord-inner .pricing-footer .btn-u:hover,
+.shadow-wrapper .btn-u:hover {
+    background-color: #74C52C !important;
+    border-color: #eee !important;
+}
+
+.pricing-accord-inner .pricing-footer .btn-u:hover h4 { color: red; }
+
+
+.pricing-accord .tab-content {
+    border: 1px solid #EEEEEE;
+    padding: 10px 15px;
+}
+
+.pricing-accord .nav {
+    display: table;
+    float: none;
+    margin: 0 auto;
+    table-layout: auto;
+}
+
+.pricing-accord .nav-tabs > li {
+    margin-bottom: -2px;
+    text-align: center !important;
+}
+
+.pricing-accord .nav-tabs li a {
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee;
+    margin: 0 30px 0 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 130px;
+}
+
+.pricing-accord .nav-tabs li.active a {
+    margin: 0 30px 0 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 130px;
+}
+
+.pricing-accord .test {
+    margin: auto !important;
+    text-align: center !important;
+}
+
+.pricing-accord .btn-group .btn {
+    border: 1px solid #eee;
+    border-radius: 30px !important;
+    color: #888;
+    margin: 15px 2px 0;
+}
+
+.pricing-accord .btn-group {
+    margin: auto !important;
+    text-align: center !important !;
+}
+
+.testimonials { margin-top: 30px; }
+
+.progress-bar { background: #888; }
+
+h2 { padding: 30px 25px 0 0; }
+
+.shadow-wrapper .btn-u { margin: 20px 0 10px 0; }
+
+.content-2 h4 { margin: 20px 60px 5px 0; }
+
+.content-2 p { padding-left: 50px; }
+
+/* Devices (tablets, 768px and more) */
+
+@media (min-width: 767px) {
+    /*Pricing Page*/
+    .no-space-pricing [class^="col-"],
+    .no-space-pricing [class*=" col-"] { padding: 0; }
+
+    .pricing-mega [class^="col-"],
+    .pricing-mega [class*=" col-"] { padding: 0px; }
+
+    .pricing-mega-2 [class^="col-"],
+    .pricing-mega-2 [class*=" col-"] { padding: 0px; }
+
+    .pricing-mega-3 [class^="col-"],
+    .pricing-mega-3 [class*=" col-"] { padding: 1px; }
+
+    .pricing-mega-3 [class^="col-"],
+    .pricing-mega-3 [class*=" col-"] { padding: 0px; }
+
+    .pricing-light [class^="col-"],
+    .pricing-light [class*=" col-"] { padding: 10px; }
+
+    /*End Pricing Page*/
+}
+
+
+
+
+/* Medium Devices (Desktops, 992px and less) */
+
+@media (max-width: 992px) {
+    /*Pricing Page*/
+    .price-active,
+    .pricing:hover { margin-top: 0; }
+
+    .no-space-pricing .price-active .pricing-head h4,
+    .no-space-pricing .pricing:hover .pricing-head h4 {
+        font-size: 70px;
+        padding: 5px 0;
+    }
+
+    .pricing-mega-3 .pricing h4,
+    .pricing-mega-3 .pricing h3,
+    .pricing-mega-3 .pricing-content { border-right: 1px solid #eee; }
+
+    .pricing-mega-3 [class^="col-"],
+    .pricing-mega-3 [class*=" col-"] { padding: 10px; }
+
+    .pricing-mega-3 .block h5 {
+        text-align: center;
+        visibility: visible;
+    }
+
+    .pricing-accord .tab-content { border-radius: 0 !important; }
+
+    .pricing-accord .nav-tabs li a {
+        margin: 0 3px 0 3px;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 80px;
+    }
+
+    .pricing-accord .nav-tabs li.active a {
+        margin: 0 6px 0 0;
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 80px;
+        /*End Pricing Page*/
+    }
+

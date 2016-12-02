@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordContentTypeBase">
+    <Position X="4.75" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAASAAgAAAAAAAAQEAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordAutoReply">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAASAAgQAAAAABAQEEAAEAEAAgAAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordTextContent">
+    <Position X="1" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordImageContent">
+    <Position X="4" Y="7" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordMusicContent">
+    <Position X="8.25" Y="3.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAEAgAEAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordVoiceContent">
+    <Position X="1" Y="3.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordVideoContent">
+    <Position X="1" Y="6.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordNewsContent">
+    <Position X="9.25" Y="7.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Magicodes.WeiChat.Data.Models.WeiChat.KeyWordMatchTypes">
+    <Position X="10.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Magicodes.WeiChat.Data.Models.WeiChat.KeyWordContentTypes">
+    <Position X="6.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAACAAAAAAAAAAAAAAAAAABAAAAAACAAAAAg=</HashCode>
+      <FileName>Models\WeiChat\KeyWords.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

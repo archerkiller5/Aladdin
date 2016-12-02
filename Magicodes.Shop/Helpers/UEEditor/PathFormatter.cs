@@ -1,0 +1,58 @@
+﻿// ======================================================================
+//  
+//          Copyright (C) 2016-2020 湖南心莱信息科技有限公司    
+//          All rights reserved
+//  
+//          filename : PathFormatter.cs
+//          description :
+//  
+//          created by 李文强 at  2016/09/26 17:15
+//          Blog：http://www.cnblogs.com/codelove/
+//          GitHub ： https://github.com/xin-lai
+//          Home：http://xin-lai.com
+//  
+// ======================================================================
+
+using System;
+using System.IO;
+using System.Text.RegularExpressions;
+
+namespace Magicodes.Shop.Helpers.UEEditor
+{
+    public static class PathFormatter
+    {
+        public static string Format(string originFileName, string pathFormat)
+        {
+            if (string.IsNullOrWhiteSpace(pathFormat))
+                pathFormat = "{filename}{rand:6}";
+
+            var invalidPattern = new Regex(@"[\\\/\:\*\?\042\<\>\|]");
+            originFileName = invalidPattern.Replace(originFileName, "");
+
+            var extension = Path.GetExtension(originFileName);
+            var filename = Path.GetFileNameWithoutExtension(originFileName);
+
+            pathFormat = pathFormat.Replace("{filename}", filename);
+            pathFormat = new Regex(@"\{rand(\:?)(\d+)\}", RegexOptions.Compiled).Replace(pathFormat,
+                delegate(Match match)
+                {
+                    var digit = 6;
+                    if (match.Groups.Count > 2)
+                        digit = Convert.ToInt32(match.Groups[2].Value);
+                    var rand = new Random();
+                    return rand.Next((int) Math.Pow(10, digit), (int) Math.Pow(10, digit + 1)).ToString();
+                });
+
+            pathFormat = pathFormat.Replace("{time}", DateTime.Now.Ticks.ToString());
+            pathFormat = pathFormat.Replace("{yyyy}", DateTime.Now.Year.ToString());
+            pathFormat = pathFormat.Replace("{yy}", (DateTime.Now.Year%100).ToString("D2"));
+            pathFormat = pathFormat.Replace("{mm}", DateTime.Now.Month.ToString("D2"));
+            pathFormat = pathFormat.Replace("{dd}", DateTime.Now.Day.ToString("D2"));
+            pathFormat = pathFormat.Replace("{hh}", DateTime.Now.Hour.ToString("D2"));
+            pathFormat = pathFormat.Replace("{ii}", DateTime.Now.Minute.ToString("D2"));
+            pathFormat = pathFormat.Replace("{ss}", DateTime.Now.Second.ToString("D2"));
+
+            return pathFormat + extension;
+        }
+    }
+}

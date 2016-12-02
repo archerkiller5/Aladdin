@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    @*加载自定义样式*@
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", false)
+    }@*加载主体样式*@@Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/plugins/toastrStyles")
+    @Styles.Render("~/plugins/sweetalertStyles")
+</head>
+<body>
+<!-- Wrapper-->
+<div id="wrapper">
+    <!-- Page wraper -->
+    <div id="page-wrapper" style="margin: 0 0 0 0;" class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom: 0;" id="mainBody">
+            <!-- Main view -->
+            @RenderBody()
+        </div>
+    </div>
+    <!-- End page wrapper-->
+</div>
+<!-- End wrapper-->
+@*加载主要脚本*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/plugins/slimScroll")
+@Scripts.Render("~/bundles/inspinia")
+@Scripts.Render("~/plugins/toastr")
+@Scripts.Render("~/bundles/jquery.blockUI")
+@Scripts.Render("~/plugins/sweetalert")
+@Scripts.Render("~/plugins/spin")
+@Scripts.Render("~/bundles/knockout")
+<script src="~/Scripts/plugins/layer/layer.js"></script>
+@*Magicodes.WeiChat JS框架*@
+@Scripts.Render("~/bundles/nwc")
+@*加载自定义脚本*@
+@RenderSection("scripts", false)
+</body>
+</html>

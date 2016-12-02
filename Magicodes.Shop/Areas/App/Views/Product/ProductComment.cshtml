@@ -1,0 +1,249 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "评价";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/raty/css/raty.css" rel="stylesheet" />
+
+<div class="aui-content" data-bind="with:Order">
+    <div class="aui-col-xs-12 product_detail">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    订单商品
+                </div>
+            </li>
+            <!-- ko template:{name:'tplGoods',foreach:Details} -->
+            <!-- /ko -->
+        </ul>
+
+        <!-- ko if: val.StateName=="已发货" -->
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    物流信息
+                    <div class="aui-pull-right aui-btn" data-bind="click:$root.showExpressDetail" style="margin: 0px; padding: 2px; text-align: right">获取物流详情</div><br />
+                </div>
+            </li>
+        </ul>
+        <ul class="aui-list-view" data-bind="with:$parent.Express">
+            <!-- ko if: resultcode=="200" -->
+            <li>
+                <strong style="font-size: 12px; padding-left: 10px;" data-bind="text:'快递公司：'+ result.company"></strong><br />
+                <strong style="font-size: 12px; padding-bottom: 8px; padding-left: 10px;" data-bind="text:'快递单号：'+ result.no"></strong> <br />
+                <ul class="aui-list-view" data-bind="foreach:result.list">
+                    <li class="aui-list-view-cell" style="content: none;">
+                        <div class="aui-swipe-handle">
+                            <div class="aui-text-default" style="margin-top: -8px;">
+                                <strong style="font-size: 12px" data-bind="text:'    时间：'+ datetime"></strong><br />
+                                <strong style="font-size: 12px" data-bind="text:'    状态：'+ remark"></strong><br />
+                                <strong style="font-size: 12px" data-bind="text:'所在区域：'+ zone"></strong><br />
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!--/ko-->
+        </ul>
+        <!-- /ko -->
+    </div>
+
+</div>
+<p style="line-height: 55px;"> &nbsp; </p>
+
+<script type="text/html" id="tplGoods">
+    <li class="aui-list-view-cell aui-img">
+        <div class="aui-swipe-handle">
+            <img class="aui-img-object aui-pull-left" data-bind="attr:{src:ProductImage}">
+            <div class="aui-img-body">
+                <span data-bind="text: ProductName"></span>
+                <p data-bind="text:'数量 x '+ Quantity"></p>
+                @*<p class='aui-ellipsis-1 aui-pull-right'  style="color:red" data-bind="text:'单价 ¥ '+ Price.toFixed(2)"></p>*@
+                <p data-bind="text:'小计 ¥ '+ (Price*Quantity).toFixed(2)"></p>
+                @*<div class="aui-btn aui-btn-danger aui-btn-block comment_btn">填写评价</div>*@
+                <input class="ProductID" data-bind="text:ProductID" style="display:none">
+                <!-- ko if:CommentId!="" && CommentId!=null   -->               
+                <button name="comment_set" class="aui-iconfont aui-icon-mark comment_set"  
+                      data-bind="click:$root.getProductComment"   style="float:right;font-size:14px; font-weight:bold; padding-right:5px;">
+                    查看评价↓ 
+                </button>
+                <!--/ko-->
+                <!-- ko if:CommentId=="" || CommentId==null -->               
+                <button name="comment_set" class="aui-iconfont aui-icon-mark comment_set"
+                  data-bind="click:$root.setComment" style="float:right;font-size:14px; font-weight:bold; padding-right:5px;">
+                    填写评价
+                </button>
+                <!--/ko-->
+
+                <div name="comment_div" class="aui-timeline-item comment_div" style="display:none">
+                     <div class="comment_score" data-score="0" val="0">
+                    </div>                    
+                    <div class="aui-timeline-body">
+                        <textarea class="form-control comment_text" rows="3" placeholder="这次买的商品满意吗?写点心得给其他顾客参考吧。"></textarea>
+                    </div>
+                    <div class="aui-timeline-footer">
+                        <div class="aui-pull-right">
+                            <input class="aui-checkbox IsAnonymous" type="checkbox"  checked><div class="aui-radio-name">匿名发表</div>
+                        </div>
+                        <a class="aui-iconfont aui-icon-mark Comit_comment"  data-bind="click:$root.commitComment">发表评价</a>
+                    </div>
+                </div>
+                <!--已评价信息-->
+                <div class="aui-timeline-item" style="display:none">
+                    <div class="comment_score" data-score="0"></div>
+                    <div class="aui-timeline-body">
+                        <textarea class="form-control comment_text" rows="3" readonly="readonly"></textarea>
+                    </div>
+                </div>
+              
+
+            </div>
+        </div>
+    </li>
+</script>
+
+
+@section scripts{
+    <script src="~/Scripts/plugins/raty/jquery.min.js"></script>
+    <script src="~/Scripts/plugins/raty/jquery.raty.js"></script>
+
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.Order = ko.observable();
+            var _orderid = '@(ViewBag.OrderId)';
+            this.Express = ko.observable(); //快递对象
+            this.reload = function () {
+                //获取订单信息
+                wc.restApi.get({
+                    url: '/api/MyOrder/Detail?id=' + _orderid,
+                    success: function (data) {
+                        self.Order(ko.toJS(data));
+                    }
+                });
+            };
+
+            //获取订单的物流信息,并显示在前台 Add by zp 2016-07-22
+            this.showExpressDetail = function () {
+                console.warn("进入获取订单物流信息前台函数");
+                var arr = [_orderid];
+                console.warn(_orderid);
+                wc.restApi.post({
+                    url: '/api/Order/GetExpress',
+                    data: JSON.stringify(arr),
+                    success: function (data) {
+                        /*得到物流数据后需要在前台show出来*/
+                        var _json = JSON.parse(data);
+                        if (_json.resultcode != "200")
+                            wc.message.success("" + _json.reason + "", "温馨提示");
+                        console.warn("data:" + data);
+                        self.Express(_json);
+                        console.warn("Express：" + self.Express);
+                    }
+                });
+            };
+            self.reload();
+            //填写评价
+            this.setComment = function (data, event) {
+                var $raybtn = $(event.target || event.srcElement);//$(event.target);
+                var $comment_div = $raybtn.next('div').eq(0);
+
+                if ($comment_div.css("display") == "none") {
+                    $comment_div.attr("style", "display:block");
+                    $raydiv = $comment_div.children(".comment_score"); //$($comment_div > '.comment_score');
+                    console.log($raydiv);
+                    $raydiv.raty({
+                        half: false,
+                        size: 24,
+                        score: function (score) {
+                            $(this).attr('val', score);
+                        }
+                    });
+                } else {
+                    $comment_div.attr("style", "display:none");
+                }
+            }
+
+            this.commitComment = function(data,event) {
+                //获取当前评价的div容器
+                var $btn = $(event.target || event.srcElement);//$(event.target);
+                var $comment_div = $btn.parent('div').parent('.comment_div')
+                var $comment_score = $comment_div.children(".comment_score").find("input[name = 'score']");    
+                var $comment_text = $comment_div.find(".comment_text");
+                //是否为匿名
+                var $comment_Anonymous = $comment_div.find(".IsAnonymous");            
+                var $ProductID = $comment_div.prevAll(".ProductID");//$comment_div.children(".ProductID");
+                var $btn_set = $comment_div.prevAll("button[name='comment_set']");
+                if ($comment_text.val() == "") {
+                    wc.notify.warn("商品评价不能为空哦!");
+                    return;
+                }
+                //调用api保存商品评价
+                var data = {
+                    CommentContent: $comment_text.val(),
+                    CommentLevel: $comment_score.val(),
+                    IsAnonymous: $comment_Anonymous.is(':checked'),
+                    OrderID: '@(ViewBag.OrderId)',
+                    ProductId: $ProductID.text()
+                };
+
+                wc.restApi.post({
+                    isBlockUI: false,
+                    url: '/api/Product/SaveProductComment',
+                    data: ko.toJSON(data),
+                    success: function (result) {
+                        wc.notify.info("评价成功!");
+                        //返回我的订单页面
+                        $comment_div.attr("style", "display:none");
+                        self.reload();
+                        @*window.location.href = '@Url.TenantAction("MyOrder", "Personal")';*@
+                    }
+                });
+            }
+            //获取评论
+            this.getProductComment = function (data, event) {
+                var $btn_set = $(event.target || event.srcElement);
+                var $comment_div = $btn_set.nextAll('div').eq(1);
+                var $comment_score = $comment_div.children(".comment_score");
+                if ($comment_div.css("display") == "none") {
+                    var data = {
+                        OrderID: '@(ViewBag.OrderId)',
+                        ProductId: $btn_set.prevAll(".ProductID").text()
+                    };
+                    //调用接口获取评论
+                    wc.restApi.post({
+                        isBlockUI: false,
+                        url: '/api/Product/GetProductComment',
+                        data: ko.toJSON(data),
+                        success: function (result) {
+                            //返回我的订单页面
+                            $comment_div.attr("style", "display:block");
+                            $btn_set.html('查看评价↑');
+                            $comment_score.raty({
+                                score:result.CommentLevel,
+                                half: false,
+                                readOnly: true,
+                                size: 24
+                            });
+                            $comment_score.next("div").find(".comment_text").val(result.CommentContent);
+                        }
+                    });
+                }
+                else {
+                    $btn_set.html('查看评价↓');
+                    $comment_div.attr("style", "display:none");
+                }
+            }
+        }
+
+
+    
+
+        $(function () {
+            $.fn.raty.defaults.path = '/Scripts/plugins/raty/img';
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+
+    </script>
+}

@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "订单管理";
+}
+
+<link href="~/Content/admin/Order/order.css" rel="stylesheet" type="text/css"/>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <!-- 搜索条件 -->
+                    <div class="row">
+
+                        <div class="header_search">
+                            <div class="search_item">
+                                <div class="item_col">
+                                    <span>订单编号：</span><input id="txt_order_no" type="text"/>
+                                </div>
+                                <div class="item_col">
+                                    <span>快递单号：</span><input id="txt_shipping_code" type="text"/>
+                                </div>
+                                <div class="item_col">
+                                    <span>配送方式：</span>
+                                    <select id="freighType" class="W">
+                                        <option value="-1">--请选择--</option>
+                                        <option value="1">买家承担</option>
+                                        <option value="2">卖家承担</option>
+                                    </select>
+                                </div>
+                                @*<div class="item_col">
+                                    <span>下单时间：</span>
+                                    <input id="txt_start_dete" data-type="date" placeholder="开始时间" />
+                                    <input id="txt_end_dete" data-type="date" placeholder="结束时间" />
+                                </div>*@
+                            </div>
+                            <div class="search_item">
+                                <div class="item_col">
+                                    <span>收货人姓名：</span><input id="txt_consignee" type="text"/>
+                                </div>
+                                <div class="item_col">
+                                    <span>收货人手机：</span><input id="txt_mobile" type="text"/>
+                                </div>
+                                <div class="item_col">
+                                    <span>支付方式：</span>
+                                    <select id="payType" class="W">
+                                        <option value="-1">--请选择--</option>
+                                        <option value="1">微信</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="search_item">
+                                <a class="btn btn-warning btn-sm" id="btn_search"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            </div>
+                        </div>
+                        <!-- 状态搜索条件 -->
+                        <div class="header_state">
+                            <ul id="header_state_search">
+                                <li data-state="0" class="active">全部订单<span>(@ViewBag.OrderCount)</span></li>
+                                <li data-state="1">待付款<span>(@ViewBag.ObligationCount)</span></li>
+                                <li data-state="2">待发货<span>(@ViewBag.OverhangCount)</span></li>
+                                <li data-state="3">待收货<span>(@ViewBag.WaitReceivingCount)</span></li>
+                                <li data-state="4">交易完成<span>(@ViewBag.SuccessCount)</span></li>
+                                <li data-state="5">已关闭<span>(@ViewBag.ClosedCount)</span></li>
+                                <li data-state="6">未付款删除<span>(@ViewBag.UnpaidDeleteCount)</span></li>
+                                <li data-state="7">已付款删除<span>(@ViewBag.PaidDeleteCount)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- 订单明细列表 -->
+                    <div class="row order_list">
+                        <header class="table_header">
+                            <ul>
+                                <li>
+                                    <label class="chk_order">
+                                        <input type="checkbox"/>
+                                    </label>
+                                </li>
+                                <li>商品</li>
+                                <li>收货人</li>
+                                <li>订单金额</li>
+                                <li>买家留言</li>
+                                <li>操作</li>
+                            </ul>
+                        </header>
+                        <article id="list_panel" class="table_row"></article>
+                    </div>
+                    <!-- 分页 -->
+                    <div id="fy_list" class="row">
+                        <div class="col-lg-12 animated fadeInLeft">
+                            <ul class="pagination" id="bootstrappager">
+                                <li class="disabled">
+                                    <a>首页</a>
+                                </li>
+                                <li class="disabled">
+                                    <a>
+                                        <i class="fa fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li>
+                                    <a href="#">2</a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a>尾页</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    @*日期控件脚本*@
+    @Scripts.Render("~/plugins/dataPicker")
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/plugins/arealib/area.lib.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/plugins/twbsPagination/jquery.twbsPagination.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/plugins/layer/layer.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/admin/Order/index.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            mwc.bs.initFormControls();
+            mwc.bs.init();
+            window.Index.init();
+        });
+
+        function OpOrder(id, type) {
+            mwc.message.confirm(type == "D" ? "确定要删除么？" : "确定要关闭么？",
+                '温馨提示',
+                function(flag) {
+                    if (flag == true) {
+                        $.post("@Url.Action("OpOrder")",
+                            { ID: id, Type: type },
+                            function(msg) {
+                                if (msg.MessageType > 1) {
+                                    mwc.message.error('警告', msg.Message);
+                                } else {
+                                    mwc.message.success('温馨提示', msg.Message);
+                                    setTimeout(function() {
+                                            location.reload();
+                                        },
+                                        1000);
+                                }
+                            });
+                    }
+                });
+        }
+
+        function RemakSave(id) {
+            mwc.message.prompt("请输入备注",
+                "",
+                "添加备注",
+                function(inputValue) {
+                    $.ajax({
+                        url: "@Url.Action("RemakSave")",
+                        data: { ID: id, remark: inputValue },
+                        type: "POST",
+                        dataType: "json",
+                        success: function(json, statusText) {
+                            mwc.message.success('温馨提示', json.Message);
+                        }
+                    });
+                });
+        }
+
+        function SendGoods(id) {
+            var url = '/Order_Info/SendGoods?id=' + id;
+            var title = "发货";
+            mwc.window.show(title, url);
+        }
+
+        function choice() {
+            window.location.reload();
+        }
+    </script>
+}

@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "永久素材上传";
+    ViewBag.UseJSSDK = true;
+}
+
+
+@using (Html.BeginForm())
+{
+    <div class="aui-content">
+
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell">
+                @*<div class="aui-input-row">
+                        <label class="aui-input-addon">评&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分：</label>
+                        <div class="aui-pull-center">
+                            <input class="aui-radio" type="radio" name="demo1" checked><div class="aui-radio-name">是</div>
+                            <input class="aui-radio" type="radio" name="demo1"><div class="aui-radio-name">否</div>
+                        </div>
+                    </div>*@
+                <div id="divPacket">
+
+                </div>
+                <div class="aui-input-row" style="width: 100%;">
+                    <div class="aui-pull-left" style="width: 100%;">
+                        <div class="aui-btn aui-btn-info" id="btnChoiceImage" style="width: 100%;">
+                            <span class="aui-iconfont aui-icon-file"></span>上传图片
+                        </div>
+                        <p class="aui-text-right" style="float: right; font-size: 12px;">
+                            <br>单击图片进行删除
+                        </p>
+                    </div>
+                </div>
+                <div class="aui-input-row" style="width: 100%;">
+                    <div class="aui-content-padded">
+                        <div class="aui-tab">
+                            <ul class="aui-list-view aui-grid-view" id="ulImg"></ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </li>
+
+        </ul>
+        <div class="aui-input-row" style="text-align: center; width: 100%;">
+            <div class="aui-btn aui-btn-success" id="btnSubmit" style="width: 40%;">上传</div>&nbsp;&nbsp;
+            <div class="aui-btn aui-btn-warning" onclick="javascript: location.href = '/App/Photos/PhotosIndex?tenantId=@ViewBag.TenantId';" style="width: 40%;">返回</div>
+        </div>
+        <input type="hidden" name="imgsIds" id="imgsIds"/>
+        <input type="hidden" name="resourceTypeId" id="resourceTypeId"/>
+        <input type="hidden" name="content" id="content"/>
+        <input type="hidden" name="flag" id="flag"/>
+        <input type="submit" name="btnOK" id="btnOK" style="display: none;"/>
+    </div>
+}
+@*<form name="form1" action="/App/Work/CustomerReviews"></form>*@
+@section Scripts {
+    <script type="text/javascript">
+        var resourceTypeId = "@ViewBag.ResourceTypeId";
+        $(function() {
+            $('#resourceTypeId').val(resourceTypeId);
+            //选择图片
+            $('#btnChoiceImage')
+                .on('click',
+                    function() {
+                        ChooseImgs();
+                    });
+            //提交
+            $("#btnSubmit")
+                .click(function() {
+                    Save();
+                });
+            ChooseImgs();
+        });
+
+        function ChooseImgs() {
+            wc.weiChat.image.choose({
+                success: function() {
+
+                    var imgs = wc.weiChat.uploader.imgs;
+                    if (imgs.length > 8) {
+                        var newImgs = [];
+                        for (var i = 0; i < imgs.length; i++) {
+                            if (i < 8) {
+                                newImgs[i] = imgs[i];
+                            }
+                        }
+                        wc.message.info("上传的图片不能超过8张，第8张以后的图片已被截断", "温馨提示");
+                        wc.weiChat.uploader.imgs = newImgs;
+                    }
+                    LoadImgList();
+                }
+            });
+        }
+
+        //保存
+        function Save() {
+            if (wc.weiChat.uploader.imgs.length > 0) {
+                wc.weiChat.uploader.uploads({
+                        allSuccess: function() {
+                            //上传成功
+                            console.log("上传成功");
+                            FormatData();
+                        }
+                    },
+                    wc.weiChat.uploader.imgs,
+                    'img');
+
+            }
+        }
+
+        //重新加载图片列表
+        function LoadImgList() {
+            var $content = $('#ulImg').empty();
+            var imgsHtml = "";
+            //添加图片
+            var imgs = wc.weiChat.uploader.imgs;
+            if (imgs.length > 0) {
+                for (var i = 0; i < imgs.length; i++) {
+                    if (i >= 8) {
+                        wc.message.info("上传的图片不能超过8张，第8张以后的图片已被截断", "温馨提示");
+                        return;
+                    }
+                    if (imgs[i] != undefined) {
+                        imgsHtml =
+                            '<li class="aui-list-view-cell aui-img aui-col-xs-3" onclick="RemoveImg(this)" src="' +
+                            imgs[i] +
+                            '"><img class="aui-img-object" src="' +
+                            imgs[i] +
+                            '"></li>';
+                        $content.append(imgsHtml);
+                    }
+                }
+            }
+        }
+
+        //移除图片
+        function RemoveImg(dom) {
+            wc.message.confirm("是否确认删除此图片？",
+                "温馨提示",
+                function() {
+                    var $img = $(dom);
+                    var imgs = wc.weiChat.uploader.imgs;
+                    if (imgs.length > 0) {
+                        var newImgs = [];
+                        var x = 0;
+                        for (var i = 0; i < imgs.length; i++) {
+                            if ($img.attr("src") != imgs[i]) {
+                                newImgs[x] = imgs[i];
+                                x = x + 1;
+                            } else {
+                                $img.remove();
+                            }
+                        }
+                        wc.weiChat.uploader.imgs = newImgs;
+                        LoadImgList();
+                    }
+                });
+        }
+
+        //提交
+        function FormatData() {
+            //处理图片
+            if (wc.weiChat.uploader.serverIds.imgs.length > 0) {
+                var str = '';
+                for (var i = 0; i < wc.weiChat.uploader.serverIds.imgs.length; i++) {
+                    str += wc.weiChat.uploader.serverIds.imgs[i] + ",";
+                }
+                $('#imgsIds').val(str);
+            }
+            //处理其他数据
+            var det = $("#divPacket").children("div");
+            var obj = [];
+            for (var i = 0; i < det.length; i++) {
+                var d = det.eq(i);
+                var typeId = d.attr("TypeID");
+                if (typeId == "1") {
+                    var ContentPacketID = d.attr("ContentPacketID");
+                    var ContentPacketItemNo = d.attr("ContentPacketItemNo");
+                    var ContentItemID = d.attr("ContentItemID");
+                    var ControlName = d.attr("ControlName");
+                    var cbVal = $('input[name="' + ControlName + '"]:checked').val();
+                    obj.push({
+                        ContentPacketID: ContentPacketID,
+                        ContentPacketItemNo: ContentPacketItemNo,
+                        ContentItemID: ContentItemID,
+                        Value: cbVal
+                    });
+                } else if (typeId == "2") {
+                    var ContentPacketID = d.attr("ContentPacketID");
+                    var ContentPacketItemNo = d.attr("ContentPacketItemNo");
+                    var ContentItemID = d.attr("ContentItemID");
+                    var ControlName = d.attr("ControlName");
+                    var cbControls = $('input[name="ContentItemDet2"]:checked');
+                    for (var c = 0; c < cbControls.length; c++) {
+                        var cbVal = cbControls.eq(c).val();
+                        obj.push({
+                            ContentPacketID: ContentPacketID,
+                            ContentPacketItemNo: ContentPacketItemNo,
+                            ContentItemID: ContentItemID,
+                            Value: cbVal
+                        });
+                    }
+                }
+            }
+            $("#content").val(JSON.stringify(obj));
+            $("#flag").val("1");
+            wc.ui.setBusy();
+            $('form').attr('enctype', 'multipart/form-data'); //.submit();
+            $('#btnOK').trigger("click");
+        }
+    </script>
+
+
+}

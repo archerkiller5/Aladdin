@@ -1,0 +1,386 @@
+﻿@using Magicodes.Shop.Helpers
+@model Magicodes.WeiChat.Domain.Product.ProductAllInfo
+@{
+    ViewBag.Title = "商品详情页";
+    //Layout = "~/Areas/App/Views/Shared/_MallLayout.cshtml";
+}
+@Styles.Render("~/Content/weui/slides/styles")
+@Scripts.Render("~/Content/weui/slides/scripts")
+@section styles
+{
+    <style type="text/css">
+        .aui-nav .aui-bar-tab { background: #34495e; }
+
+        .aui-nav .aui-bar-tab li .aui-iconfont, .aui-nav .aui-bar-tab li p { color: #fff; }
+
+        .aui-nav .aui-bar-tab li.active .aui-iconfont, .aui-nav .aui-bar-tab li.active p { color: #14bd7c; }
+
+        .aui-nav {
+            background: #f90;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .aui-nav div { height: 55px; }
+
+        .aui-nav .buy { line-height: 55px; }
+
+        .aui-nav p { color: #fff; }
+
+        .aui-nav .aui-iconfont {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .blue { background: #eee; }
+
+        .blue .aui-iconfont, .blue p { color: #999; }
+
+        .service { background: #eec363; }
+
+        .aui-content, .aui-content-padded { background: #fff; }
+
+        .thumb {
+            margin-bottom: 0;
+            max-height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .thumb > img { width: 100%; }
+
+        .price-info {
+            background: #f90;
+            bottom: 0;
+            height: 55px;
+            left: 0;
+            position: absolute;
+            width: 100%;
+        }
+
+        .price {
+            color: #fff;
+            font-size: 1pc;
+            line-height: 55px;
+            margin-left: 15px;
+        }
+
+        .price strong {
+            font-size: 26px;
+            font-weight: 400;
+            margin: 0 5px;
+        }
+
+        .price-info .aui-pull-right {
+            background: #fc0;
+            height: 55px;
+            padding-top: 10px;
+            text-align: center;
+            width: 35%;
+        }
+
+        .price-info .aui-pull-right p {
+            color: #f60;
+            font-size: 9pt;
+            margin-bottom: 0;
+        }
+
+        .goods-basic-info {
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .goods-title {
+            font-family: \5FAE\8F6F\96C5\9ED1, "SimHei";
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .goods-price {
+            color: #f34fa1;
+            font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif;
+            font-size: 24px;
+        }
+
+        .aui-tab-nav li.active {
+            border-bottom: 2px #f90 solid;
+            color: #f90;
+        }
+
+        .info {
+            margin-bottom: 0;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .info img { width: 100%; }
+
+        .info p { color: #666; }
+
+        .goods-Intro {
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            color: #999;
+            display: -webkit-box;
+            font-size: 12px;
+            line-height: 22px;
+            margin: 6px 0;
+            overflow: hidden;
+            text-indent: 2em;
+        }
+
+        .yListr {
+            font-family: "微软雅黑";
+            padding: 20px 5px;
+            width: 99%;
+        }
+
+        .yListr ul { padding-bottom: 5px; }
+
+        .yListr ul li { height: 36px; }
+
+        /*.yListr ul li span {
+                color: #000000;
+                font-size: 14px;
+                line-height: 36px;
+                display: inline-block;
+                width: 42px;
+                padding-left: 4px;
+            }*/
+
+        .yListr ul li em {
+            border: 1px solid #dcdcdc;
+            color: #666666;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 12px;
+            font-style: normal;
+            height: 34px;
+            line-height: 34px;
+            margin-left: 10px;
+            padding: 0 10px;
+        }
+
+        .yListr ul li em.yListrclickem {
+            border: 2px solid #e9630a;
+            height: 32px;
+            line-height: 32px;
+            padding: 0 9px;
+            position: relative;
+        }
+
+        .yListr ul li em.yListrclickem i {
+            background: url(/Images/App/Product/righbt.png) no-repeat 0 0;
+            bottom: -1px;
+            display: block;
+            height: 14px;
+            position: absolute;
+            right: -1px;
+            width: 15px;
+        }
+
+        .yListr .colorp00 {
+            color: #333333;
+            font-size: 18px;
+            line-height: 50px;
+        }
+
+        .yListr .colorp00 span {
+            color: #ed610c;
+            font-size: 14px;
+            padding-left: 20px;
+        }
+
+        .yListr .colorp00 em { font-style: normal; }
+
+        .yListr form input, .yListr form select {
+            border: 1px solid #dcdcdc;
+            color: #333333;
+            font-size: 14px;
+            height: 34px;
+            outline: none;
+            padding-left: 8px;
+            width: 86px;
+        }
+
+        .yListr form select { height: 36px; }
+
+        .yListr form .YImmediatelyininstallment {
+            background: #e9630a;
+            border-radius: 3px;
+            color: #ffffff;
+            display: block;
+            font-size: 24px;
+            height: 50px;
+            line-height: 50px;
+            margin-top: 42px;
+            text-align: center;
+            width: 332px;
+        }
+    </style>
+}
+<div id="aui-slide">
+    <div class="aui-slide-wrap">
+        @foreach (var images in Model.Photos)
+        {
+            <div class="aui-slide-node bg-dark">
+                <img src="@images.Url"/>
+            </div>
+        }
+    </div>
+    <div class="aui-slide-page-wrap"><!--分页容器--></div>
+</div>
+<section class="aui-content goods-basic-info">
+    <div class="goods-title">@Model.ProductInfo.Name</div>
+    <div class="aui-text-danger goods-price" id="goodsPrice">¥ @Model.ProductInfo.Price 元</div>
+    <div class="goods-Intro" id="attrs">@Model.ProductInfo.Intro</div>
+    <input type="hidden" id="attributeId" value=""/>
+</section>
+<section class="aui-tab">
+    <ul class="aui-tab-nav">
+        <li class="active">商品属性</li>
+    </ul>
+</section>
+<section class="aui-content">
+    <div class="yListr">
+        <ul>
+            <li>
+                @foreach (var attr in Model.Attributes)
+                {
+                    <em attrPrice="@attr.AttributePrice" attrId="@attr.AttributeId">
+                        @attr.AttributeName<i></i>                      
+                    </em>
+                }
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="aui-tab">
+    <ul class="aui-tab-nav" id="demo1">
+        <li class="active">商品详情</li>
+    </ul>
+</section>
+
+<section class="aui-content info">
+    <p>@Html.Raw(Model.ProductInfo.Des)</p>   
+</section>
+
+<script type="text/html" id="infinitescroll-template">
+    <ul class="aui-list-view aui-in" data-bind="foreach:$data">
+        <li class="aui-list-view-cell">
+            <div class="aui-img-body">
+                <p class="aui-ellipsis-1">
+                    <img class="aui-col-xs-1" data-bind="attr:{src:HeadImg}"  />
+                    <span class='aui-text-left' data-bind="text:UserName"></span>
+                    <span class="aui-text-info aui-pull-right aui-text-right" data-bind="text:CommentDate"></span>
+                </p>
+                @*<div class="comment_score" data-score="0" data-bind="attr:{data-score:CommentLevel}"></div>*@
+                <p class='aui-ellipsis-1' data-bind="text:CommentContent"></p>
+                <p class='aui-ellipsis-1'></p>
+            </div>
+        </li>
+    </ul>
+</script>
+
+
+<p style="margin-top: 30px">&nbsp;</p>
+<footer class="aui-nav" id="aui-footer">
+    <div class="aui-col-xs-12 buy" onclick="AddToCart()">
+        立即购买<span class="aui-iconfont aui-icon-cart"></span>
+    </div>
+</footer>
+
+<section class="aui-content">
+    <ul class="aui-tab-nav" id="demo1">
+        <li class="active">商品评价</li>
+    </ul>
+    <infinitescroll params="ajaxUrl:url_scroll"></infinitescroll>
+    <p style="margin-top: 100px">&nbsp;</p>
+</section>
+
+@section scripts{
+ 
+@Scripts.Render("~/weui/plugins/dropload")
+
+   <script type="text/javascript">
+   
+       function viewModel() {
+           var self = this;
+           self.url_scroll = ko.observable('/api/Product/GetPdComment?&ProductId=' + '@Model.ProductInfo.Id');         
+      
+       }
+
+       $(function() {
+           window.CurrentModel = new viewModel();
+           ko.applyBindings(window.CurrentModel);
+          
+            $(".yListr ul li em")
+                .click(function () {
+                    //给当前元素新增yListrclickem样式，去除同胞元素的该样式
+                    $(this).addClass("yListrclickem").siblings().removeClass("yListrclickem");
+                    var attrid = $(this).attr("attrId");
+                    var attrprice = $(this).attr("attrPrice");
+                    $("#goodsPrice").text("¥ " + attrprice + " 元");
+                    $("#attributeId").val(attrid);
+                });
+            //如果商品只有一个属性则系统直接选择
+            if (@Model.Attributes.Count==1)
+            {
+                var $attrbute= $(".yListr ul li em");
+                $attrbute.addClass("yListrclickem");
+                var attrid = $attrbute.attr("attrId");
+                var attrprice = $attrbute.attr("attrPrice");
+                $("#goodsPrice").text("¥ " + attrprice + "元");
+                $("#attributeId").val(attrid);
+            }
+        });
+        apiready = function() {
+            api.parseTapmode();
+        };
+
+        function currentFun(index) {
+            console.log(index);
+        }
+
+        var slide = new auiSlide({
+            container: document.getElementById("aui-slide"),
+            // "width":300,
+            "height": 260,
+            "speed": 300,
+            "autoPlay": false, //自动播放
+            "loop": true,
+            "pageShow": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center',
+            currentFun: currentFun
+        });
+        console.log(slide.pageCount());
+
+        //添加到购物车
+        function AddToCart() {
+            var attrid = $("#attributeId").val();
+
+            if (attrid != null && attrid != "") {
+                wc.restApi.post({
+                    url: '/api/Cart/Add/' + '@Model.ProductInfo.Id' + '/' + attrid,
+                    success: function(result) {
+                        //wc.notify.success(result.message);
+                        wc.message.info("加入购物车成功，是否马上去结算",
+                            "添加成功",
+                            function() {
+                                location.href = '@Url.TenantAction("ShoppingCart", "Mall")';
+                            });
+
+                    }
+                });
+            } else {
+                wc.notify.error('请选择商品属性！');
+                location.hash = "#attrs";
+            }
+        }
+        @*function gotoUrl() {
+            location.href = '@Url.TenantAction("ShoppingCart", "Mall")';
+        }*@
+    </script>
+}

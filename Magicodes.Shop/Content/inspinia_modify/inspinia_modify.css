@@ -1,0 +1,27 @@
+﻿.im-login {
+    font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+}
+
+    .im-login > .im-login-title {
+        color: #aaa;
+        font-family: 'Segoe UI';
+        font-size: 48px;
+        font-weight: bold;
+        margin: 40px auto;
+    }
+
+    .im-login > p {
+        padding: 10px 0;
+    }
+
+.i-checks > label {
+    font-weight: normal;
+}
+
+#wrapper {
+    font-family: 'Microsoft YaHei';
+}
+
+/*.float-e-margins .btn {
+    margin-bottom: 0px;
+}*/

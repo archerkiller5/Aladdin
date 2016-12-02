@@ -1,0 +1,158 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Fauna+One);
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 13px/1.5 'Open Sans', Arial, sans-serif;
+    line-height: 1.5;
+    min-width: 640px;
+    padding: 160px 40px 0 240px;
+}
+
+a {
+    color: #457ae5;
+    text-decoration: underline;
+}
+
+a:hover { text-decoration: none; }
+
+section { margin-bottom: 120px; }
+
+aside {
+    background: #293133;
+    border-right: 1px solid #293133;
+    box-shadow: inset -1px 0 rgba(255, 255, 255, 0.2), 0 0 10px rgba(0, 0, 0, 0.3);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 199px;
+}
+
+aside:before {
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    content: '';
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#00ffffff', GradientType=0);
+    height: 60px;
+    left: 200px;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+aside:after {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+    bottom: 0;
+    content: '';
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0);
+    height: 40px;
+    left: 200px;
+    position: fixed;
+    right: 0;
+}
+
+aside p {
+    bottom: 20px;
+    color: #d2d7db;
+    font-size: 11px;
+    line-height: 17px;
+    padding: 0 30px;
+    position: absolute;
+    white-space: nowrap;
+}
+
+aside p a { color: #9ac6dd; }
+
+aside img {
+    left: 60px;
+    position: absolute;
+    top: 40px;
+}
+
+aside nav {
+    bottom: 57px;
+    overflow: auto;
+    position: absolute;
+    top: 160px;
+}
+
+aside nav a {
+    color: #d2d7db;
+    display: block;
+    padding: 5px 30px;
+    text-decoration: none;
+    text-shadow: 0 1px 1px #000;
+}
+
+aside nav a:hover { color: #9ac6dd; }
+
+section h1 {
+    font: 56px/70px Fauna One, serif;
+    text-shadow: 3px 3px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    font: 40px/50px Fauna One, serif;
+    padding-top: 40px;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+section p { margin: 20px 0; }
+
+section ol {
+    counter-reset: list1;
+    list-style: none;
+    margin: 20px 0;
+}
+
+section ol > li {
+    margin-top: 5px;
+    padding-left: 20px;
+    position: relative;
+}
+
+section ol > li:before {
+    content: counter(list1) '.';
+    counter-increment: list1;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+section ul {
+    list-style: none;
+    margin: 20px 0;
+}
+
+section ul > li {
+    margin-top: 5px;
+    padding-left: 20px;
+    position: relative;
+}
+
+section ul > li:before {
+    content: '•';
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+section pre {
+    background: #f2f2f2;
+    margin: 20px 0;
+    overflow: auto;
+    padding: 20px;
+}

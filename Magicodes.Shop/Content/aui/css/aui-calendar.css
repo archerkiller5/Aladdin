@@ -1,0 +1,113 @@
+﻿/*
+ * =========================================================================
+ * APIClud - AUI UI 框架    流浪男  QQ：343757327  http://www.auicss.com
+ * 日历样式表
+ * Verson 0.0.2
+ * =========================================================================
+ */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 100%;
+    text-align: center;
+    width: 100%;
+}
+
+td,
+th {
+    display: table-cell;
+    font-weight: 400;
+    padding: 0;
+    vertical-align: inherit;
+}
+
+tr {
+    border-color: inherit;
+    display: table-row;
+    vertical-align: inherit;
+}
+
+.aui-calendar {
+    /*padding: 15px;*/
+    background: #ffffff;
+    color: #999999;
+}
+
+.aui-calendar > table { margin-bottom: 15px; }
+
+.aui-calendar th { padding: 5px 0; }
+
+.aui-calendar .aui-calendar-body td {
+    padding: 15px 0;
+    position: relative;
+}
+
+.aui-calendar td p { font-size: 10px; }
+
+.aui-calendar .aui-calendar-header {
+    border-bottom: 1px solid #eeeeee;
+    position: relative;
+}
+
+.aui-calendar .aui-calendar-header > tr:first-child { font-size: 1.2em; }
+
+.aui-calendar .today {
+    background: transparent;
+    border: 1px solid #e74c3c;
+    border-radius: 50%;
+    height: 3em;
+    left: 50%;
+    margin-left: -1.5em;
+    margin-top: -1.5em;
+    position: absolute;
+    top: 50%;
+    width: 3em;
+}
+
+.aui-calendar .bandge {
+    background: #ff9900;
+    border-radius: 50%;
+    height: 6px;
+    left: 50%;
+    margin-left: -3px;
+    position: absolute;
+    top: 14px;
+    width: 6px;
+}
+
+.aui-calendar .active {
+    -webkit-animation: flipInX 0.3s;
+    animation: flipInX 0.3s;
+    background: rgba(102, 102, 102, 0.1);
+    border-radius: 50%;
+    height: 3em;
+    left: 50%;
+    margin-left: -1.5em;
+    margin-top: -1.5em;
+    position: absolute;
+    top: 50%;
+    width: 3em;
+}
+
+.aui-calendar .before-day,
+.aui-calendar .before-day p {
+    color: #ccc !important;
+    /*background: #fafafa;*/
+}
+
+.aui-calendar .before-day .today { border-color: #ffcc00 !important; }
+
+@-webkit-keyframes flipInX {
+    from {
+        -webkit-animation-timing-function: ease-in;
+        -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+        animation-timing-function: ease-in;
+        opacity: 0.8;
+        transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    }
+
+    to {
+        -webkit-transform: perspective(400px);
+        transform: perspective(400px);
+    }
+}

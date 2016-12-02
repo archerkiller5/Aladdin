@@ -1,0 +1,53 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "订单支付";
+}
+<form>
+    <br/>
+    <div class="aui-content">
+        <ul class="aui-user-view">
+            <li class="aui-user-view-cell">
+                <div class="aui-img-body">
+                    <div class="aui-pull-left">商户名称：@ViewBag.Merchant</div></br>
+                    <div class="aui-pull-left">商品名称：@ViewBag.Product 等</div>
+                </div>
+                <div class="aui-pull-right aui-text-danger">支付金额：@ViewBag.Price 元</div>
+            </li>
+        </ul>
+        <div class="aui-btn aui-btn-danger aui-btn-block " onclick="callpay()">立即支付</div>
+    </div>
+</form>
+@section scripts
+{
+    <script>
+
+
+        //调用微信JS api 支付
+        function jsApiCall() {
+            WeixinJSBridge.invoke('getBrandWCPayRequest',
+                @Html.Raw(ViewBag.wxJsApiParam),
+                function(res) {
+                    is_suc = true;
+                    if (res.err_msg == "get_brand_wcpay_request:ok") { //支付成功后
+                        //alert("支付成功" + res.err_code + res.err_desc + res.err_msg);
+                        location.href = '@Url.TenantAction("MsgSend", "Mall")';
+                    } else {
+                        //
+                    }
+                });
+        }
+
+        function callpay() {
+            if (typeof (WeixinJSBridge) == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            } else {
+                jsApiCall();
+            }
+        }
+    </script>
+}

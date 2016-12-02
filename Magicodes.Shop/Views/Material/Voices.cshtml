@@ -1,0 +1,139 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<Magicodes.Shop.Models.MaterialViewModel>
+@{
+    ViewBag.Title = "语音管理";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>语音管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                素材管理
+            </li>
+            <li class="active">
+                <strong>语音管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins collapsed">
+                <div class="ibox-title">
+                    <h5 class="collapse-link" style="cursor: pointer;">语音资源上传（大小: 不超过5M, 长度: 不超过60s, 格式: mp3, wma, wav, amr。点此展开上传面板。）</h5>
+                    @*<div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>*@
+                </div>
+                <div class="ibox-content">
+                    <form id="my-awesome-dropzone" class="dropzone" action="@Url.Action("UploadVoice", "Material")" method="post" enctype="multipart/form-data">
+                        <div class="dropzone-previews"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            @foreach (var item in Model)
+            {
+                <div class="file-box">
+                    <div class="file">
+                        <a href="#">
+                            <span class="corner"></span>
+
+                            <div class="image" style="margin-left: -10px; text-align: center;">
+                                <i class="fa fa-play-circle" style="font-size: 100px"></i>
+                            </div>
+                            <div class="file-name">
+                                @item.Name
+                                <br/>
+                                <small>@item.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                                <span class="pull-right"><i class="fa fa-trash" data-id="@item.Id"></i></span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+        @Html.Partial("_BootStrapPager", Model)
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dropZone")
+
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+
+                Dropzone.options.myAwesomeDropzone = {
+                    autoProcessQueue: true,
+                    parallelUploads: 100,
+                    maxFilesize: 20, //20M
+                    paramName: "files",
+                    acceptedFiles: ".mp3,.wma,.wav,.amr",
+                    // Dropzone settings
+                    init: function() {
+                        var myDropzone = this;
+                        this.on("sendingmultiple",
+                            function() {
+                            });
+                        this.on("successmultiple",
+                            function(files, response) {
+                                console.debug(files, response, "successmultiple");
+                                showUploadMessage(myDropzone, JSON.parse(file.xhr.response));
+                            });
+                        this.on("success",
+                            function(file) {
+                                console.debug(file, "success");
+                            });
+                        this.on("complete",
+                            function(file) {
+                                if (file.xhr && file.xhr.response)
+                                    showUploadMessage(myDropzone, JSON.parse(file.xhr.response), file);
+                            });
+                        this.on("errormultiple",
+                            function(files, response) {
+                            });
+                        this.on("queuecomplete",
+                            function(f) {
+                                setTimeout(function() {
+                                        location.reload();
+                                    },
+                                    500);
+                            });
+                    }
+                };
+            });
+
+        function showUploadMessage(theDrop, data, file) {
+            if (theDrop.files.length > 1) {
+                if (file) {
+                    if (!data.IsError) {
+                        mwc.message.success(file.name + " 上传成功！");
+                    } else {
+                        mwc.message.warn(file.name + " 上传失败！" + data.Message);
+                    }
+                    return;
+                }
+            }
+            if (!data.IsError) {
+                mwc.message.success(data.Message);
+            } else {
+                mwc.message.warn(data.Message);
+            }
+        }
+    </script>
+}

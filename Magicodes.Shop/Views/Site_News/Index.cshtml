@@ -1,0 +1,221 @@
+﻿@using Webdiyer.WebControls.Mvc;
+@using Magicodes.WeiChat.Data.Models.Site;
+@model PagedList<Magicodes.WeiChat.Data.Models.Site.Site_News>
+@{
+    ViewBag.TwoTitle = "多图文管理";
+}
+@Html.Partial("_FormHead")
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content" style="padding-top:0;">
+                    <div class="file-manager">
+                        <tag-list params="type:'@SiteResourceTypes.News',showUploadButton:false,loadByUrl:true"></tag-list>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin:2px 2px 10px 2px;" />
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <form action="/Site_News" method="get">
+                                <input type="hidden" name="type" value="@Request.QueryString["type"]" />
+                                <div class="input-group">
+                                    @Html.TextBox("q", ViewBag.q as string, new { @placeholder = "请输入关键字", @class = "input-sm form-control" })
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i>&nbsp;搜索</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <a class="btn btn-primary btn-sm" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                        <a class="btn btn-warning btn-sm" id="btnDelete" data-action="Delete" data-comfirmmessage="确定删除所选内容么？"><i class="fa fa-remove"></i>&nbsp;批量删除</a>
+                    </div>
+                    <div>
+                        <table class="table table-striped table-bordered table-hover" style="overflow-x:scroll">
+                            <tr>
+                                <th>
+                                    <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks" />
+                                </th>
+                                <th style="display:none;"></th>
+                                <th style="display:none;"></th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreateUser)
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.SiteUrl)
+                                    </th>*@
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FrontCoverImageUrl)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreateTime)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="ids" class="i-checks" value="@(item.Id)" />
+                                    </td>
+                                    <td style="display:none;" data-name="Id">@(item.Id)</td>
+                                    <td style="display:none;" data-name="FrontCoverImageUrl">@(item.FrontCoverImageUrl)</td>
+                                    <td style="display:none;" data-name="MediaId">@(item.MediaId)</td>
+                                    <td data-name="Name">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td data-name="UserName">
+                                        @Html.DisplayFor(modelItem => item.CreateUser.UserName)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.ResourcesTypeId)
+                                        </td>*@
+
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.SiteUrl)
+                                        </td>*@
+                                    <td>
+                                        <img class="img-circle" width="38" height="38" src="@item.FrontCoverImageUrl" />
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.Url)
+                                        </td>*@
+                                    <td data-name="CreateTime">
+                                        @Html.DisplayFor(modelItem => item.CreateTime)
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-white" href="@Url.Action("Index","Site_NewsArticle",new {newsId = item.Id })">
+                                                文章管理
+                                            </a>
+                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle">更多操作 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("编辑", "Edit", new { id = item.Id })</li>
+                                                <li><a class="btn btn-white delete" data-id="@item.Id">删除</a></li>
+                                                @*分割线*@
+                                                @*<li class="divider"></li>*@
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="row">
+                        @Html.Partial("_BootStrapPager", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    <script src="~/Scripts/app/components/tag-list.js"></script>
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+
+        function tagClick(tag) {
+            window.tag = tag;
+            var id = tag.Id;
+            if (window.location.href.indexOf(id) == -1) {
+                console.debug(window.location.href.indexOf(id),id,window.location.href);
+                window.location.href = '@Url.Action("Index")?type=' + id;
+            }
+        }
+        function batchOperation(operation, comfirmMessage) {
+            var $checkInputs = $("input[type=checkbox][name=ids]:checked");
+            if ($checkInputs.length === 0) {
+                mwc.message.warn("请至少选择一项！");
+                return;
+            }
+            function post() {
+                var ids = new Array();
+                $.each($("input[type=checkbox][name=ids]:checked").serializeArray(), function (i, v) {
+                    ids.push(v.value);
+                });
+                mwc.restApi.post({
+                    url: '@Request.RequestContext.RouteData.GetRequiredString("controller")/BatchOperation/' + operation,
+                    contentType: "application/x-www-form-urlencoded",
+                    data: { ids: ids },
+                    success: function (data) { location.reload(); }
+                });
+            }
+            if (comfirmMessage) {
+                mwc.message.confirm("", comfirmMessage, function (isConfirmed) {
+                    isConfirmed && post();
+                });
+            } else {
+                post();
+            }
+
+        }
+        $(function () {
+            function ViewModel() {
+            }
+            ko.applyBindings(new ViewModel(), document.getElementById('mainBody'));
+            $('input[type=checkbox]').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green'
+            });
+            $("#chkCheckAll").on('ifToggled', function (e) {
+                $("input[type=checkbox][name=ids]").iCheck(e.currentTarget.checked ? "check" : "uncheck");
+            });
+            //批量操作
+            $("#toolBar button[data-action],a[data-action]").on('click', function () {
+                batchOperation($(this).data("action"), $(this).data("comfirmmessage"));
+            });
+            //判断是否为弹窗打开
+            if (parent.layer && parent.layer.getFrameIndex(window.name)) {
+                $('table div.btn-group').prepend('<button class="btn btn-warning choiceRow">选择</button>');
+                $('button.choiceRow').on('click', function () {
+                    var $tr = $(this).closest('tr');
+                    var contentId = $tr.find('input[type=checkbox]').val();
+                    var data = {};
+                    var dataNames = $tr.find('td[data-name]').each(function () {
+                        var name = $(this).data('name');
+                        var value = $(this).text();
+                        data[name] = value;
+                    });
+                    if (parent.choice) {
+                        parent.choice(data, '@SiteResourceTypes.News.ToString()');
+                    }
+                    mwc.window.closeSeft();
+                });
+            }
+            $('#btnAdd').on('click', function () {
+                window.location.href = '@Url.Action("Create")?ResourcesTypeId=' + tag.Id;
+            });
+            $('a.btn.delete').on('click', function () {
+                var id = $(this).data('id');
+                mwc.message.confirm("确定要删除么？", function (result) {
+                    if (result) {
+                        mwc.restApi.delete({
+                            url: '@Url.Action("Delete")',
+                            data: { id: id },
+                            success: function (data) {
+                                mwc.notify.success(data.Message);
+                                location.reload();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿@using Magicodes.WeiChat.Infrastructure
+@{
+    ViewBag.Title = "瀑布墙";
+    //启用JSSDK（用于上传照片）
+    //注意配置JSSDK安全域名
+    ViewBag.UseJSSDK = true;
+}
+<div class="aui-content">
+    <ul class="aui-waterfall" id="aui-waterfall" data-bind="foreach:photos">
+        <li>
+            <div class="aui-waterfall-header">
+                <img data-bind='attr:{"data-src":SiteUrl},click:$root.imgClick' src="/Images/logo.png"/>
+            </div>
+            <div class="aui-waterfall-footer">
+                <span class="aui-text-info" data-bind="text:Name"></span>
+                <span class="aui-pull-right">
+                    <i class="aui-iconfont aui-icon-appreciatefill aui-text-warning"></i>
+                </span>
+            </div>
+        </li>
+    </ul>
+    <p style="padding-top: 30px;"></p>
+</div>
+<footer class="aui-nav" id="aui-footer">
+    <ul class="aui-bar-tab">
+        <li class="active-warning">
+            <span class="aui-iconfont aui-icon-home"></span>
+            <p>
+                <a href="@Url.Action("WeChatOAuthTest", new {WeiChatApplicationContext.Current.TenantId})">首页</a>
+            </p>
+        </li>
+        <li class="active-warning">
+            <span class="aui-iconfont aui-icon-addressbook"></span>
+            <p>
+                <a href="@Url.Action("PhotoGallery", new {WeiChatApplicationContext.Current.TenantId})">相册列表</a>
+            </p>
+        </li>
+        <li class="active-warning">
+            <span class="aui-iconfont aui-icon-cameraadd"></span>
+            <p>
+                <a data-bind="click:uploadPicClick">上传照片</a>
+            </p>
+        </li>
+    </ul>
+</footer>
+@section scripts{
+    @Scripts.Render("~/weui/plugins/zepto.unveil")
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.photos = ko.observableArray([]);
+            this.reload = function() {
+                wc.restApi.get({
+                    url: '/api/AppDemo/PhotoGallery/@Request.RequestContext.RouteData.Values["typeId"]/Photos',
+                    success: function(data) {
+                        self.photos(data);
+                        //设置瀑布流
+                        $aui.waterfall($api.byId("aui-waterfall"),
+                        {
+                            col: 2, //列数
+                            padding: 10, //容器内边距
+                            space: 10 //列间距
+                        });
+                        //设置图片延迟加载
+                        $("#aui-waterfall img").unveil();
+                    }
+                });
+            };
+            //上传照片点击事件
+            this.uploadPicClick = function() {
+                //选择图片
+                wc.weiChat.image.choose({
+                    success: function() {
+                        //获取选择的本地照片（支持预览）
+                        //var imgs = wc.weiChat.uploader.imgs;
+                        self.uploadToServer();
+                    }
+                });
+            };
+            //将选择的图片上传到服务器
+            this.uploadToServer = function() {
+                //wc_weichat.js中已封装并缓存，无需定义隐藏域等临时存储
+                if (wc.weiChat.uploader.imgs.length > 0) {
+                    //上传图片（通过JSSDK将图片上传到微信服务器。注意是微信服务器。微信将作为临时素材存储，返回的serverId即媒体素材Id）
+                    wc.weiChat.uploader.uploads({
+                            //全部上传完成事件
+                            allSuccess: function() {
+                                //上传完成，请求WebAPI进行处理
+                                if (wc.weiChat.uploader.serverIds.imgs.length > 0) {
+                                    var mediaIds = '';
+                                    for (var i = 0; i < wc.weiChat.uploader.serverIds.imgs.length; i++) {
+                                        mediaIds += wc.weiChat.uploader.serverIds.imgs[i] + ",";
+                                    }
+                                    wc.restApi.post({
+                                        url:
+                                            '/api/AppDemo/PhotoGallery/@Request.RequestContext.RouteData.Values["typeId"]/Upload',
+                                        data: { mediaIds: mediaIds },
+                                        success: function(data) {
+                                            location.reload();
+                                        }
+                                    });
+                                }
+                            }
+                        },
+                        wc.weiChat.uploader.imgs,
+                        'img');
+                } else {
+                    wc.notify.warn('请选择照片！');
+                }
+            };
+            this.imgClick = function() {
+                var urls = [];
+                var imgs = self.photos();
+                if (imgs.length == 0) return;
+                for (var i = 0; i < imgs.length; i++) {
+                    urls.push(imgs[i].Url);
+                }
+                wc.weiChat.image.preview(this.Url, urls);
+            };
+            self.reload();
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+    </script>
+}

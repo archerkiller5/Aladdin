@@ -1,0 +1,478 @@
+﻿@model Magicodes.Shop.Models.AddMessageViewModel
+@{
+    ViewBag.Title = "添加";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>图文消息管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                素材管理
+            </li>
+            <li>
+                <a href="@Url.Action("Messages", "Material")">图文消息管理</a>
+            </li>
+            <li class="active">
+                <strong>添加</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>新建</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+
+                            <div class="file-box">
+                                <!-- ko foreach: $root.List.modelList() -->
+                                <div class="file">
+                                    <a data-bind="click:$root.Events.ImageSelect">
+                                        <span class="corner"></span>
+                                        <div class="image">
+                                            <img alt="image" class="img-responsive" data-bind="attr:{src:Url}">
+                                        </div>
+                                        <div class="file-name">
+                                            <span data-bind="text:Title"></span>
+                                            <!-- ko if: _Selected() -->
+                                            <strong class="pull-right">
+                                                <i class="fa fa-check"></i>
+                                            </strong>
+                                            <!-- /ko -->
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- /ko -->
+                                <button class="btn btn-primary " type="button" data-bind="click:$root.Events.ImageAddClick"><i class="fa fa-plus"></i>&nbsp;添加</button>
+                                <button class="btn btn-primary " type="button" data-bind="click:$root.Events.SubmitAll"><i class="fa fa-plus"></i>&nbsp;提交</button>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="form-horizontal" data-bind="with:$root.EditComponent.editModel">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Title, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-10">
+                                        <input class="text-box single-line" type="text" value="" data-bind="value:Title">
+                                        @*@Html.EditorFor(m => m.Title, new { @class = "form-control", @data_bind = "value:Title" })*@
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Author, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.Author, new {@class = "form-control", data_bind = "value:Author"})
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.IsShowInText, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.IsShowInText, new {@class = "form-control", data_bind = "check:IsShowInText"})
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Summary, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.Summary, new {@class = "form-control", data_bind = "value:Summary"})
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Text, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-10">
+                                        <script id="editor" type="text/plain" style="height: 500px;">
+                                        </script>
+                                        @Html.TextAreaFor(m => m.Text, new {@class = "form-control hide", data_bind = "value:Text"})
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.OriginalLink, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(m => m.OriginalLink, new {@class = "form-control", data_bind = "value:OriginalLink"})
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">封面</label>
+                                    <div class="col-sm-10">
+                                        @Html.HiddenFor(m => m.ThumbMediaId, new {data_bind = "value:ThumbMediaId"})
+                                        <div class="file-box">
+                                            <div class="file-box">
+                                                <div class="file">
+                                                    <a href="#" data-toggle="modal" data-target="#imagesModal">
+                                                        <span class="corner"></span>
+                                                        <div class="image">
+                                                            <img alt="image" class="img-responsive" data-bind="attr:{src:Url}">
+                                                        </div>
+                                                        <div class="file-name" data-bind="text:Name">
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imagesModal">
+                                            选择封面
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="submit">取 消</button>
+                                        <button class="btn btn-primary" data-bind="click:$root.Events.EditSave" type="submit">保 存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal inmodal fade" id="imagesModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">选择封面图片</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins collapsed">
+                                <div class="ibox-title">
+                                    <h5 class="collapse-link" style="cursor: pointer;">图片上传（大小: 不超过2M,格式: bmp, png, jpeg, jpg, gif。点此展开上传面板。）</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <form id="my-awesome-dropzone" class="dropzone" action="@Url.Action("UploadImage", "Material")" method="post" enctype="multipart/form-data">
+                                        <div class="dropzone-previews"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 animated fadeInRight" data-bind="foreach: dataRows">
+                            <div class="file-box" data-bind="click:$root.Events.ImageClick">
+                                <div class="file">
+                                    <a href="#">
+                                        <span class="corner"></span>
+                                        <div class="image">
+                                            <img alt="image" class="img-responsive" data-bind="attr:{src:Url}">
+                                        </div>
+                                        <div class="file-name" data-bind="text:Name">
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 animated fadeInLeft">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div>
+                                        当前为第<span data-bind="text: currentPageIndex()"></span>页，总共有<span data-bind="    text: getTotalPages()"></span>页
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+                                    <div class="btn-group pull-right" data-bind="template: { name: 'pagesTemplate',replaceChildren:$root }"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="pagesTemplate" type="text/html">
+    <button type="button" class="btn btn-white" data-bind="css: { disabled: $root.currentPageIndex() <= 1 }, click: function () { $root.previousPage(); }">
+        <i class="fa fa-chevron-left"></i>
+    </button>
+    <!-- ko foreach: $root.pages -->
+    <button class="btn btn-white" data-bind="css: { active: $data == $root.currentPageIndex() },text: $data, click: function () { $root.currentPageIndex($data); }">1</button>
+    <!-- /ko -->
+    <button type="button" class="btn btn-white" data-bind="css: { disabled: $root.currentPageIndex() >= $root.getTotalPages() }, click: function () { $root.nextPage(); }">
+        <i class="fa fa-chevron-right"></i>
+    </button>
+</script>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/bundles/knockout")
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/plugins/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/plugins/ueditor/ueditor.all.min.js"> </script>
+    @*<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+        <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->*@
+    <script type="text/javascript" charset="utf-8" src="~/Scripts/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                $('.i-checks')
+                    .iCheck({
+                        checkboxClass: 'icheckbox_square-green',
+                        radioClass: 'iradio_square-green',
+                    });
+                Dropzone.options.myAwesomeDropzone = {
+                    autoProcessQueue: true,
+                    parallelUploads: 100,
+                    maxFilesize: 2, //2M
+                    paramName: "files",
+                    acceptedFiles: ".jpg,.png,.bmp,.jpeg,.gif",
+                    // Dropzone settings
+                    init: function() {
+                        var myDropzone = this;
+                        this.on("sendingmultiple",
+                            function() {
+                            });
+                        this.on("successmultiple",
+                            function(files, response) {
+                                console.debug(files, response, "successmultiple");
+                                showUploadMessage(myDropzone, JSON.parse(file.xhr.response));
+                            });
+                        this.on("success",
+                            function(file) {
+                                console.debug(file, "success");
+                            });
+                        this.on("complete",
+                            function(file) {
+                                currentGridViewModel.currentPageIndex(1);
+                                currentGridViewModel.loadData();
+                                if (file.xhr && file.xhr.response)
+                                    showUploadMessage(myDropzone, JSON.parse(file.xhr.response), file);
+                            });
+                        this.on("errormultiple",
+                            function(files, response) {
+                            });
+                        this.on("queuecomplete",
+                            function(f) {
+                                window.currentGridViewModel.loadData();
+                            });
+                    }
+
+                };
+                //实例化编辑器
+                //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+                var ue = UE.getEditor('editor');
+                ue.ready(function() {
+                    //一定要等UE初始化完成才绑定模板
+                    if (typeof (window.currentGridViewModel) == "undefined") {
+                        window.currentGridViewModel = new gridViewModel();
+                        ko.applyBindings(window.currentGridViewModel);
+                    }
+                });
+            });
+
+        function showUploadMessage(theDrop, data, file) {
+            if (theDrop.files.length > 1) {
+                if (file) {
+                    if (!data.IsError) {
+                        toastr.success('温馨提示', file.name + " 上传成功！");
+                    } else {
+                        toastr.warning('警告', file.name + " 上传失败！" + data.Message);
+                    }
+                    return;
+                }
+            }
+            if (!data.IsError) {
+                toastr.success('温馨提示', data.Message);
+            } else {
+                toastr.warning('警告', data.Message);
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function gridViewModel() {
+            var self = this;
+            //左侧列表模型
+            this.List = {
+                modelList: ko.observableArray([]),
+                getSelected: function() {
+                    return $.grep(this.modelList(), function(v) { return v()._Selected(); })[0];
+                },
+                getEmptyModel: function() {
+                    return {
+                        "Id": 0,
+                        "Title": "请输入标题",
+                        "Author": "",
+                        "IsShowInText": "false",
+                        "Summary": "",
+                        "Text": "",
+                        "OriginalLink": "",
+                        "ThumbMediaId": "",
+                        "Name": "请选择封面",
+                        "Url": "/Content/patterns/congruent_pentagon.png",
+                        "_Selected": ko.observable(true)
+                    };
+                },
+                add: function() {
+                    if (this.modelList().length > 8) {
+                        toastr.warning('最多只能添加8条！', '警告');
+                        return;
+                    }
+                    this.unselectAll();
+                    var addModel = ko.observable(this.getEmptyModel());
+                    this.modelList.push(addModel);
+                    self.EditComponent.editModel(addModel());
+                },
+                unselectAll: function() {
+                    $.each(this.modelList(),
+                        function(i, v) {
+                            v()._Selected(false);
+                        });
+                },
+                select: function(data) {
+                    this.unselectAll();
+                    data._Selected(true);
+                    self.EditComponent.editModel(data);
+                },
+                init: function() {
+                    this.add();
+                }
+            };
+            //右侧编辑组件
+            this.EditComponent = {
+                editModel: ko.observable(self.List.getEmptyModel()),
+                save: function(data) {
+                    self.List.getSelected()(data);
+                }
+            };
+            this.EditComponent.editModel.subscribe(function(newValue) {
+                console.debug(newValue.Text);
+                setTimeout(function() {
+                        UE.getEditor('editor').setContent(newValue.Text);
+                    },
+                    300);
+            });
+            //所有事件
+            this.Events = {
+                //点击封面弹出选择
+                ImageSelect: function(data) {
+                    self.List.select(data);
+                },
+                //点击封面弹出选择
+                ImageClick: function(data) {
+                    var m = self.EditComponent.editModel();
+                    m.Name = data.Name;
+                    m.Url = data.Url;
+                    m.ThumbMediaId = data.Id;
+                    m.Text = UE.getEditor('editor').getContent();
+                    self.EditComponent.editModel(m);
+                    $('#imagesModal').modal('hide');
+                },
+                EditSave: function(data) {
+                    //获取编辑器的HTML
+                    data.Text = UE.getEditor('editor').getContent();
+                    self.EditComponent.save(data);
+
+                },
+                ImageAddClick: function() {
+                    self.Events.EditSave(self.EditComponent.editModel());
+                    self.List.add();
+                },
+                SubmitAll: function() {
+                    console.debug(ko.toJS(self.List.modelList()));
+                    new ApiModel().request('POST',
+                    {
+                        url: '/api/News',
+                        data: ko.toJS(self.List.modelList()),
+                        func: function(data) {
+                            toastr.success('操作成功', '温馨提示');
+                            location.href = '/Material/Messages';
+                        }
+                    });
+                }
+            };
+            //当前选择的图片
+            //this.currentImage = ko.observable({ "Id": "", "Name": "请选择封面", "Url": "/Content/patterns/congruent_pentagon.png" });
+            this.pages = ko.observable([]);
+            this.dataRows = ko.observableArray([]);
+            this.pageSize = ko.observable(6);
+            this.totalCount = ko.observable(0);
+            this.currentPageIndex = ko.observable(1);
+            this.nextPage = function() {
+                self.currentPageIndex() < self.getTotalPages() && self.currentPageIndex(self.currentPageIndex() + 1);
+            };
+            this.previousPage = function() {
+                self.currentPageIndex() > 1 && self.currentPageIndex(self.currentPageIndex() - 1);
+            };
+            this.getTotalPages = function() {
+                var i = self.totalCount() / self.pageSize();
+                return Math.floor(i) + (i > Math.floor(i) ? 1 : 0);
+            };
+            this.getPagesArr = function() {
+                var totalPages = self.getTotalPages();
+                var limitCount = totalPages > 10 ? 10 : totalPages;
+                var currentPageIndex = self.currentPageIndex();
+                var min = 1, max = limitCount;
+                if (currentPageIndex > 5) {
+                    if (totalPages - currentPageIndex > 5) {
+                        min = currentPageIndex - 4;
+                        max = currentPageIndex + 5;
+                    } else {
+                        min = currentPageIndex - 9;
+                        max = totalPages;
+                    }
+                }
+                if (min < 1) min = 1;
+                return ko.utils.range(min, max);
+            };
+            //订阅  当前页
+            self.currentPageIndex.subscribe(function(newValue) {
+                self.loadData();
+            });
+            //订阅  分页数
+            self.pageSize.subscribe(function(newValue) {
+                var t = self.getTotalPages();
+                self.pages(self.getPagesArr());
+                if (self.currentPageIndex() > t)
+                    self.currentPageIndex(1);
+                self.loadData();
+            });
+
+            //加载数据
+            this.loadData = function() {
+                $.getJSON('/JSON/Material/Images/' + self.currentPageIndex() + '/' + self.pageSize(),
+                    function(data) {
+                        self.dataRows(data.DataRows);
+                        self.totalCount(data["TotalItemCount"]);
+                        self.pages(self.getPagesArr());
+                    });
+            };
+
+            self.loadData();
+            self.List.init();
+        }
+    </script>
+}

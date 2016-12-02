@@ -1,0 +1,84 @@
+﻿@model Magicodes.WeiChat.Data.Models.User.User_Info
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Content/inspinia_modify/inspinia_modify.min.css" rel="stylesheet">
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <script>
+        //判断是否在Iframe之中
+        if (self != top) {
+            top.location.reload();
+        }
+    </script>
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen animated fadeInDown im-login">
+        <div class="im-login-title">
+            I  T
+        </div>
+
+        <h3>欢迎登陆 I T 会员管理系统</h3>
+        <p>
+               
+            </p>
+        <p>
+           
+        </p>
+        @*<h3>@ViewBag.Title</h3>*@
+        <div class="m-t">
+            @using (Html.BeginForm("MemberlLogin", "UserInfo", new { ViewBag.retu }, FormMethod.Post, new { @class = "m-t", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.TextBoxFor(model =>model.Userid, new { @class = "form-control", placeholder = "用户名" })
+                    @Html.ValidationMessageFor(model => model.Userid, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.PasswordFor(model => model.Pwd, new { @class = "form-control", placeholder = "密码" })
+                    @Html.ValidationMessageFor(model => model.Pwd, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                   
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+            }
+            <p class="m-t">
+                <small>天极科技 Magicodes &copy; @DateTime.Now.Year</small>
+            </p>
+        </div>
+
+        <hr />
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/iCheck")
+    <script>
+    $(document)
+        .ready(function() {
+            $('.i-checks')
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+        });
+    </script>
+
+</body>
+
+</html>

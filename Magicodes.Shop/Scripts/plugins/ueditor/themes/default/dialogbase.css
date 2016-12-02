@@ -1,0 +1,91 @@
+﻿/*弹出对话框页面样式组件
+*/
+
+/*reset
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+    font-size: 100%;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+}
+
+body { line-height: 1; }
+
+ol, ul { list-style: none; }
+
+blockquote, q { quotes: none; }
+
+ins { text-decoration: none; }
+
+del { text-decoration: line-through; }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/*module
+*/
+
+body {
+    background-color: #fff;
+    color: #646464;
+    font: 12px/1.5 sans-serif, "宋体", "Arial Narrow", HELVETICA;
+}
+
+/*tab*/
+
+.tabhead {
+    position: relative;
+    z-index: 10;
+}
+
+.tabhead span {
+    background: url("images/dialog-title-bg.png") repeat-x;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    *margin-right: 5px;
+    padding: 0 5px;
+    text-align: center;
+}
+
+.tabhead span.focus {
+    background: #fff;
+    border-bottom: none;
+    height: 31px;
+}
+
+.tabbody {
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    position: relative;
+    top: -1px;
+}
+
+/*button*/
+
+a.button {
+    background: url(../../themes/default/images/icons-all.gif) no-repeat;
+    border: 0;
+    color: #838383;
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    width: 95px;
+}
+
+a.button:hover { background-position: 0 -30px; }

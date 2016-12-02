@@ -1,0 +1,188 @@
+/**
+ *  Master Slider
+ *  Contrast
+ */
+
+.ms-skin-contrast .ms-slide .ms-slide-vpbtn,
+.ms-skin-contrast .ms-video-btn {
+    background: url(contrast-skin.png) no-repeat -10px -144px;
+    height: 60px;
+    left: 50%;
+    margin: -30px 0 0 -30px;
+    top: 50%;
+    width: 60px;
+}
+
+.ms-skin-contrast .ms-slide .ms-slide-vcbtn {
+    background: url(contrast-skin.png) no-repeat -27px -30px;
+    height: 24px;
+    right: 30px;
+    top: 30px;
+    width: 24px;
+}
+
+/* controls */
+
+.ms-skin-contrast .ms-nav-next,
+.ms-skin-contrast .ms-nav-prev {
+    background: url(contrast-skin.png);
+    background-position: -76px -17px;
+    cursor: pointer;
+    height: 60px;
+    left: 30px;
+    margin-top: -30px;
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    z-index: 110;
+}
+
+.ms-skin-contrast .ms-nav-next {
+    background-position: -77px -91px;
+    left: auto;
+    right: 30px;
+}
+
+.ms-skin-contrast .ms-bullets.ms-dir-h {
+    bottom: 20px;
+    position: absolute;
+    right: 50%;
+    width: 100px;
+}
+
+.ms-skin-contrast .ms-bullets.ms-dir-h .ms-bullets-count {
+    position: relative;
+    right: -50%;
+}
+
+.ms-skin-contrast .ms-bullet {
+    background: url(contrast-skin.png) no-repeat;
+    background-position: -31px -114px;
+    height: 16px;
+    margin: 4px;
+    width: 16px;
+}
+
+.ms-skin-contrast .ms-bullet-selected { background-position: -31px -81px; }
+
+.ms-skin-contrast .ms-timerbar {
+    background: black;
+    height: 2px;
+}
+
+.ms-skin-contrast .ms-time-bar {
+    background: #FC3116;
+    height: 1px;
+    margin-top: 1px;
+}
+
+.ms-skin-contrast .ms-tooltip {
+    cursor: auto;
+    position: absolute;
+    z-index: 210;
+}
+
+.ms-skin-contrast .ms-tooltip-top .ms-tooltip-arrow,
+.ms-skin-contrast .ms-tooltip-bottom .ms-tooltip-arrow {
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+}
+
+.ms-skin-contrast .ms-tooltip-top .ms-tooltip-arrow {
+    border-top: solid 10px;
+    border-top-color: #fc3116;
+    border-top-color: rgba(252, 49, 22, 0.8);
+    bottom: -10px;
+}
+
+.ms-skin-contrast .ms-tooltip-bottom .ms-tooltip-arrow {
+    border-bottom: solid 10px;
+    border-bottom-color: #fc3116;
+    border-bottom-color: rgba(252, 49, 22, 0.8);
+    top: -10px;
+}
+
+.ms-skin-contrast .ms-tooltip-right .ms-tooltip-arrow,
+.ms-skin-contrast .ms-tooltip-left .ms-tooltip-arrow {
+    border-bottom: solid 10px transparent;
+    border-top: solid 10px transparent;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+}
+
+.ms-skin-contrast .ms-tooltip-right .ms-tooltip-arrow {
+    border-right: solid 10px;
+    border-right-color: #fc3116;
+    border-right-color: rgba(252, 49, 22, 0.8);
+    left: -10px;
+}
+
+.ms-skin-contrast .ms-tooltip-left .ms-tooltip-arrow {
+    border-left: solid 10px;
+    border-left-color: #fc3116;
+    border-left-color: rgba(252, 49, 22, 0.8);
+    right: -10px;
+}
+
+.ms-skin-contrast .ms-tooltip-point { cursor: pointer; }
+
+.ms-skin-contrast .ms-tooltip-point .ms-point-center {
+    background: black;
+    border: solid 2px #636363;
+    border-radius: 15px;
+    height: 12px;
+    margin: -8px 0 0 -8px;
+    position: absolute;
+    width: 12px;
+    z-index: 105;
+}
+
+.ms-skin-contrast .ms-tooltip-point .ms-point-border {
+    -moz-animation: point-anim 1.5s infinite;
+    -o-animation: point-anim 1.5s infinite;
+    -webkit-animation: point-anim 1.5s infinite;
+    animation: point-anim 1.5s infinite;
+    background: white;
+    background: rgba(255, 255, 255, 0.99);
+    border-radius: 15px;
+	
+    height: 22px;
+    margin: -11px 0 0 -11px;
+    position: absolute;
+    width: 22px;
+}
+
+.ms-skin-contrast .ms-tooltip { max-width: 200px; }
+
+.ms-skin-contrast .ms-tooltip-cont {
+    background: #fc3116;
+    background: rgba(252, 49, 22, 0.8);
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.04);
+    color: white;
+    padding: 10px;
+    text-shadow: 0 1px 0px rgba(0, 0, 0, 0.4);
+}
+
+/* retina */
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {	
+    .ms-skin-contrast .ms-slide .ms-slide-vpbtn,
+    .ms-skin-contrast .ms-video-btn,
+    .ms-skin-contrast .ms-slide .ms-slide-vcbtn,
+    .ms-skin-contrast .ms-nav-next,
+    .ms-skin-contrast .ms-nav-prev,
+    .ms-skin-contrast .ms-bullet {
+        background-image: url(contrast-skin-retina.png);
+        background-size: 152px 225px;
+    }	
+}

@@ -1,0 +1,93 @@
+﻿@model Magicodes.Shop.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Magicodes Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet">
+    <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+    <link href="~/Content/inspinia_modify/inspinia_modify.min.css" rel="stylesheet">
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <script>
+        //判断是否在Iframe之中
+        if (self != top) {
+            top.location.reload();
+        }
+    </script>
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen animated fadeInDown im-login">
+    <div class="im-login-title">
+        Magicodes Shop
+    </div>
+
+    <h3>欢迎登陆 Magicodes Shop 管理系统</h3>
+    @*<p>
+            Magicodes Shop, Shopping with Magic!
+        </p>*@
+    <p>
+        完善的管理模块，妥善地管理商城
+    </p>
+    @*<h3>@ViewBag.Title</h3>*@
+    <div class="m-t">
+        @using (Html.BeginForm("Login", "Account", new {ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "m-t", role = "form"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.UserName, new {@class = "form-control", placeholder = "用户名"})
+                @Html.ValidationMessageFor(m => m.UserName, "", new {@class = "text-danger"})
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control", placeholder = "密码"})
+                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+            </div>
+            <div class="form-group">
+                <div class="i-checks">
+
+                    <label>
+                        @*@Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)*@
+                        @Html.CheckBoxFor(m => m.RememberMe)
+                        <i></i>
+                        保存登陆信息
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+        }
+        <p class="m-t">
+            <small>天极科技 Magicodes &copy; @DateTime.Now.Year</small>
+        </p>
+    </div>
+
+    <hr/>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/plugins/iCheck")
+<script>
+    $(document)
+        .ready(function() {
+            $('.i-checks')
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+        });
+</script>
+
+</body>
+
+</html>

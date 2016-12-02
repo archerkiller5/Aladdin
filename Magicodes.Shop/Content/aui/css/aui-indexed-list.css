@@ -1,0 +1,140 @@
+﻿/*
+ * =========================================================================
+ * APIClud - AUI UI 框架    流浪男  QQ：343757327  http://www.auicss.com
+ * 索引列表样式
+ * Verson 0.0.1
+ * =========================================================================
+ */
+ .aui-searchbar-wrap.fixed {
+     left: 0;
+     position: fixed;
+     top: 0;
+     width: 100%;
+     z-index: 11;
+ }
+
+ .aui-indexed-list {
+     -webkit-overflow-scrolling: touch;
+     overflow-y: auto;
+     position: relative;
+     top: 50px;
+     width: 100%;
+ }
+
+ .aui-indexed-list::-webkit-scrollbar {
+     height: 0px;
+     visibility: hidden;
+     width: 0px;
+ }
+
+ .aui-indexed-list-bar {
+     height: 100%;
+     opacity: 0.6;
+     position: fixed;
+     right: 0;
+     top: 0;
+     width: 30px;
+     z-index: 10;
+ }
+
+ .aui-indexed-list-bar a {
+     color: #666666;
+     display: block;
+     font-size: 11px;
+     font-weight: 700;
+     height: 14px;
+     line-height: 14px;
+     margin: 0;
+     padding: 0;
+     text-align: center;
+ }
+
+ .aui-indexed-list-bar a .aui-iconfont { font-size: 12px; }
+
+ .aui-list-view { margin-bottom: 0; }
+
+ .aui-indexed-list-toast {
+     -webkit-transform: translateX(100%);
+     -webkit-transition: all .5s;
+     background-color: rgba(0, 0, 0, 0.5);
+     border-bottom-left-radius: 20px;
+     border-top-left-radius: 20px;
+     color: #fff;
+     font-size: 26px;
+     height: 40px;
+     line-height: 40px;
+     opacity: 0;
+     padding-left: 20px;
+     position: fixed;
+     right: 0;
+     transform: translateX(100%);
+     transition: all .5s;
+     width: 100px;
+     z-index: 0;
+ }
+
+ .aui-indexed-list-toast.active {
+     -webkit-animation: fadeInRight 0.3s;
+     -webkit-transform: translateX(0%);
+     -webkit-transition: all 0s;
+     animation: fadeInRight 0.3s;
+     display: block;
+     opacity: 1;
+     transform: translateX(0%);
+     transition: all 0s;
+ }
+
+ .aui-indexed-list-view {
+     background-color: #ffffff;
+     position: relative;
+ }
+
+ .aui-indexed-list-view-group {
+     background: #f4f4f4;
+     color: #999;
+     font-size: 14px;
+     font-weight: 400;
+     margin-top: -1px;
+     padding: 5px 15px;
+     position: relative;
+ }
+
+ .aui-indexed-list-view-group:before {
+     -webkit-transform: scale(1);
+     -webkit-transform-origin: 0 0;
+     border-top: 1px solid #c8c7cc;
+     bottom: 0;
+     content: '';
+     display: block;
+     left: 0;
+     pointer-events: none;
+     position: absolute;
+     right: 0;
+     top: 0;
+ }
+
+ .aui-indexed-list-view.aui-in .aui-indexed-list-view-group:after { left: 0; }
+
+ @media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+     .aui-indexed-list-view-group:before {
+         -webkit-transform: scale(0.5);
+         bottom: -100%;
+         right: -100%;
+     }
+ }
+
+ @-webkit-keyframes fadeInRight {
+     from {
+         -webkit-transform: translate3d(100%, 0, 0);
+         opacity: 0;
+         transform: translate3d(100%, 0, 0);
+     }
+ }
+
+ @keyframes fadeInRight {
+     from {
+         -webkit-transform: translate3d(100%, 0, 0);
+         opacity: 0;
+         transform: translate3d(100%, 0, 0);
+     }
+ }

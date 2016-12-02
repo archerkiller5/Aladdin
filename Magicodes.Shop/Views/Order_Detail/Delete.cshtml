@@ -1,0 +1,153 @@
+﻿@model Magicodes.WeiChat.Data.Models.Order.Order_Detail
+
+@{
+    ViewBag.Title = "删除";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.OrderID)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.OrderID)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ProductName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ProductName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ProductImage)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ProductImage)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ProductID)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ProductID)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PackageID)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.PackageID)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Price)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Quantity)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.OpenId)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.OpenId)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TenantId)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TenantId)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreateTime)
+                        </dd>
+
+                    </dl>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <button type="button" class="btn btn-warning pull-right" id="btnDelete"><i class="fa fa-remove"></i>&nbsp;&nbsp;删除</button>
+                            <br/>
+                            @Html.ActionLink("返回", "Index")
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function() {
+            $("input[type=checkbox]")
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+            $('#btnDelete')
+                .on('click',
+                    function() {
+                        mwc.message.confirm("确定要删除么？",
+                            "警告",
+                            function(result) {
+                                if (result) {
+                                    mwc.ui.setBusy();
+                                    $('form').submit();
+                                }
+                            });
+                    });
+        });
+    </script>
+}

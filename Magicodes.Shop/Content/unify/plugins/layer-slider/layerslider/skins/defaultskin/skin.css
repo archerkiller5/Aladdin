@@ -1,0 +1,175 @@
+/* LayerSlider Default Skin */
+
+
+
+.ls-defaultskin {
+    -moz-border-radius: 6px;
+    -moz-box-shadow: 0px 3px 15px -5px #000;
+    -webkit-border-radius: 6px;
+    -webkit-box-shadow: 0px 3px 15px -5px #000;
+    background: #f7f7f7;
+    border-radius: 6px;
+    box-shadow: 0px 3px 15px -5px #000;
+    padding: 5px;
+}
+
+.ls-defaultskin .ls-bottom-nav-wrapper { margin: 15px auto 0px auto; }
+
+.ls-defaultskin .ls-playvideo {
+    height: 50px;
+    margin-left: -25px;
+    margin-top: -25px;
+    width: 50px;
+}
+
+.ls-defaultskin .ls-playvideo,
+.ls-defaultskin .ls-nav-sides,
+.ls-defaultskin .ls-bottom-slidebuttons a,
+.ls-defaultskin .ls-nav-prev,
+.ls-defaultskin .ls-nav-next,
+.ls-defaultskin .ls-nav-start,
+.ls-defaultskin .ls-nav-stop,
+.ls-defaultskin .ls-fullscreen,
+.ls-defaultskin .ls-loading-container { background-image: url(skin.png); }
+
+.ls-defaultskin .ls-playvideo { background-position: -300px -150px; }
+
+.ls-defaultskin .ls-playvideo:hover,
+.ls-defaultskin .ls-vpcontainer:hover .ls-playvideo { background-position: -375px -150px; }
+
+.ls-defaultskin .ls-nav-prev { background-position: 0px 0px; }
+
+.ls-defaultskin .ls-nav-prev:hover { background-position: 0px -75px; }
+
+.ls-defaultskin .ls-nav-next { background-position: -150px 0px; }
+
+.ls-defaultskin .ls-nav-next:hover { background-position: -150px -75px; }
+
+.ls-defaultskin .ls-nav-start { background-position: -300px 0px; }
+
+.ls-defaultskin .ls-nav-start:hover,
+.ls-defaultskin .ls-nav-start-active { background-position: -300px -75px; }
+
+.ls-defaultskin .ls-nav-stop { background-position: -450px 0px; }
+
+.ls-defaultskin .ls-nav-stop:hover,
+.ls-defaultskin .ls-nav-stop-active { background-position: -450px -75px; }
+
+.ls-defaultskin .ls-bottom-slidebuttons a { background-position: 0px -150px; }
+
+.ls-defaultskin .ls-bottom-slidebuttons a.ls-nav-active,
+.ls-defaultskin .ls-bottom-slidebuttons a:hover { background-position: -75px -150px; }
+
+.ls-defaultskin .ls-nav-sideleft { background-position: -150px -150px; }
+
+.ls-defaultskin .ls-nav-sideright { background-position: -225px -150px; }
+
+
+
+.ls-defaultskin .ls-nav-prev,
+.ls-defaultskin .ls-nav-next {
+    height: 55px;
+    margin-top: -27px;
+    position: absolute;
+    top: 50%;
+    width: 45px;
+    z-index: 10000;
+}
+
+.ls-defaultskin .ls-nav-prev { left: 5px; }
+
+.ls-defaultskin .ls-nav-next { right: 5px; }
+
+
+
+.ls-defaultskin .ls-bottom-slidebuttons,
+.ls-defaultskin .ls-bottom-slidebuttons a,
+.ls-defaultskin .ls-nav-start,
+.ls-defaultskin .ls-nav-stop,
+.ls-defaultskin .ls-nav-sides { height: 28px; }
+
+.ls-defaultskin .ls-bottom-slidebuttons,
+.ls-defaultskin .ls-bottom-slidebuttons a,
+.ls-defaultskin .ls-nav-start,
+.ls-defaultskin .ls-nav-stop,
+.ls-defaultskin .ls-nav-sides { display: inline-block; }
+
+.ls-defaultskin .ls-nav-start,
+.ls-defaultskin .ls-nav-stop { width: 24px; }
+
+.ls-defaultskin .ls-bottom-slidebuttons a { width: 20px; }
+
+.ls-defaultskin .ls-nav-sides { width: 6px; }
+
+
+
+.ls-defaultskin .ls-thumbnail-hover {
+    bottom: 55px;
+    margin-left: 1px;
+    padding: 4px;
+}
+
+.ls-defaultskin .ls-thumbnail-hover-bg {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0px 2px 12px -4px black;
+}
+
+.ls-defaultskin .ls-thumbnail-hover span {
+    border: 5px solid white;
+    margin-left: -5px;
+}
+
+
+
+.ls-defaultskin .ls-thumbnail { top: -20px; }
+
+.ls-defaultskin .ls-thumbnail-inner {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0px 3px 35px -10px black;
+    margin-left: -5px;
+    padding: 5px;
+}
+
+.ls-defaultskin .ls-thumbnail-slide a { margin-right: 5px; }
+
+.ls-defaultskin .ls-nothumb { background: #eee; }
+
+
+
+.ls-defaultskin .ls-above-thumbnails { display: none; }
+
+.ls-defaultskin .ls-below-thumbnails {
+    display: block;
+    margin-top: -20px;
+}
+
+
+
+.ls-defaultskin .ls-loading-container {
+    background-position: -450px -150px;
+    height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    width: 40px;
+}
+
+.ls-defaultskin .ls-loading-indicator {
+    background-image: url(loading.gif);
+    height: 22px;
+    margin-top: 9px;
+    width: 22px;
+}
+
+
+
+.ls-defaultskin .ls-fullscreen {
+    background-position: -525px -150px;
+    height: 30px;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+}
+
+.ls-defaultskin .ls-fullscreen:hover { background-position: -525px -190px; }

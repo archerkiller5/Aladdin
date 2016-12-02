@@ -1,0 +1,102 @@
+﻿@using Webdiyer.WebControls.Mvc;
+@model PagedList<Magicodes.WeiChat.Data.Models.Activity.Activity_LotteryPrizeOption>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LightLayout.cshtml";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin:2px 2px 10px 2px;" />
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Create",new
+                                                                    {
+                                                                        lotteryId = Request.QueryString["lotteryId"]
+                                                                    })" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                            <a class="btn btn-warning btn-sm" id="btnDelete" data-action="Delete" data-comfirmmessage="确定删除所选内容么？"><i class="fa fa-remove"></i>&nbsp;批量删除</a>
+                        </div>
+
+                    </div>
+                    <div>
+                        <table class="table table-striped table-bordered table-hover" style="overflow-x:scroll">
+                            <tr>
+                                <th>
+                                    <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks" />
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Prize)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PrizeCount)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OverCount)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="ids" class="i-checks" value="@(item.Id)" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Prize)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PrizeCount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OverCount)
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-white" href="@Url.Action("Details", new { id = item.Id,lotteryId = Request.QueryString["lotteryId"] })">查看</a>
+                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle">更多操作 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href='@Url.Action("Edit",
+                                                        new
+                                                        {
+                                                            id = item.Id,
+                                                            lotteryId = Request.QueryString["lotteryId"]
+                                                        })'>编辑</a>
+                                                </li>
+                                                <li>@Html.ActionLink("删除", "Delete", new { id = item.Id , lotteryId = Request.QueryString["lotteryId"] })</li>
+                                                @*分割线*@
+                                                @*<li class="divider"></li>*@
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function () {
+            mwc.bs.init();
+        });
+    </script>
+}

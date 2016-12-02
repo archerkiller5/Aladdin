@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "商品列表";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    @Styles.Render("~/weui/plugins/droploadStyles")
+    <style type="text/css">
+        .top-banner {
+            padding: 5px;
+        }
+
+        .product-panel {
+            font-family: Verdana, Geneva, sans-serif;
+            margin-top: 0px;
+            padding: 5px;
+            width: 100%;
+        }
+
+            .product-panel li {
+                background-color: #fff;
+                float: left;
+                /*height: 250px;*/
+                margin-bottom: 5px;
+                margin-left: 1%;
+                width: 48%;
+            }
+
+        .product-img {
+            height: 150px !important;
+            width: 100%;
+        }
+
+        .product-name {
+            font-size: 12px;
+            height: 58px;
+            overflow: hidden;
+            padding: 0 5px;
+            width: 100%;
+        }
+
+        .product-price {
+            color: #ff69b4; 
+            /*padding: 10px 0 5px 10px;*/
+            /*width: 50%;*/
+        }
+
+        .nfp1 {
+            font-size: 12px;
+        }
+
+        .nfp2 {
+            font-size: 16px;
+            float:left;
+        }
+
+        .product-evaluate {
+            color: #808080;
+            float: left;
+            font-size: 12px;
+            padding: 12px 10px 0 0;
+            text-align: right;
+            text-decoration: underline;
+            width: 50%;
+        }
+    </style>
+}
+<div class="top-banner">
+    <div class="aui-tab aui-tab-danger">
+        <ul class="aui-tab-nav aui-tab-border">
+            <li data-bind="attr:{'class':$root.flag=='精品排行'?'active':''},click:function(){ $root.ShowData('精品排行', this);}">精品排行</li>
+            <li data-bind="attr:{'class':$root.flag=='新品促销'?'active':''},click:function(){ $root.ShowData('新品促销', this);}">新品促销</li>
+            <li data-bind="attr:{'class':$root.flag=='热门推荐'?'active':''},click:function(){ $root.ShowData('热门推荐', this);}">热门推荐</li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/html" id="infinitescroll-template">
+
+    <ul class="product-panel" data-bind="foreach:$data">
+        <li data-bind="click:$root.gotoDetail">
+            <div class="product-handle">
+                <img class="product-img" data-bind="attr:{src:Photos[0].Url}">
+                <div class="product-body">
+                    <span class="productName" data-bind="text:ProductInfo.Name"></span>
+                    <div class="product-price">                    
+                        <span class="nfp2" data-bind="text: '¥'+ProductInfo.Price"></span>
+                        <em class="aui-text-info aui-text-right" style="float:right" data-bind="text:(ProductInfo.CommentCount>=0?ProductInfo.CommentCount:0)+'条评价'"> </em>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</script>
+
+<section class="aui-content">
+    <infinitescroll params="ajaxUrl:url"></infinitescroll>
+    <p style="margin-top: 30px">&nbsp;</p>
+</section>
+
+@section Scripts
+{
+    @Scripts.Render("~/weui/plugins/dropload")
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.flag = "@ViewBag.TagType";
+            self.url = ko.observable('/api/Product/GetForTag?&tagType=' + self.flag);
+            self.ShowData = function(status, li) {
+                self.flag = status;
+                var urls = '/api/Product/GetForTag?tagType=' + self.flag;
+                self.url(urls);
+            };
+
+            self.gotoDetail = function () {
+                location.href = '@Url.TenantAction("ProductDetail", "Product")' + '&productId=' + this.ProductInfo.Id;
+            };
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li')
+                .on('click',
+                    function() {
+                        $(this).siblings().removeClass('active');
+                        $(this).addClass('active');
+                    });
+        });
+    </script>
+}

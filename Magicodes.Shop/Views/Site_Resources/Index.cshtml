@@ -1,0 +1,198 @@
+﻿@using Magicodes.WeiChat.Data.Models.Site
+@using Magicodes.WeiChat.Unity
+@model List<Magicodes.WeiChat.Data.Models.Site.Site_ResourceType>
+@{
+    ViewBag.TwoTitle = "素材管理";
+    ViewBag.Title = "素材管理";
+    var resType = Model.First().ResourceType;
+    ViewBag.ThreeTitle = resType.GetEnumMemberDisplayName();
+}
+@Html.Partial("_FormHead")
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content" style="padding-top: 0;">
+                    <div class="file-manager" style="padding-left: 0">
+                        <tag-list params="type:'@resType',showUploadButton:true"></tag-list>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12" data-bind="foreach:Items">
+                    @switch (resType)
+                    {
+                        case SiteResourceTypes.Gallery:
+                            <div class="file-box">
+                                <div class="file animated rollIn" data-animation="rollIn">
+                                    <a href="#">
+                                        <span class="corner"></span>
+                                        <div class="image">
+                                            <img alt="image" class="img-responsive" data-bind="attr:{src:SiteUrl,errorurl:Url},click:$root.ImageClick" onerror="$(this).attr('src', $(this).attr('errorurl'));">
+                                        </div>
+                                        <div class="file-name">
+                                            <span data-bind="text:Name"></span>
+                                            <br>
+                                            <small data-bind="text:CreateTime"></small>
+                                            <span class="pull-right"><i class="fa fa-trash" data-bind="click:$root.Delete"></i></span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            break;
+                        case SiteResourceTypes.Voice:
+                            <div class="file-box" style="width: 330px">
+                                <div class="file">
+                                    <a href="#">
+                                        <span class="corner"></span>
+                                        @*<div class="icon">
+                                                <i class="fa fa-music"></i>
+                                            </div>*@
+                                        <audio class="icon" height="30" controls="controls" data-bind="attr:{src:Url==null?SiteUrl:Url},click:$root.ItemClick">
+                                            您的浏览器不支持播放音频，请使用Chrome。
+                                        </audio>
+
+                                        <div class="file-name">
+                                            <span data-bind="text:Name"></span>
+                                            <br>
+                                            <small data-bind="text:CreateTime"></small>
+                                            <span class="pull-right"><i class="fa fa-trash" data-bind="click:$root.Delete"></i></span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            break;
+                        case SiteResourceTypes.Video:
+                            <div class="file-box">
+                                <div class="file">
+                                    <a href="#">
+                                        <span class="corner"></span>
+                                        <video class="icon" controls="controls" data-bind="attr:{src:Url==null?SiteUrl:Url},click:$root.ItemClick">
+                                            您的浏览器不支持播放视频，请使用Chrome。
+                                        </video>
+                                        @*<div class="icon">
+                                                <i class="img-responsive fa fa-film"></i>
+                                            </div>*@
+
+                                        <div class="file-name">
+                                            <span data-bind="text:Name"></span>
+                                            <br>
+                                            <small data-bind="text:CreateTime"></small>
+                                            <span class="pull-right"><i class="fa fa-trash" data-bind="click:$root.Delete"></i></span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            break;
+                        //case SiteResourceTypes.Thumb:
+                        //    break;
+                        default:
+                            break;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/app/components/tag-list.js"></script>
+    <script>
+        function tagClick(tag) {
+            window.tag = tag;
+            window.CurrentModel.Init();
+        }
+
+        $(function() {
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+
+            $('ul.tag-list li.tag')
+                .each(function() {
+                    $(this)
+                        .on('click',
+                            function() {
+                                var $li = $(this);
+                                $li.addClass('text-warning').siblings().removeClass('text-warning');
+                                window.CurrentModel.Init();
+                            });
+                });
+            //$('ul.tag-list li.tag:eq(0)').trigger('click');
+            //将clicktype='modal'属性的链接均用弹窗打开
+            $("a[data-clicktype='modal']")
+                .on('click',
+                    function() {
+                        var url = '/Site_Resources/Upload/' + window.CurrentModel.GetChoiceValue();
+                        var title = window.CurrentModel.GetChoiceItem().data('title');
+                        mwc.window.show(title, url);
+                    });
+        });
+
+        function ViewModel() {
+            var self = this;
+            this.Items = ko.observableArray([]);
+            this.GetChoiceItem = function() {
+                return $('ul.tag-list li.tag.text-warning:eq(0)');
+            };
+            this.GetChoiceValue = function() {
+                return window.tag.Id;
+            };
+            //初始化，加载数据
+            this.Init = function() {
+                mwc.restApi.get({
+                    url: '@Url.Action("ListItems")',
+                    data: { Id: self.GetChoiceValue() },
+                    success: function(data) {
+                        self.Items(data);
+                    }
+                });
+            };
+            this.IsInIframe = function() {
+                return window.parent != window.self;
+            };
+            this.ImageClick = function() {
+                if (self.IsInIframe()) {
+                    self.Choice(this);
+                } else {
+                    mwc.window.show(this.Name, this.SiteUrl, null, null, true);
+                }
+            };
+            this.Choice = function(data) {
+                if (parent.choice) {
+                    parent.choice(data, '@resType.ToString()');
+                }
+                mwc.window.closeSeft();
+            };
+            this.ItemClick = function() {
+                if (self.IsInIframe()) {
+                    self.Choice(this);
+                } else {
+                    mwc.window.show(this.Name, this.SiteUrl);
+                }
+            };
+            this.Delete = function() {
+                var model = this;
+                mwc.message.confirm("确定要删除么？",
+                    function(result) {
+                        if (result) {
+                            mwc.restApi.delete({
+                                url: '@Url.Action("Delete")',
+                                data: { typeId: self.GetChoiceValue(), mediaId: model.MediaId, id: model.Id },
+                                success: function(data) {
+                                    mwc.notify.success(data.Message);
+                                    self.Init();
+                                }
+                            });
+                        }
+                    });
+            };
+        }
+    </script>
+}

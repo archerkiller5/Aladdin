@@ -1,0 +1,75 @@
+﻿@model Magicodes.WeiChat.Data.Models.Settings.Settings_Order
+@{
+    ViewBag.Title = "订单设置";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm("Index", "Settings_Order", FormMethod.Post))
+                    {
+                        <div class="row">
+                            <input id="Id" name="Id" value=@Model.Id style="display: none;">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.AutomaticGoodsReceiptDays, new {@class = "col-md-2 control-label"})
+                                    <div class="col-sm-2">
+                                        @Html.EditorFor(m => m.AutomaticGoodsReceiptDays, new {@class = "js-switch"})
+                                        @Html.ValidationMessageFor(model => model.AutomaticGoodsReceiptDays, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-2 control-label"></div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;<strong>保存</strong></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/switcheryStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/switchery")
+    <script>
+        $(function() {
+            $('input[type=checkbox]').attr('data-type', 'switch');
+            mwc.bs.initFormControls();
+            mwc.bs.initCheckedChange();
+        });
+
+        var msg = '@(ViewBag.Message)';
+        if (@ViewBag.Success.ToString().ToLower() == true) {
+            mwc.message.success(msg, "提示");
+        }
+
+    </script>
+}

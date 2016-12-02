@@ -1,0 +1,84 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "支付测试";
+}
+<br/>
+<div class="aui-content">
+    <div class="aui-btn aui-btn-block aui-btn-block" id="btnPay">立即支付</div>
+    <br/>
+    <div class="aui-btn aui-btn-block aui-btn-block" id="btnRedPack">微信红包</div>
+    <br/>
+    <div class="aui-btn aui-btn-block aui-btn-block" id="btnEnternpire">企业付款</div>
+
+</div>
+<br/>
+
+@section scripts
+{
+    <script>
+        $(function() {
+            $('#btnPay')
+                .on('click',
+                    function() {
+                        callpay();
+                    });
+            $('#btnRedPack')
+                .on('click',
+                    function() {
+                        redpack();
+                    });
+            $('#btnEnternpire')
+                .on('click',
+                    function() {
+                        enternpire();
+                    });
+        });
+
+        //调用微信JS api 支付
+        function jsApiCall() {
+            alert(@Html.Raw(ViewBag.PayPam));
+            WeixinJSBridge.invoke('getBrandWCPayRequest',
+                @Html.Raw(ViewBag.PayPam),
+                function(res) {
+                    is_suc = true;
+                    if (res.err_msg == "get_brand_wcpay_request:ok") { //支付成功后
+                        //alert("支付成功" + res.err_code + res.err_desc + res.err_msg);
+                        location.href = '@Url.TenantAction("MsgSend", "Mall")';
+                    } else {
+                        //
+                    }
+                });
+        }
+
+        function callpay() {
+            if (typeof (WeixinJSBridge) == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            } else {
+                jsApiCall();
+            }
+        }
+
+        function redpack() {
+            wc.restApi.post({
+                url: '/api/AppDemo/Pay/Redpack',
+                success: function(data) {
+                    alert(data);
+                }
+            });
+        }
+
+        function enternpire() {
+            wc.restApi.post({
+                url: '/api/AppDemo/Pay/Enternpire',
+                success: function(data) {
+                    alert(data);
+                }
+            });
+        }
+    </script>
+}

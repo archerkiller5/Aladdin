@@ -1,0 +1,345 @@
+﻿@model Magicodes.Shop.Models.WeiChatViewUserAndUserInfo 
+@{
+    ViewBag.Title = "新建";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.User.OpenId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.OpenId, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>
+                                    @Html.ValidationMessageFor(model => model.User.OpenId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>*@
+
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.User.Subscribe, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.User.Subscribe, new {htmlAttributes = new {@class = "i-checks"}})
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>
+                                        @Html.ValidationMessageFor(model => model.User.Subscribe, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>*@
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.NickName, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.NickName, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.NickName, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Sex, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.Sex, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.Sex, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.City, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.City, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.City, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Country, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.Country, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.Country, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Province, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.Province, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.Province, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Language, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.Language, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.Language, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.HeadImgUrl, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.HeadImgUrl, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.HeadImgUrl, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.SubscribeTime, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.SubscribeTime, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.SubscribeTime, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.UnionId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.UnionId, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.UnionId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.Remark, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.Remark, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.Remark, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.User.GroupId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.User.GroupId, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.User.GroupId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            @*<div class="form-group">
+                                @Html.LabelFor(model => model.User.AllowTest, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    <div class="checkbox">
+                                        @Html.EditorFor(model => model.User.AllowTest, new {htmlAttributes = new {@class = "i-checks"}})
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>
+                                        @Html.ValidationMessageFor(model => model.User.AllowTest, "", new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                            </div>*@
+                          
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Email, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                  
+                                        @Html.EditorFor(model => model.Userinfo.Email, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Email, "", new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Mobile, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                  
+                                        @Html.EditorFor(model => model.Userinfo.Mobile, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Mobile, "", new { @class = "text-danger" })
+                                 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Userid, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Userid, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Userid, "", new { @class = "text-danger" })
+                                 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Pwd, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Pwd, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Pwd, "", new { @class = "text-danger" })
+                                   
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.TrueName, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.TrueName, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.TrueName, "", new { @class = "text-danger" })
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.IdCard, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                  
+                                        @Html.EditorFor(model => model.Userinfo.IdCard, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.IdCard, "", new { @class = "text-danger" })
+                                  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Address, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Address, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Address, "", new { @class = "text-danger" })
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.WorkPlace_1, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                    
+                                        @Html.EditorFor(model => model.Userinfo.WorkPlace_1, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.WorkPlace_1, "", new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Business_scope_1, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Business_scope_1, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Business_scope_1, "", new { @class = "text-danger" })
+                                  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Tel_1, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Tel_1, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Tel_1, "", new { @class = "text-danger" })
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.WorkPlace_2, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                  
+                                        @Html.EditorFor(model => model.Userinfo.WorkPlace_2, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.WorkPlace_2, "", new { @class = "text-danger" })
+                                  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Business_scope_2, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                  
+                                        @Html.EditorFor(model => model.Userinfo.Business_scope_2, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Business_scope_2, "", new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Tel_2, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Tel_2, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Tel_2, "", new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.WorkPlace_3, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                 
+                                        @Html.EditorFor(model => model.Userinfo.WorkPlace_3, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.WorkPlace_3, "", new { @class = "text-danger" })
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Business_scope_3, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Business_scope_3, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Business_scope_3, "", new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Userinfo.Tel_3, new { @class = "control-label col-sm-2" })
+                                <div class="col-sm-10">
+                                   
+                                        @Html.EditorFor(model => model.Userinfo.Tel_3, new { htmlAttributes = new { @class = "i-checks" } })
+                                        @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                        @Html.ValidationMessageFor(model => model.Userinfo.Tel_3, "", new { @class = "text-danger" })
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}

@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "获取位置 ";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>请选择并标注位置</h5> <span class="label label-primary"></span>
+                    <a class="btn btn-primary pull-right" id="btnSetPoint"><i class="fa fa-map-marker"></i> 确定选择</a>
+                </div>
+                <div class="ibox-content">
+                    <div id="f_container">
+                        <div id="container"></div>
+                    </div>
+                    <div id="allmap" style="min-height: 400px; width: 100%;"></div>
+                    <input type="hidden" id="lat">
+                    <input type="hidden" id="lng">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+
+}
+
+@section Scripts {
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=826e806b86676d155282de3d37188137"></script>
+    <script src="http://api.map.baidu.com/library/MarkerTool/1.2/src/MarkerTool_min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/CityList/1.4/src/CityList_min.js"></script>
+    <script type="text/javascript">
+        var marker;
+        // 百度地图API功能
+        var map = new BMap.Map("allmap"); // 创建Map实例
+        map.enableScrollWheelZoom(true);
+        map.addControl(new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_RIGHT })); // 右下比例尺
+        map.setDefaultCursor("Crosshair"); //鼠标样式
+        map.addControl(new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_RIGHT })); //右上角，仅包含平移和缩放按钮
+        var cityList = new BMapLib.CityList({
+            container: 'container',
+            map: map
+        });
+        $('select').addClass('form-control m-b').css({ "width": "150px", "display": "inline", "margin-bottom": "5px" });
+        //暂时不做搜索
+        //$('#container').prepend('<div class="input-group" style="width:230px;"><input class="input-sm form-control" id="q" name="q" placeholder="请输入关键字" type="text" value=""><span class="input-group-btn"><button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i>&nbsp;搜索</button></span></div>');
+        //function search() {
+        //    $("txtResult").value = ""//每次生成前清空文本域
+        //    map.clearOverlays(); //清除地图上所有标记
+        //    var c = $("txtCity").value;
+        //    city.search(c);//查找城市
+        //    var s = $("txtSearch").value;
+        //    var ls = new BMap.LocalSearch(c);
+        //    ls.search(s);
+        //    var i = 1;
+        //    ls.setSearchCompleteCallback(function (rs) {
+        //        if (ls.getStatus() == BMAP_STATUS_SUCCESS) {
+        //            // alert(rs.getCurrentNumPois()+''+rs.getNumPages());
+        //            for (j = 0; j < rs.getCurrentNumPois() ; j++) {
+        //                var poi = rs.getPoi(j);
+        //                var marker = new BMap.Marker(poi.point);
+        //                map.addOverlay(marker); //如果查询到，则添加红色marker
+        //                $("txtResult").value += poi.title + ":" + poi.point.lng + "," + poi.point.lat + '\n';
+        //                marker.addEventListener("click", attribute);
+        //            }
+        //            if (rs.getPageIndex != rs.getNumPages()) {
+        //                ls.gotoPage(i);
+        //                i = i + 1;
+        //            }
+        //        }
+        //    });
+        //}
+        map.addEventListener("click", setPoint);
+
+        function setPoint(e) {
+            map.clearOverlays();
+            marker = new BMap.Marker(new BMap.Point(e.point.lng, e.point.lat)); // 创建标注
+            map.addOverlay(marker);
+            //获取经纬度
+            $("#lng").val(e.point.lng);
+            $("#lat").val(e.point.lat);
+        }
+
+        $('#btnSetPoint')
+            .on('click',
+                function () {
+                    if ($("#lng").val() == '') {
+                        mwc.message.error('请选择并标注位置！');
+                        return;
+                    }
+                    if (window.parent != window.self) {
+                        if (parent.setPoint) {
+                            var areas = [];
+                            $.each($('select'), function (i, v) {
+                                var value = $(this).val();
+                                if (value == '') {
+                                    areas.push('');
+                                    return;
+                                }
+                                var text = $(this).find('option[value=' + value + ']').text();
+                                areas.push(text);
+                            });
+                            console.debug(areas);
+                            parent.setPoint($("#lng").val(), $("#lat").val(), areas);
+                        }
+
+                        mwc.window.closeSeft();
+                    }
+                });
+
+        function showMap(lng, lat) {
+            var zoomMap = new BMap.Map("zoomMap");
+            zoomMap.centerAndZoom(new BMap.Point(lng, lat), map.getZoom());
+            var marker1 = new BMap.Marker(new BMap.Point(lng, lat)); // 创建标注
+            zoomMap.addOverlay(marker1); // 将标注添加到地图中
+        }
+    </script>
+}

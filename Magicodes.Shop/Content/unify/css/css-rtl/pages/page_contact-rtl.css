@@ -1,0 +1,29 @@
+/*Contact Pages
+------------------------------------*/
+.map {
+    border-bottom: solid 1px #eee;
+    border-top: solid 1px #eee;
+    height: 350px;
+    width: 100%;
+}
+
+/* important! bootstrap sets max-width on img to 100% which conflicts with google map canvas*/
+
+.map img { max-width: none; }
+
+.map-box { height: 250px; }
+
+.map-box-space { margin-top: 15px; }
+
+.map-box-space1 { margin-top: 7px; }
+
+/*Custom Sky Forms (Advanced Contacts Page)*/
+
+.sky-changes-3.sky-form,
+.sky-changes-3.sky-form footer { border: none; }
+
+.sky-changes-3.sky-form footer,
+.sky-changes-3.sky-form fieldset {
+    background: none;
+    padding: 0;
+}

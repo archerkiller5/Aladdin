@@ -1,0 +1,49 @@
+﻿
+<#+
+// Gets the related entity information for an association property where there is an associated foreign key property.
+// Note: ModelMetadata.RelatedEntities contains only the related entities associated through a foreign key property.
+
+RelatedModelMetadata GetRelatedModelMetadata(PropertyMetadata property){
+    RelatedModelMetadata propertyModel;
+    IDictionary<string, RelatedModelMetadata> relatedProperties;
+    if(ModelMetadata.RelatedEntities != null)
+    {
+        relatedProperties = ModelMetadata.RelatedEntities.ToDictionary(item => item.AssociationPropertyName);
+    }
+    else
+    {
+        relatedProperties = new Dictionary<string, RelatedModelMetadata>();
+    }
+    relatedProperties.TryGetValue(property.PropertyName, out propertyModel);
+
+    return propertyModel;
+}
+
+// A foreign key, e.g. CategoryID, will have an association name of Category
+string GetAssociationName(PropertyMetadata property) {
+    RelatedModelMetadata propertyModel = GetRelatedModelMetadata(property);
+    return propertyModel != null ? propertyModel.AssociationPropertyName : property.PropertyName;
+}
+
+// A foreign key, e.g. CategoryID, will have a value expression of Category.CategoryID
+string GetValueExpression(PropertyMetadata property) {
+    RelatedModelMetadata propertyModel = GetRelatedModelMetadata(property);
+    return propertyModel != null ? propertyModel.AssociationPropertyName + "." + propertyModel.DisplayPropertyName : property.PropertyName;
+}
+
+// 获取主键名称（仅返回第一个）
+string GetPrimaryKeyName() {
+	//多个主键的问题
+    return (ModelMetadata.PrimaryKeys != null && ModelMetadata.PrimaryKeys.Count() >= 1) ? ModelMetadata.PrimaryKeys[0].PropertyName : null;
+}
+
+string GetPrimaryKeyExpression(string itemName) {
+	if(ModelMetadata.PrimaryKeys==null ||ModelMetadata.PrimaryKeys.Count()==0) return null;
+	//多个主键的问题
+    return (ModelMetadata.PrimaryKeys.Count() > 1) ? string.Join("+ \";\" +",ModelMetadata.PrimaryKeys.Select(p=>itemName+"."+p.PropertyName)) : (itemName+"."+ModelMetadata.PrimaryKeys[0].PropertyName);
+}
+
+bool IsPropertyGuid(PropertyMetadata property) {
+    return String.Equals("System.Guid", property.TypeName, StringComparison.OrdinalIgnoreCase);
+}
+#>

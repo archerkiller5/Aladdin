@@ -1,0 +1,140 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<WeiChat_User>
+@{
+    ViewBag.Title = "微信粉丝管理";
+    var dicSexIcon = new Dictionary<Magicodes.WeChat.SDK.Apis.User.WeChatSexTypes, string>
+    {
+        {Magicodes.WeChat.SDK.Apis.User.WeChatSexTypes.Man, "fa-male"},
+        {Magicodes.WeChat.SDK.Apis.User.WeChatSexTypes.Woman, "fa-female"},
+        {Magicodes.WeChat.SDK.Apis.User.WeChatSexTypes.UnKnown, "fa-question"}
+    };
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    @using (Html.BeginForm("IndexView", Request.RequestContext.RouteData.GetRequiredString("controller"), FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="input-group">
+                    @Html.TextBox("q", ViewBag.q as string, new { placeholder = "请输入关键字", @class = "input-sm form-control" })
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i>&nbsp;搜索</button>
+                    </span>
+                </div>
+            </div>        
+            <a class="btn btn-info btn-sm ladda-button loadingButton" data-reload="true" data-style="expand-right" data-ajaxurl="@Url.Action("Sync")"><i class="fa fa-circle-o"></i>&nbsp;全量同步</a>
+            <a class="btn btn-primary btn-sm" href="@Url.Action("Index", "WeiChat_User")"><i class="fa fa-chevron-up"></i>&nbsp;切换视图</a>
+            @*<button type="submit" class="btn btn-sm btn-primary" name="exportType" value="1"><i class="fa fa-file-archive-o"></i>&nbsp;导出CSV</button>*@
+            @*<button type="submit" class="btn btn-sm btn-primary" name="exportType" value="2"><i class="fa fa-file-excel-o"></i>&nbsp;导出Excel</button>*@
+        </div>
+    }
+    <hr style="margin: 2px 2px 10px 2px;" />
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4">
+                <div class="contact-box" style="height: 160px;">
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <img alt="image" class="img-circle m-t-xs img-responsive" src="@item.HeadImgUrl">
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <h3>
+                            <i class="fa @(dicSexIcon[item.Sex])"></i>&nbsp;<strong>@item.NickName</strong>
+                        </h3>
+                        <p><i class="fa fa-map-marker"></i>&nbsp;&nbsp;@item.Country/ @item.Province / @item.City</p>
+                        <p><i class="fa fa-dot-circle-o"></i>&nbsp;&nbsp;@item.SubscribeTime</p>
+                        <p>
+                            <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                            @if (string.IsNullOrEmpty(item.Remark))
+                            {
+                                <button type="button" data-action="remark" class="btn btn-outline btn-warning btn-sm" data-bind="click:function(){ ShowRemarkModal('@item.OpenId','@item.Remark') }"><i class="fa fa-warning"></i>&nbsp;<span class="bold">添加备注</span></button>
+                            }
+                            else
+                            {
+                                <button type="button" data-action="remark" class="btn btn-outline btn-warning btn-sm" data-bind="click:function(){ ShowRemarkModal('@item.OpenId','@item.Remark') }">&nbsp;<span class="bold">@item.Remark</span></button>
+                            }
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        }
+        @Html.Partial("_BootStrapPager", Model)
+    </div>
+    <div class="modal inmodal" id="remarkModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated bounceInRight" data-bind="with:RemarkModel">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">关闭</span>
+                    </button>
+                    <i class="fa fa-laptop modal-icon"></i>
+                    <h4 class="modal-title">备注</h4>
+                    <small class="font-bold"></small>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" data-bind="value:OpenId" />
+                    <div class="form-group">
+                        <label>备注：</label> <input type="text" placeholder="请输入备注" data-bind="value:Remark" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-bind="click:$root.SaveRemark">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/Content/plugins/select2/select2Styles")
+    @Styles.Render("~/plugins/laddaStyles")
+}
+@section Scripts {
+@Scripts.Render("~/plugins/select2")
+@Scripts.Render("~/plugins/iCheck")
+@Scripts.Render("~/plugins/ladda")
+    <script type="text/javascript">
+        function ViewModel() {
+            var self = this;
+            this.RemarkModel = ko.observable({ "OpenId": "", "Remark": "" });
+            this.ShowRemarkModal = function (openId, remark) {
+                self.RemarkModel({ "OpenId": openId, "Remark": remark });
+                $('#remarkModal').modal('show');
+            };
+            this.SaveRemark = function (remarkModel) {
+                $.post('/WeiChat_User/RemarkView',
+                    remarkModel,
+                    function (msg) {
+                        if (msg.MessageType > 1) {
+                            toastr.error('警告', msg.Message);
+                        } else {
+                            $('#remarkModal').modal('hide');
+                            mwc.message.success(msg.Message)
+                                .done(function () {
+                                    location.reload();
+                                });
+                        }
+                    });
+            };
+        }
+
+        window.VM = new ViewModel();
+        ko.applyBindings(VM);
+        mwc.bs.init({ loadingButton: true });
+    </script>
+}

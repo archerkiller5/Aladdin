@@ -1,0 +1,174 @@
+﻿.wrapper {
+    margin: 10px auto;
+    position: relative;
+    width: 424px;
+    zoom: 1;
+}
+
+.tabbody { height: 225px; }
+
+.tabbody .panel {
+    background: #fff;
+    display: none;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.tabbody .focus { display: block; }
+
+body {
+    color: #888;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+input, label { vertical-align: middle }
+
+.clear { clear: both; }
+
+.pl {
+    padding-left: 18px;
+    padding-left: 23px\9;
+}
+
+#imageList {
+    height: 215px;
+    margin-top: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+    width: 420px;
+}
+
+#imageList div {
+    float: left;
+    height: 95px;
+    margin: 5px 10px;
+    width: 100px;
+}
+
+#imageList img {
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.bgarea {
+    border: 1px solid #A8A297;
+    height: 84%;
+    margin: 10px;
+    padding: 5px;
+}
+
+.content div { margin: 10px 0 10px 5px; }
+
+.content .iptradio { margin: 0px 5px 5px 0px; }
+
+.txt { width: 280px; }
+
+.wrapcolor { height: 19px; }
+
+div.color {
+    float: left;
+    margin: 0;
+}
+
+#colorPicker {
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px #D3D6DA;
+    display: inline-block;
+    float: left;
+    height: 17px;
+    margin: 0;
+    width: 17px;
+}
+
+div.alignment, #custom {
+    margin-left: 23px;
+    margin-left: 28px\9;
+}
+
+#custom input {
+    height: 15px;
+    min-height: 15px;
+    width: 20px;
+}
+
+#repeatType { width: 100px; }
+
+
+/* 图片管理样式 */
+
+#imgManager {
+    height: 225px;
+    width: 100%;
+}
+
+#imgManager #imageList {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+}
+
+#imgManager ul {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#imgManager li {
+    background-color: #eee;
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 113px;
+    list-style: none;
+    margin: 9px 0 0 19px;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    width: 113px;
+}
+
+#imgManager li.clearFloat {
+    clear: both;
+    display: block;
+    float: none;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    width: 0;
+}
+
+#imgManager li img { cursor: pointer; }
+
+#imgManager li .icon {
+    background-repeat: no-repeat;
+    border: 0;
+    cursor: pointer;
+    height: 113px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 113px;
+    z-index: 2;
+}
+
+#imgManager li .icon:hover {
+    border: 3px solid #1094fa;
+    height: 107px;
+    width: 107px;
+}
+
+#imgManager li.selected .icon {
+    background-image: url(images/success.png);
+    background-position: 75px 75px;
+}
+
+#imgManager li.selected .icon:hover {
+    background-position: 72px 72px;
+    border: 3px solid #1094fa;
+    height: 107px;
+    width: 107px;
+}

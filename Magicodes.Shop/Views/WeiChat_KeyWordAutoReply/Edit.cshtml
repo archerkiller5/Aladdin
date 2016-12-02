@@ -1,0 +1,117 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_KeyWordAutoReply
+
+@{
+    ViewBag.TwoTitle = "关键字回复";
+}
+@Html.Partial("_FormHead")
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.TenantId)
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.KeyWord, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.KeyWord, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.KeyWord, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MatchType, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EnumDropDownListFor(model => model.MatchType, new {@class = "form-control"})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.MatchType, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.AllowEventKey, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.AllowEventKey)
+                                    <span class="help-block m-b-none">请确保菜单事件关键字和本关键字大小写一致，仅支持完全等于时触发。</span>
+                                    @Html.ValidationMessageFor(model => model.AllowEventKey, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <content-choice-button params="contentId: ContentId,mediaId:MediaId,keyWordContentType:KeyWordContentType,contentTypes:Types"></content-choice-button>
+
+                            <input type="hidden" name="KeyWordContentType" data-bind="value:KeyWordContentType"/>
+                            <input type="hidden" name="ContentId" data-bind="value:ContentId"/>
+                            <input type="hidden" name="MediaId" data-bind="value:MediaId"/>
+
+                            @Html.ValidationMessageFor(model => model.KeyWordContentType, "", new {@class = "text-danger"})
+                            @Html.ValidationMessageFor(model => model.ContentId, "", new {@class = "text-danger"})
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+@section Scripts{
+    <script src="~/Scripts/app/components/content-choice.js"></script>
+    @Scripts.Render("~/plugins/iCheck")
+    <script>
+        function ViewModel() {
+            var self = this;
+            this.KeyWordContentType = ko.observable('@((int) Model.KeyWordContentType)');
+            this.ContentId = ko.observable('@(Model.ContentId)');
+            this.Types = ko.observableArray([]);
+            this.MediaId = ko.observable('');
+            this.init = function() {
+                mwc.restApi.get({
+                    url: '@Url.Action("GetKeyWordContentTypes", "WeiChat_KeyWordAutoReply")',
+                    success: function(data) {
+                        for (var name in data) {
+                            self.Types().push({ text: name, value: data[name] });
+                        }
+                        //为了兼容IE、火狐等
+                        ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+                    }
+                });
+            };
+            self.init();
+        }
+
+        $(function() {
+            mwc.bs.init({
+                //是否启用ICheck
+                iCheck: true,
+                //是否启用选择所有
+                checkAll: false,
+                //是否启用模式框链接触发
+                modalClick: false,
+                //是否启用批量操作
+                batchOperation: false,
+                //是否启用loadingButton
+                loadingButton: false
+            });
+            window.CurrentModel = new ViewModel();
+        });
+    </script>
+}

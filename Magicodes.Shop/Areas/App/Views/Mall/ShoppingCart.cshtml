@@ -1,0 +1,216 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "购物车";
+    // Layout = "~/Areas/App/Views/Shared/_MallLayout.cshtml";
+}
+
+<link href="~/Content/aui/css/aui-iconfont.css" rel="stylesheet"/>
+@section styles{
+    <style type="text/css">
+        .aui-nav .aui-bar-tab { background: #34495e; }
+
+        .aui-nav .aui-bar-tab li .aui-iconfont, .aui-nav .aui-bar-tab li p { color: #fff; }
+
+        .aui-nav .aui-bar-tab li.active .aui-iconfont, .aui-nav .aui-bar-tab li.active p { color: #14bd7c; }
+
+        .aui-nav {
+            background: #f90;
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .aui-nav div { height: 55px; }
+
+        .aui-nav .buy { line-height: 55px; }
+
+        .aui-nav p { color: #fff; }
+
+        .aui-nav .aui-iconfont {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .blue { background: #eee; }
+
+        .blue .aui-iconfont, .blue p { color: #999; }
+
+        .service { background: #eec363; }
+    </style>
+
+
+}
+<div class="aui-content">
+    <!-- ko if:Goods().length==0 -->
+    <h2 class="aui-text-center aui-text-blue" style="margin-top: 50px">
+        空空而已，赶紧<a href="@Url.TenantAction("Index", "Store")">去逛逛吧</a>！
+    </h2>
+    <!-- /ko -->
+    <!-- ko if:Goods().length>0 -->
+    <section class="aui-content">
+        <ul class="aui-list-view" data-bind="template: { name: 'tplGoods', foreach: Goods }"></ul>
+    </section>
+    <!-- /ko -->
+</div>
+
+<footer class="aui-nav" id="aui-footer">
+    <div class="aui-col-xs-7 aui-bg-blue">
+        <p class="aui-text-left" style="margin-left: 20px; margin-top: 7px;" data-bind="text:'共计：'+totalCount()+'件'"></p>
+        <p class="aui-text-left" style="margin-left: 20px;" data-bind="text:'总计：￥'+totalPrice()"></p>
+    </div>
+    <div class="aui-col-xs-5 buy aui-bg-danger" data-bind="click:billing">
+        <p data-bind="text:'去结算：￥'+currentTotalPrice()"></p>
+    </div>
+</footer>
+
+<script type="text/html" id="tplGoods">
+    <li class="aui-list-view-cell aui-img aui-counter-list">
+        <input class="aui-pull-left aui-checkbox" type="checkbox" data-bind="checked: checked">
+        <img class="aui-img-object aui-pull-left" data-bind="attr:{src:Product.Image}">
+        <div class="aui-img-body">
+            <span data-bind="text:Product.Name"></span>
+            <i class="aui-iconfont aui-icon-delete aui-pull-right" style="color: black; padding: 0px;" data-bind="click:$root.deleteGoods"></i>
+
+            <div class="aui-flex-item-12">
+                <div class="aui-counter-box">
+                    <div class="aui-pull-left aui-text-danger" data-bind="text:'￥'+ Package.AttributePrice+'(属性:'+ Package.AttributeName + ')'"></div>
+                    <div class="aui-counter aui-pull-right">
+                        <div class="aui-counter-minus" data-bind="click:$root.minus,css:Cart.Quantity > 1 ? '' : 'aui-disabled'"></div>
+                        <input class="aui-counter-input" type="text" data-bind="value:Cart.Quantity" readonly="readonly">
+                        <div class="aui-counter-plus" data-bind="click:$root.plus"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+<form id="billingForm" method="post" action="@Url.TenantAction("OrderGenerated", "Mall")">
+    <input type="hidden" name="CartIds"/>
+</form>
+
+@section scripts{
+
+    <script>
+        function viewModel() {
+            var self = this;
+            this.Goods = ko.observableArray([]);
+
+            //重新加载
+            this.reload = function() {
+                wc.restApi.get({
+                    url: '/api/Cart/Get',
+                    success: function(data) {
+                        $.each(data,
+                            function(i, v) {
+                                v.checked = ko.observable(true);
+                            });
+                        self.Goods(data);
+                    }
+                });
+            };
+
+            //当前结算金额
+            this.currentTotalPrice = ko.computed(function() {
+                    var price = 0;
+                    var goods = self.Goods();
+                    $.each(goods,
+                        function(i, v) {
+                            if (v.checked())
+                                price += v.Package.AttributePrice * v.Cart.Quantity;
+                        });
+                    return price.toFixed(2);
+                },
+                this);
+            //+1方法
+            this.plus = function() {
+                if (this.Cart.Quantity + 1 > 9) {
+                    wc.notify.warn('数量最多只能为9！');
+                    return;
+                }
+                this.Cart.Quantity++;
+                self.updareGoods(this.Cart.Id, this.Cart.Quantity);
+                self.refreshLocalData();
+            };
+            //-1方法
+            this.minus = function() {
+                if (this.Cart.Quantity > 1)
+                    this.Cart.Quantity--;
+                self.updareGoods(this.Cart.Id, this.Cart.Quantity);
+                self.refreshLocalData();
+            };
+            //删除商品 Add by zp 2016-07-05
+            this.deleteGoods = function() {
+                wc.restApi.get({
+                    url: '/api/Cart/Delete/' + this.Cart.Id,
+                    success: function(result) {
+                        self.reload();
+                    }
+                });
+            };
+            //更新商品数目 Add by zp 2016-07-11
+            this.updareGoods = function(id, number) {
+                wc.restApi.post({
+                    url: '/api/Cart/SetNum/' + id + '/' + number,
+                    success: function(result) {
+                        self.reload();
+                    }
+                });
+            };
+
+            //刷新数据和UI
+            this.refreshLocalData = function(data) {
+                var data = self.Goods();
+                self.Goods([]);
+                self.Goods(data);
+            };
+            //结算
+            this.billing = function() {
+                if (self.currentTotalPrice() > 0) {
+                    var postData = [];
+                    var goods = self.Goods();
+                    $.each(goods,
+                        function(i, v) {
+                            if (v.checked())
+                                postData.push(v.Cart.Id);
+                        });
+                    $('input[name=CartIds]').val(JSON.stringify(postData));
+                    $('#billingForm').get(0).submit();
+                } else
+                    wc.notify.warn('请选择需要结算的商品！');
+            };
+            //共计
+            this.totalCount = ko.computed(function() {
+                    var quantity = 0;
+                    var goods = self.Goods();
+                    $.each(goods,
+                        function(i, v) {
+                            if (v.checked()) {
+                                quantity += v.Cart.Quantity;
+                            }
+                        });
+                    return quantity;
+                },
+                this);
+            //总计
+            this.totalPrice = ko.computed(function() {
+                    var price = 0;
+                    var goods = self.Goods();
+                    $.each(goods,
+                        function(i, v) {
+                            if (v.checked()) {
+                                price += (v.Package.AttributePrice * v.Cart.Quantity);
+                            }
+                        });
+                    return price.toFixed(2);
+                },
+                this);
+            self.reload();
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+    </script>
+
+}

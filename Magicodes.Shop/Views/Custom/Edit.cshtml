@@ -1,0 +1,87 @@
+﻿@model Magicodes.Shop.Models.AddCustomViewModel
+@using Magicodes.WeChat.SDK;
+@{
+    ViewBag.Title = "重置客服信息";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                客服管理
+            </li>
+            <li class="active">
+                <a href="@Url.Action("Send", "Message")">@ViewBag.Title</a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    @Html.Partial("_Notifications")
+                    @using (Html.BeginForm("Edit", "Custom", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="text-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Account, new { @class = "col-md-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.HiddenFor(m => m.Account)
+                                    <div class="input-group m-b"><input type="text" class="form-control" value="@Model.Account" disabled></input><span class="input-group-addon">&#64;@WeChatConfigManager.Current.GetConfig().WeiXinAccount</span> 
+                                    </div>
+                                    <span class="help-block m-b-none">格式为：账号前缀&#64;公众号微信号，账号前缀最多10个字符，必须是英文或者数字字符。如果没有公众号微信号，请前往微信公众平台设置。</span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.NickName, new { @class = "col-md-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.NickName, new { @class = "form-control" })
+                                    <span class="help-block m-b-none">最长6个汉字或12个英文字符。</span>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.Password, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="submit">提  交</button>
+                                </div>
+                            </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

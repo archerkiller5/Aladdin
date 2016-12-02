@@ -1,0 +1,49 @@
+﻿@foreach (ModelMetadata item in ViewBag.Fields)
+{
+    if (item.IsComplexType || (ViewBag.IgnoreFields.IndexOf("," + item.PropertyName + ",") != -1))
+    {
+        continue;
+    }
+    if (ViewBag.ShowFields.IndexOf("," + item.PropertyName + ",") != -1)
+    {
+        var validators = item.GetValidators(ViewContext.Controller.ControllerContext);
+        var isRequired = false;
+        var maxStrLength = "0";
+        foreach (var validator in validators)
+        {
+            var rules = validator.GetClientValidationRules();
+            foreach (var rule in rules)
+            {
+                <text>
+                    <div style="display: none">
+
+                    </div>
+                </text>
+                switch (rule.ValidationType)
+                {
+                    case "required":
+                        isRequired = true;
+                        break;
+                    case "maxlength":
+                        maxStrLength = rule.ValidationParameters["max"].ToString();
+                        break;
+                }
+            }
+        }
+        <tr>
+            <th class='formTitle'>@item.DisplayName：</th>
+            <td class='formValue'>
+                <input id="@item.PropertyName" name="@item.PropertyName" type="text" class="txt @(isRequired ? "required" : "")" placeholder="@item.Description" @(maxStrLength != "0" ? "maxlength=" + maxStrLength : "")/>
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr style="display: none">
+            <td class='formTitle'>@item.DisplayName：</td>
+            <td class='formValue'>
+                <input id="@item.PropertyName" name="@item.PropertyName" type="hidden"/>
+            </td>
+        </tr>
+    }
+}

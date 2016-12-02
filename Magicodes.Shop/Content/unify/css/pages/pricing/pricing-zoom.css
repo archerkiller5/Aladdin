@@ -1,0 +1,210 @@
+/*Pricing Page
+------------------------------------*/
+/*Pricing Head*/
+.no-space-pricing [class^="col-"],
+.no-space-pricing [class*=" col-"] { padding: 0; }
+
+.pricing-zoom .pricing {
+    border-radius: 3px;
+    box-shadow: 0 0 5px #eee;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.pricing-zoom .pricing:hover { box-shadow: 0 0 15px #b5b5b5; }
+
+.pricing-zoom .pricing:hover h4 { color: #74C52C; }
+
+.pricing-zoom .pricing-head { text-align: center; }
+
+.pricing-zoom .pricing h3,
+.pricing-zoom .pricing h4 {
+    font-weight: bold;
+    line-height: normal;
+    margin: 0;
+}
+
+.pricing-zoom .pricing p {
+    font-size: 11px;
+    padding-top: 10px;
+}
+
+.pricing-zoom .pricing-head h3 span,
+.pricing-zoom .pricing-head h4 span {
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.pricing-zoom .pricing-head h3 {
+    background: #74C52C;
+    border-radius: 3px 3px 0 0;
+    color: #fafafa;
+    font-family: Arial;
+    font-size: 35px;
+    padding: 12px 0;
+    text-shadow: 0 1px 0 #32a20f;
+}
+
+.pricing-zoom .pricing-head h4 {
+    border-bottom: solid 1px #f5f9e7;
+    color: #888;
+    font-size: 70px;
+    padding: 5px 0;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.pricing-zoom .pricing-head h4 i {
+    font-size: 28px;
+    font-style: normal;
+    position: relative;
+    top: -8px;
+}
+
+.pricing-zoom .pricing-head h4 span {
+    font-size: 14px;
+    font-style: normal;
+    position: relative;
+    top: -10px;
+}
+
+/*Pricing Content*/
+
+.pricing-zoom .pricing-content { margin-bottom: 0px; }
+
+.pricing-zoom .pricing-content li {
+    border-bottom: solid 1px #f5f9e7;
+    color: #888;
+    font-size: 12px;
+    padding: 7px 15px;
+}
+
+.pricing-zoom .pricing-content li i {
+    color: #72c02c;
+    font-size: 16px;
+    margin-right: 5px;
+    position: relative;
+}
+
+/*Pricing Footer*/
+
+.pricing-zoom .pricing-footer {
+    border-radius: 0 0 3px 3px;
+    color: #777;
+    font-size: 11px;
+    line-height: 17px;
+    padding: 0 20px 19px;
+    text-align: center;
+}
+
+/*Pricing Active*/
+
+.pricing-zoom .price-active,
+.pricing-zoom .pricing:hover {
+    margin-top: -15px;
+    z-index: 9;
+}
+
+.pricing-zoom .price-active h4 { color: #74C52C; }
+
+/*Pricing Extra*/
+
+.pricing-zoom .bg-color { background-color: #f9f9f9; }
+
+.pricing-zoom .no-space-pricing { padding: 0 15px; }
+
+.pricing-zoom .sticker-right,
+.pricing-zoom .sticker-left {
+    color: #fff;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    width: 150px;
+}
+
+.pricing-zoom .sticker-right {
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    background: rgba(231, 76, 60, 1);
+    right: -49px;
+    top: 13px;
+    transform: rotate(45deg);
+}
+
+.pricing-zoom .sticker-left {
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    background: rgba(116, 197, 44, 1);
+    left: -48px;
+    top: 9px;
+    transform: rotate(-45deg);
+}
+
+/*Pricing Zoom  
+------------------------------------*/
+
+.pricing-zoom .pricing:hover {
+    -moz-transition: box-shadow 0.3s ease-in-out;
+    -o-transition: box-shadow 0.3s ease-in-out;
+    -webkit-transition: box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.pricing-zoom .pricing-head h4 {
+    background: url("../../img/breadcrumbs.png")
+                repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+}
+
+.pricing-zoom .price-active .pricing-head h4,
+.pricing-zoom .pricing:hover .pricing-head h4 {
+    -moz-transition: color 0.5s ease-in-out;
+    -o-transition: color 0.5s ease-in-out;
+    -webkit-transition: color 0.5s ease-in-out;
+    font-size: 80px;
+    padding: 15px 0;
+    transition: color 0.5s ease-in-out;
+}
+
+/* Devices (Desktop Mode) */
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .sticker-right {
+        font-size: 10px;
+        padding: 3px;
+        right: -58px;
+        top: 10px;
+    }
+
+    .sticker-left {
+        font-size: 10px;
+        left: -58px;
+        padding: 3px;
+        top: 10px;
+    }
+}
+
+/* Medium Devices (Desktops, 992px and less) */
+
+@media (max-width: 991px) {
+    /*Pricing Page*/
+    .pricing-zoom .price-active,
+    .pricing-zoom .pricing:hover { margin-top: 0; }
+
+    .no-space-pricing [class^="col-"],
+    .no-space-pricing [class*=" col-"] { padding: 10px; }
+
+    .pricing-zoom .price-active .pricing-head h4,
+    .pricing-zoom .pricing:hover .pricing-head h4 {
+        font-size: 70px;
+        padding: 5px 0;
+    }	
+}

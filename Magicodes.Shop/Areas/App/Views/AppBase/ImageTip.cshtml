@@ -1,0 +1,26 @@
+﻿<div class="aui-content" style="height: 260px">
+    <p class="aui-padded-10">
+        <img src="@ViewBag.ImageUrl" style="width: 100%" alt=""/>
+    </p>
+    <div class="aui-padded-10">
+        @if (!string.IsNullOrEmpty(ViewBag.OkUrl))
+        {
+            <p>
+                <div class="aui-btn aui-btn-success aui-btn-block" data-url="@ViewBag.OkUrl">
+                    <span class="aui-iconfont @ViewBag.OkIconcls"></span>@ViewBag.OkText</div>
+            </p>
+        }
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            $('div[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

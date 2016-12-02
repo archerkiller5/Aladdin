@@ -1,0 +1,113 @@
+﻿@model Magicodes.Shop.Models.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script>
+        //判断是否在Iframe之中
+        if (self !== top)
+            top.location.reload();
+    </script>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <!-- Web Fonts -->
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/Content/unify/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/unify/css/style.css">
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="/Content/unify/plugins/animate.css">
+    <link rel="stylesheet" href="/Content/unify/plugins/line-icons/line-icons.css">
+    <link rel="stylesheet" href="/Content/unify/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- CSS Page Style -->
+    <link rel="stylesheet" href="/Content/unify/css/pages/page_log_reg_v2.css">
+    <!-- CSS Customization -->
+    <link rel="stylesheet" href="/Content/unify/css/custom.css">
+</head>
+<body>
+<!--=== Content Part ===-->
+<div class="container">
+    <!--Reg Block-->
+    <div class="reg-block">
+        @using (Html.BeginForm())
+        {
+            <div class="reg-block-header">
+                <p>
+                    <img src="~/Images/logo.png" width="300"/>
+                </p>
+                <h2>Sign In</h2>
+                <P>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(m => m.UserName, "", new {@class = "text-danger"})
+                    @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+                </P>
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                @Html.TextBoxFor(m => m.UserName, new {@class = "form-control", placeholder = "LoginName"})
+            </div>
+            <div class="input-group margin-bottom-20">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control", placeholder = "Password"})
+            </div>
+            <hr>
+                @*<div class="checkbox">
+                        <label>
+                            <input type="checkbox">
+                            <p>Always stay signed in</p>
+                        </label>
+                    </div>*@
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <button type="submit" class="btn-u btn-block">Log In</button>
+                </div>
+            </div>
+        }
+    </div>
+    <!--End Reg Block-->
+</div><!--/container-->
+<!--=== End Content Part ===-->
+<!-- JS Global Compulsory -->
+<script type="text/javascript" src="/Content/unify/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/Content/unify/plugins/jquery/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="/Content/unify/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- JS Implementing Plugins -->
+<script type="text/javascript" src="/Content/unify/plugins/back-to-top.js"></script>
+<script type="text/javascript" src="/Content/unify/plugins/backstretch/jquery.backstretch.min.js"></script>
+<!-- JS Page Level -->
+<script type="text/javascript" src="/Content/unify/js/app.js"></script>
+<script type="text/javascript">
+    jQuery(document)
+        .ready(function() {
+            App.init();
+            $.backstretch([
+                    "/Content/unify/img/01.jpg",
+                    "/Content/unify/img/02.jpg",
+                    "/Content/unify/img/03.jpg"
+                ],
+                {
+                    fade: 1000,
+                    duration: 7000
+                });
+        });
+</script>
+<!--[if lt IE 9]>
+    <script src="/Content/unify/plugins/respond.js"></script>
+    <script src="/Content/unify/plugins/html5shiv.js"></script>
+    <script src="/Content/unify/plugins/placeholder-IE-fixes.js"></script>
+<![endif]-->
+</body>
+</html>

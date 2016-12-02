@@ -1,0 +1,72 @@
+/*Job
+------------------------------------*/
+.job-img {
+    background: url(../../../img/bg/11.jpg) 30% 40% no-repeat;
+    min-height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.job-img .job-banner {
+    background: rgba(255, 255, 255, 0.8);
+    margin: 60px auto 100px;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.job-img .job-banner h2 {
+    font-size: 20px;
+    line-height: 27px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .job-img .job-banner {
+        margin: 30px auto 100px;
+        padding: 10px;
+    }
+}
+
+.job-img .job-img-inputs {
+    background: rgba(0, 0, 0, 0.9);
+    bottom: -7px;
+    left: 0;
+    padding: 20px 0;
+    position: absolute;
+    right: 0;
+}
+
+/*Job-Content
+------------------------------------*/
+
+.job-content .categories li {
+    border-bottom: 1px dotted #eee;
+    padding: 6px 0;
+}
+
+.job-content .hex { color: #999 }
+
+/*High-Rated
+------------------------------------*/
+
+.high-rated .carousel-indicators {
+    right: 65%;
+    text-align: left;
+    top: 10px;
+}
+
+.high-rated .carousel-indicators .active { background: #555; }
+
+.high-rated .carousel-indicators li { border-color: #555; }
+
+.high-rated .carousel-inner > .item { margin: 0; }
+
+.high-rated .star-vote {
+    float: left;
+    margin-top: 8px;
+}
+
+.high-rated .star-vote ul { margin-bottom: 0; }
+
+.high-rated .star-vote li { padding: 0; }

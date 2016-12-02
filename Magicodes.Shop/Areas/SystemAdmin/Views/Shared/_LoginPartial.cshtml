@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Login", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                欢迎 @User.Identity.GetUserName() ！
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-top-links navbar-right">
+        <li>@Html.ActionLink("登陆", "Login", "Account", null, new {id = "loginLink"})</li>
+    </ul>
+}

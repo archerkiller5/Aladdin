@@ -1,0 +1,300 @@
+﻿<script src="~/Scripts/app/components/buttonschoices.js"></script>
+@*<script src="~/Scripts/app/components/news-choice.js"></script>*@
+<script src="~/Scripts/app/components/media-choice.js"></script>
+<script src="~/Scripts/app/components/tenanturl-input.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script src="~/Scripts/knockout-sortable.js"></script>
+<script>
+
+    function ViewModel() {
+        var self = this;
+        //菜单模型
+        this.Menus = ko.observableArray([]);
+        //版本历史
+        this.Versions = ko.observableArray([]);
+        //当前版本
+        this.CurrentVersion = ko.observable();
+        //获取基本模型
+        this.getModelTpl = function () { return { 'name': '', 'key': '', 'type': 'view', 'url': '', 'media_id': '' }; };
+        //类型选择
+        this.SelectTypes = ko.observableArray([
+            {
+                text: "点击推事件",
+                value: "click",
+                icon: "fa-font",
+                des: "用户点击此类型按钮后，微信服务器会通过消息接口推送消息类型为event	的结构给开发者（参考消息接口指南），并且带上按钮中开发者填写的key值，开发者可以通过自定义的key值与用户进行交互"
+            },
+            {
+                text: "跳转URL",
+                value: "view",
+                icon: "fa-link",
+                des: "用户点击此类型按钮后，微信客户端将会打开开发者在按钮中填写的网页URL，可与网页授权获取用户基本信息接口结合，获得用户基本信息。"
+            },
+            {
+                text: "扫码推事件",
+                value: "scancode_push",
+                icon: "fa-qrcode",
+                des: "用户点击按钮后，微信客户端将调起扫一扫工具，完成扫码操作后显示扫描结果（如果是URL，将进入URL），且会将扫码的结果传给开发者，开发者可以下发消息。"
+            },
+            {
+                text: "扫码推事件且弹出“消息接收中”提示框",
+                value: "scancode_waitmsg",
+                icon: "fa-qrcode",
+                des: "用户点击按钮后，微信客户端将调起扫一扫工具，完成扫码操作后，将扫码的结果传给开发者，同时收起扫一扫工具，然后弹出“消息接收中”提示框，随后可能会收到开发者下发的消息。"
+            },
+            {
+                text: "弹出系统拍照发图",
+                value: "pic_sysphoto",
+                icon: "fa-camera",
+                des: "用户点击按钮后，微信客户端将调起系统相机，完成拍照操作后，会将拍摄的相片发送给开发者，并推送事件给开发者，同时收起系统相机，随后可能会收到开发者下发的消息。"
+            },
+            {
+                text: "弹出拍照或者相册发图",
+                value: "pic_photo_or_album",
+                icon: "fa-camera",
+                des: "用户点击按钮后，微信客户端将弹出选择器供用户选择“拍照”或者“从手机相册选择”。用户选择后即走其他两种流程。"
+            },
+            {
+                text: "弹出微信相册发图器",
+                value: "pic_weixin",
+                icon: "fa-picture-o",
+                des: "用户点击按钮后，微信客户端将调起微信相册，完成选择操作后，将选择的相片发送给开发者的服务器，并推送事件给开发者，同时收起相册，随后可能会收到开发者下发的消息。"
+            },
+            {
+                text: "弹出地理位置选择器",
+                value: "location_select",
+                icon: "fa-map-marker",
+                des: "用户点击按钮后，微信客户端将调起地理位置选择工具，完成选择操作后，将选择的地理位置发送给开发者的服务器，同时收起位置选择工具，随后可能会收到开发者下发的消息。"
+            },
+            {
+                text: "下发消息（除文本消息）",
+                value: "media_id",
+                icon: "fa-newspaper-o",
+                des:
+                    "用户点击按钮后，微信服务器会将开发者填写的永久素材id对应的素材下发给用户，永久素材类型可以是图片、音频、视频、图文消息。请注意：永久素材id必须是在“素材管理/新增永久素材”接口上传后获得的合法id。"
+            },
+            {
+                text: "跳转图文消息URL",
+                value: "view_limited",
+                icon: "fa-envelope",
+                des: "用户点击按钮后，微信客户端将打开开发者在按钮中填写的永久素材id对应的图文消息URL，永久素材类型只支持图文消息。请注意：永久素材id必须是在“素材管理/新增永久素材”接口上传后获得的合法id。"
+            }
+        ]);
+        //根据类型获取图标样式
+        this.getIconCssByType = function (type) {
+            var items = $.grep(self.SelectTypes(), function (v, i) { return v.value == type });
+            return items.length > 0 ? items[0].icon : "fa-th-large";
+        };
+        //编辑模型
+        this.EditModel = ko.observable(ko.mapping.fromJS($.extend(self.getModelTpl(), { 'type': 'empty' })));
+        //当前编辑元素
+        this.$element = null;
+        //所选Item索引
+        this.SelectLv = { lv1: 0 };
+        //编辑模板加载完成事件
+        this.afterEditTemplateRender = function () {
+
+        };
+        //根据类型获取编辑模板
+        this.GetEditTemplateName = function (data) {
+            switch (data.type()) {
+                case "empty":
+                    return "emptyTemplate";
+                case "media_id":
+                    return "media_idTemplate";
+                case "view_limited":
+                    return "newsTemplate";
+                case "view":
+                    return "urlTemplate";
+                default:
+                    return "keyTemplate";
+            }
+        };
+        //初始化，加载数据
+        this.Init = function () {
+            mwc.restApi.get({
+                url: '@Url.Action("Get")',
+                success: function (data) {
+                    if (data.button) {
+                        $.each(data.button,
+                            function (i, v) {
+                                if (v.sub_button) {
+                                    $.each(v.sub_button,
+                                        function (i1, v1) {
+                                            v.sub_button[i1] = $.extend(self.getModelTpl(), v1);
+                                        });
+                                }
+                                data[i] = $.extend(self.getModelTpl(), v);
+                            });
+                        self.Menus(data.button);
+                        self.LoadVersions();
+                        //$('#ddMenus').nestable();
+                    }
+                }
+            });
+        };
+        //加载版本历史
+        this.LoadVersions = function () {
+            mwc.restApi.get({
+                url: '@Url.Action("GetVersionList")',
+                blockUI: $('#divVersions'),
+                success: function (data) {
+                    self.Versions(data);
+                }
+            });
+        };
+        self.CurrentVersion.subscribe(function (newValue) {
+            typeof (newValue) != "undefined" && self.VersionSelect(newValue);
+        });
+        //版本选择
+        this.VersionSelect = function (val) {
+            mwc.restApi.get({
+                url: '/Menus/Get/' + val.Id,
+                success: function (data) {
+                    $.each(data.button,
+                        function (i, v) {
+                            if (v.sub_button) {
+                                $.each(v.sub_button,
+                                    function (i1, v1) {
+                                        v.sub_button[i1] = $.extend(self.getModelTpl(), v1);
+                                    });
+                            }
+                            data[i] = $.extend(self.getModelTpl(), v);
+                        });
+                    self.Menus(data.button);
+                    //self.LoadVersions();
+                }
+            });
+        };
+        this.dropCallback = function () {
+            self.RefreshLocalData();
+        };
+        this.RefreshLocalData = function (menus) {
+            var menus = menus || ko.mapping.toJS(self.Menus());
+            self.Menus([]);
+            self.Menus(menus);
+        };
+        //项编辑事件
+        this.ItemClick = function (item, e) {
+            self.$element = $(e.target || e.srcElement);
+            self.EditModel(ko.mapping.fromJS(item));
+            self.SetSelectLv();
+        };
+        //设置选择的索引
+        this.SetSelectLv = function () {
+            var $item = self.$element;
+            var $lv1 = $item.closest('.lv1');
+            self.SelectLv.lv1 = $lv1.prevAll().length;
+            var $lv2 = $item.closest('.lv2');
+            if ($lv2.length == 0) {
+                typeof (self.SelectLv.lv2) != "undefined" && delete self.SelectLv.lv2;
+            } else {
+                self.SelectLv.lv2 = $lv2.prevAll().length;
+            }
+        };
+        //添加子菜单
+        this.AddClick = function (item, e) {
+            self.$element = $(e.target || e.srcElement);
+            self.SetSelectLv();
+
+            item.sub_button = item.sub_button || [];
+            //item = ko.mapping.toJS(item);
+            if (item.sub_button.length >= 5) {
+                mwc.message.warn('子菜单数不能超过5个！');
+                return;
+            }
+            item.sub_button.push($.extend(self.getModelTpl(), { 'type': 'view' }));
+
+            var menus = self.Menus();
+            menus[self.SelectLv.lv1] = item;
+
+            self.RefreshLocalData(menus);
+            self.EditModel(ko.mapping.fromJS($.extend(self.getModelTpl(), { 'type': 'view' })));
+            self.SelectLv.lv2 = item.sub_button.length - 1;
+        };
+        //添加一级菜单
+        this.AddLv1Menu = function () {
+            var menus = ko.mapping.toJS(self.Menus());
+            if (menus.length >= 3) {
+                mwc.message.warn('一级菜单不能超过3个！');
+                return;
+            }
+            menus.push($.extend(self.getModelTpl(), { 'type': 'view' }));
+            self.Menus(menus);
+            self.EditModel(ko.mapping.fromJS($.extend(self.getModelTpl(), { 'type': 'view' })));
+            self.SelectLv.lv1 = menus.length - 1;
+            delete self.SelectLv.lv2;
+        };
+        //更新数据
+        this.UpdateData = function (model) {
+            var menus = ko.mapping.toJS(self.Menus());
+            if (typeof (self.SelectLv.lv2) != "undefined") {
+                var lv1Data = menus[self.SelectLv.lv1];
+                lv1Data.sub_button[self.SelectLv.lv2] = model;
+            } else {
+                menus[self.SelectLv.lv1] = model;
+            }
+            self.Menus(menus);
+        };
+        //同步数据
+        this.SyncData = function () {
+            var data = ko.mapping.toJS(self.Menus());
+            if (data.length == 0) {
+                mwc.message.error('请至少添加一个菜单！');
+                return;
+            }
+            if (data.length > 3) {
+                mwc.message.error('根菜单数不能大于3！');
+                return;
+            }
+            mwc.log.debug(data);
+            mwc.restApi.put({
+                url: '@Url.Action("Put")',
+                contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+                data: { menuInfo: JSON.stringify({ button: data }) },
+                success: function () {
+                    self.LoadVersions();
+                }
+            });
+        };
+        //保存
+        this.Save = function (m) {
+            var model = ko.mapping.toJS(m);
+            if (model.name.length == 0) {
+                mwc.message.error('请输入菜单名称！');
+                return;
+            }
+            mwc.notify.success("菜单已更新。<br><strong>如果需要发布，请点击【同步菜单】按钮。</strong>");
+            mwc.log.warn(model);
+            self.UpdateData(model);
+        };
+        //移除项
+        this.RemoveItem = function (item, e) {
+            self.$element = $(e.target || e.srcElement);
+            self.SetSelectLv();
+            console.debug(self.SelectLv);
+            var menus = self.Menus();
+            var lv1 = menus[self.SelectLv.lv1];
+            console.debug(lv1);
+            if (typeof (self.SelectLv.lv2) != "undefined" && typeof (lv1.sub_button) != "undefined") {
+                lv1.sub_button.splice(self.SelectLv.lv2, 1);
+            } else {
+                menus.splice(self.SelectLv.lv1, 1);
+            }
+            self.RefreshLocalData(menus);
+        };
+        this.Init();
+    }
+
+    $(function () {
+        window.CurrentModel = new ViewModel();
+        ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+        //滚动条
+        $('#leftMenus')
+            .slimScroll({
+                height: '550px',
+                railOpacity: 0.4
+            });
+
+    });
+</script>

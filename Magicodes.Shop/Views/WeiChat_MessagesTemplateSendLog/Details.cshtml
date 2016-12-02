@@ -1,0 +1,103 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_MessagesTemplateSendLog
+
+@{
+    ViewBag.Title = "查看";
+    Layout = "~/Views/Shared/_LightLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <hr style="margin: 2px 2px 10px 2px;"/>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MessagesTemplate.Title)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.MessagesTemplate.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Receiver.NickName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Receiver.NickName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.BatchNumber)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.BatchNumber)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Content)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Content)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CreateTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CreateTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TopColor)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.TopColor)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Url)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Url)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Result)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Result)
+                    </dd>
+
+                </dl>
+                <p>
+                    <a href="javascript:void(0)" onclick="history.go(-1)">返回</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function() {
+            $("input[type=checkbox]")
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+        });
+    </script>
+}

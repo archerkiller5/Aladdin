@@ -1,0 +1,174 @@
+﻿@using Magicodes.WeiChat.Unity
+@using Webdiyer.WebControls.Mvc
+@model PagedList<WeiChat_User>
+
+@{
+    ViewBag.Title = "粉丝管理";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    
+                    @using (Html.BeginForm("Index", Request.RequestContext.RouteData.GetRequiredString("controller"), FormMethod.Get))
+                    {
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    @Html.TextBox("q", ViewBag.q as string, new {placeholder = "请输入关键字", @class = "input-sm form-control"})
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i>&nbsp;搜索</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                    <a class="btn btn-primary btn-sm" href="@Url.Action("Create")" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                                </div>
+
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    @Html.DropDownList("UserGroups", null, new {@class = "input-sm form-control"})
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-success btn-sm" id="btnMove" data-action="Move" data-comfirmmessage="确定要移动所选用户么？"><i class="fa  fa-arrow-circle-o-right"></i>&nbsp;移动分组</a>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <a class="btn btn-info btn-sm ladda-button loadingButton"  data-style="expand-right" data-ajaxurl="/api/Tasks/StartTenantTask/SyncWeChatUsersTask" data-notify="同步任务已触发，请关注右上角的通知信息！"><i class="fa fa-circle-o"></i>&nbsp;全量同步</a>
+                            <a class="btn btn-warning btn-sm" href="@Url.Action("IndexView")"><i class="fa fa-chevron-up"></i>&nbsp;切换视图</a>
+                            <button type="submit" class="btn btn-sm btn-primary" name="exportType" value="1"><i class="fa fa-file-archive-o"></i>&nbsp;导出CSV</button>
+                            @*<button type="submit" class="btn btn-sm btn-primary" name="exportType" value="2"><i class="fa fa-file-excel-o"></i>&nbsp;导出Excel</button>*@
+                        </div>
+                    }
+                    <hr style="margin: 2px 2px 10px 2px;" />
+                    <div>
+                        <table class="table table-striped table-bordered table-hover" style="overflow-x: scroll">
+                            <tr>
+                                <th>
+                                    <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks"/>
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NickName)
+                                </th>
+                                
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Sex)
+                                </th>
+                                <th>
+                                    位置
+                                </th>
+                                
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubscribeTime)
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.UnionId)
+                                    </th>*@
+                             
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Remark)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserGroup)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AllowTest)
+                                </th>
+                                <th>
+                                  
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="ids" class="i-checks" value="@(item.OpenId)"/>
+                                    </td>
+                                    <td>
+                                        <img class="img-circle" width="38" height="38" src="@item.HeadImgUrl"/>
+                                        @Html.DisplayFor(modelItem => item.NickName)
+                                    </td>
+                                  
+                                    <td>
+                                        @(item.Sex.GetEnumMemberDisplayName())
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Country) @Html.DisplayFor(modelItem => item.Province) @Html.DisplayFor(modelItem => item.City)
+                                    </td>
+                                   
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubscribeTime)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.UnionId)
+                                        </td>*@
+                                 
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Remark)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserGroup.Name)
+                                    </td>
+                                    
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AllowTest)
+                                    </td>
+                                    <td>
+                                      
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-white" href="@Url.Action("Details", new {id = item.OpenId})">查看</a>
+                                            <a class="btn btn-white" href="@Url.Action("Edit", new {id = item.OpenId})">修改信息</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="row">
+                        @Html.Partial("_BootStrapPager", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/Content/plugins/select2/select2Styles")
+    @Styles.Render("~/plugins/laddaStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/ladda")
+    <script type="text/javascript">
+        $(function() {
+            //传递批量提交初始化参数
+            mwc.bs.batchOperationInitParams = function() {
+                return { groupId: $('#UserGroups').val() };
+            };
+            mwc.bs.init({ loadingButton: true });
+        });
+    </script>
+}

@@ -1,0 +1,28 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model IPagedList
+<div class="col-lg-12 animated fadeInLeft">
+    @Html.Pager(Model,
+        new PagerOptions
+        {
+            PageIndexParameterName = "pageIndex",
+            ContainerTagName = "ul",
+            CssClass = "pagination",
+            Id = "bootstrappager",
+            CurrentPagerItemTemplate = "<li class=\"active\"><a href=\"#\">{0}</a></li>",
+            DisabledPagerItemTemplate = "<li class=\"disabled\"><a>{0}</a></li>",
+            PagerItemTemplate = "<li>{0}</li>",
+            //MorePagerItemTemplate = "<span class='btn btn-white'>{0}</span>",
+            //NavigationPagerItemTemplate = "<span class='btn btn-white'>{0}</span>",
+            NumericPagerItemCount = 10,
+            PrevPageText = "<i class=\"fa fa-chevron-left\"></i>",
+            NextPageText = "<i class=\"fa fa-chevron-right\"></i>"
+        })
+    @*@{
+        var pageCount = Model.TotalItemCount / Model.PageSize + (Model.TotalItemCount % Model.PageSize == 0 ? 0 : 1);
+        if (pageCount > 1)
+        {
+            <text> &nbsp;&nbsp;共@(pageCount)页</text>
+        }
+    }*@
+
+</div>

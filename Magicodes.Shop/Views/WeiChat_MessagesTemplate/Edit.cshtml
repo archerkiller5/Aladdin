@@ -1,0 +1,116 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_MessagesTemplate
+
+@{
+    ViewBag.Title = "编辑";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(model => model.TemplateNo)
+                            @Html.HiddenFor(model => model.Id)
+                            <div class="well">
+                                <p>
+                                    请确保您的公众号已经开通模板消息功能，如无开通，请在公众号后台申请开通此权限：<a href="https://mp.weixin.qq.com/" target="_blank">点此打开微信公众号后台</a>
+                                </p>
+                                <p>
+                                    如果已经开通模板消息功能，请从公众号后台添加我的模板。<a href="https://mp.weixin.qq.com/advanced/tmplmsg?action=list&t=tmplmsg/list&token=154830615&lang=zh_CN" target="_blank">点此打开我的模板</a>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ShortNo, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.ShortNo, new {htmlAttributes = new {@class = "form-control"}})
+                                    <span class="help-block m-b-none">模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式。</span>
+                                    @Html.ValidationMessageFor(model => model.ShortNo, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Title, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Title, new {htmlAttributes = new {@class = "form-control"}})
+                                    <span class="help-block m-b-none">开发者调用模板消息接口时需提供模板ID。</span>
+                                    @Html.ValidationMessageFor(model => model.Title, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.OneIndustry, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.OneIndustry, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.OneIndustry, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TwoIndustry, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.TwoIndustry, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.TwoIndustry, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Content, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Content, new {htmlAttributes = new {@class = "form-control"}})
+                                    <span class="help-block m-b-none">在发送时，需要将内容中的参数（{{.DATA}}内为参数）赋值替换为需要的信息。</span>
+                                    @Html.ValidationMessageFor(model => model.Content, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Demo, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Demo, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Demo, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}

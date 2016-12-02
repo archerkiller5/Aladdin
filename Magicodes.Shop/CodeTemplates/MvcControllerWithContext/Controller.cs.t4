@@ -1,0 +1,484 @@
+﻿<#@ template language="C#" HostSpecific="True" Debug="True" #>
+<#@ output extension="cs" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ ScaffoldingAssembly Processor="ScaffoldingAssemblyLoader" #>
+<#
+string routePrefix;
+if (String.IsNullOrEmpty(AreaName)) 
+{
+    routePrefix = ControllerRootName;
+}
+else
+{
+    routePrefix = AreaName + "/" + ControllerRootName;
+}
+#>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Microsoft.AspNet.Scaffolding.Core.Metadata" #>
+<#@ parameter type="System.String" name="ControllerName" #>
+<#@ parameter type="System.String" name="ControllerRootName" #>
+<#@ parameter type="System.String" name="Namespace" #>
+<#@ parameter type="System.String" name="AreaName" #>
+<#@ parameter type="System.String" name="ContextTypeName" #>
+<#@ parameter type="System.String" name="ModelTypeName" #>
+<#@ parameter type="System.String" name="ModelVariable" #>
+<#@ parameter type="Microsoft.AspNet.Scaffolding.Core.Metadata.ModelMetadata" name="ModelMetadata" #>
+<#@ parameter type="System.String" name="EntitySetVariable" #>
+<#@ parameter type="System.Boolean" name="UseAsync" #>
+<#@ parameter type="System.Boolean" name="IsOverpostingProtectionRequired" #>
+<#@ parameter type="System.String" name="BindAttributeIncludeText" #>
+<#@ parameter type="System.String" name ="OverpostingWarningMessage" #>
+<#@ parameter type="System.Collections.Generic.HashSet<System.String>" name="RequiredNamespaces" #>
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+<# if (UseAsync) { #>
+using System.Threading.Tasks;
+<# } #>
+using Magicodes.WeiChat.Infrastructure.MvcExtension.Ajax;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Webdiyer.WebControls.Mvc;
+using Magicodes.Mvc.AuditFilter;
+using Magicodes.Mvc.RoleMenuFilter;
+<# foreach (var namespaceName in RequiredNamespaces) { #>
+using <#= namespaceName #>;
+<# } #>
+
+namespace <#= Namespace #>
+{
+<#
+    var contextTypeName = ContextTypeName;
+    var entitySetName = ModelMetadata.EntitySetName;
+    var entitySetVar = EntitySetVariable ?? (String.IsNullOrEmpty(entitySetName) ? entitySetName : (entitySetName.Substring(0, length:1).ToLowerInvariant() + entitySetName.Substring(1)));
+    var primaryKeyName = ModelMetadata.PrimaryKeys[0].PropertyName;
+    var primaryKeyShortTypeName = ModelMetadata.PrimaryKeys[0].ShortTypeName;
+    var primaryKeyDefaultValue = ModelMetadata.PrimaryKeys[0].DefaultValue;
+    var primaryKeyType = ModelMetadata.PrimaryKeys[0].TypeName;
+    var primaryKeyNullableTypeName = GetNullableTypeName(primaryKeyType, primaryKeyShortTypeName);
+    var lambdaVar = ModelVariable[0];
+    var relatedProperties = ModelMetadata.RelatedEntities.ToDictionary(item => item.AssociationPropertyName);
+	//主键表达式
+	var primaryKeysExpression="id";
+	//主键参数定义表达式代码
+	string definePrimaryKeysExpression=null;
+	//方法参数主键类型
+	var idTypeName=primaryKeyNullableTypeName;
+	//批量操作Contains表达式
+	var batchOperationContainsExpression="";
+	if (ModelMetadata.PrimaryKeys!=null && ModelMetadata.PrimaryKeys.Count() > 1) {
+		idTypeName="string";
+		primaryKeysExpression=""; 
+		definePrimaryKeysExpression = "\t\tvar ids = id.Split(';');\n";
+		for(var i=0;i<ModelMetadata.PrimaryKeys.Count();i++) {
+			definePrimaryKeysExpression+="\t\t\tvar id"+i+" = "+ModelMetadata.PrimaryKeys[i].ShortTypeName+".Parse(ids["+i+"]);\n";
+			primaryKeysExpression+=("id"+i+" ,"); 
+			batchOperationContainsExpression+="p."+ModelMetadata.PrimaryKeys[i].PropertyName+" + \";\" + ";
+		} 
+		primaryKeysExpression=primaryKeysExpression.Trim(',').Trim(); 
+		batchOperationContainsExpression=batchOperationContainsExpression.Substring(0,batchOperationContainsExpression.Length-9); 
+	}else
+	{
+		batchOperationContainsExpression="p."+primaryKeyName;
+	} 
+
+	string searchLambdaVar=null;
+	IEnumerable<PropertyMetadata> properties = ModelMetadata.Properties;
+	foreach (PropertyMetadata property in properties) {
+		if (property.Scaffold && !property.IsPrimaryKey && !property.IsForeignKey && !property.IsAssociation) {
+			if(property.TypeName.Equals("System.String"))
+			{
+				searchLambdaVar+=string.Format("|| p.{0}.Contains(q)",property.PropertyName);
+			}
+		}
+	}
+	if(!string.IsNullOrWhiteSpace(searchLambdaVar)) searchLambdaVar=searchLambdaVar.Trim('|').Trim();
+	
+
+    string bindAttribute;
+    if (IsOverpostingProtectionRequired)
+    {
+        bindAttribute = String.Format("[Bind(Include = \"{0}\")] ", BindAttributeIncludeText);
+    }
+    else
+    {
+        bindAttribute = String.Empty;
+    }
+#>
+    public class <#= ControllerName #> : TenantBaseController<<#= ModelTypeName#>>
+    {
+
+        // GET: <#= routePrefix #>
+		[AuditFilter("请输入审计关键描述，比如“订单查询”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> Index(string q, int pageIndex = 1, int pageSize = 10)
+<# } else { #>
+        public ActionResult Index(string q, int pageIndex = 1, int pageSize = 10)
+<# } #>
+        {
+<#  var includeExpressions = "";
+        includeExpressions = String.Join("", relatedProperties.Values.Select(property => String.Format(".Include({0} => {0}.{1})", lambdaVar, property.AssociationPropertyName)));
+#>
+<# if(!String.IsNullOrEmpty(includeExpressions)) { #>
+            var queryable = db.<#= entitySetName #><#= includeExpressions #>.AsQueryable();
+			if (!string.IsNullOrWhiteSpace(q))
+            {
+				//请替换为相应的搜索逻辑
+				<# if(!string.IsNullOrWhiteSpace(searchLambdaVar)) { #>
+                queryable = queryable.Where(p => <#= searchLambdaVar #>);
+				<# } else { #>
+				//TODO:请在此处编写自己的搜索逻辑
+				<# } #>
+            }
+<#		if (UseAsync) { #>
+			var pagedList = new PagedList<<#= ModelTypeName#>>(
+							 await queryable.OrderBy(p => p.<#=primaryKeyName #>)
+							 .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(),
+							 pageIndex, pageSize, queryable.Count());
+            return View(pagedList);
+<#		} else { #>
+			var pagedList = new PagedList<<#= ModelTypeName#>>(
+							 queryable.OrderBy(p => p.<#=primaryKeyName #>)
+							 .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList(),
+							 pageIndex, pageSize, queryable.Count());
+            return View(pagedList);
+<#		} #>
+<# } else { #>
+			var queryable = db.<#= entitySetName #>.AsQueryable();
+			if (!string.IsNullOrWhiteSpace(q))
+            {
+				//请替换为相应的搜索逻辑
+				<# if(!string.IsNullOrWhiteSpace(searchLambdaVar)) { #>
+                queryable = queryable.Where(p => <#= searchLambdaVar #>);
+				<# } else { #>
+				//TODO:请在此处编写自己的搜索逻辑
+				<# } #>
+            }
+<#		if (UseAsync) { #>
+			var pagedList = new PagedList<<#= ModelTypeName#>>(
+							 await queryable.OrderBy(p => p.<#=primaryKeyName #>)
+							 .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(),
+							 pageIndex, pageSize, await queryable.CountAsync());
+            return View(pagedList);
+<#		} else { #>
+			var pagedList = new PagedList<<#= ModelTypeName#>>(
+							 queryable.OrderBy(p => p.<#=primaryKeyName #>)
+							 .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList(),
+							 pageIndex, pageSize, queryable.Count());
+            return View(pagedList);
+<#		} #>
+<# } #>
+        }
+
+        // GET: <#= routePrefix #>/Details/5
+		[AuditFilter("请输入审计关键描述，比如“订单详细”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> Details(<#= idTypeName #> id)
+<# } else { #>
+        public ActionResult Details(<#= idTypeName #> id)
+<# } #>
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+<# if(definePrimaryKeysExpression!=null){ #>
+	<#= definePrimaryKeysExpression #>
+<# }#>
+<# if (UseAsync) { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(<#=primaryKeysExpression #>);
+<# } else { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(<#=primaryKeysExpression #>);
+<# } #>
+            if (<#= ModelVariable #> == null)
+            {
+                return HttpNotFound();
+            }
+            return View(<#= ModelVariable #>);
+        }
+
+        // GET: <#= routePrefix #>/Create
+		[AuditFilter("请输入审计关键描述，比如“订单待创建”","<#= Guid.NewGuid().ToString() #>")]
+        public ActionResult Create()
+        {
+<# foreach (var property in relatedProperties.Values) { 
+	var fkName=property.ForeignKeyPropertyNames[0];
+	if(fkName=="CreateBy" || fkName=="UpdateBy")
+		continue;
+#>
+            ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>");
+<# } #>
+            return View();
+        }
+
+        // POST: <#= routePrefix #>/Create
+<# if (IsOverpostingProtectionRequired) {
+    foreach (var line in OverpostingWarningMessage.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)) { 
+#>
+        // <#= line #>
+<# } } #>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		[AuditFilter("请输入审计关键描述，比如“订单创建”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> Create(<#= bindAttribute #><#= ModelTypeName #> <#= ModelVariable #>)
+<# } else { #>
+        public ActionResult Create(<#= bindAttribute #><#= ModelTypeName #> <#= ModelVariable #>)
+<# } #>
+        {
+            if (ModelState.IsValid)
+            {
+<# if(!String.IsNullOrEmpty(primaryKeyType) && String.Equals("System.Guid", primaryKeyType, StringComparison.OrdinalIgnoreCase)) { #>
+                <#= ModelVariable #>.<#= primaryKeyName #> = Guid.NewGuid();
+<# } #>
+				SetModelWithChangeStates(<#= ModelVariable #>, default(<#= idTypeName #>));				
+                db.<#= entitySetName #>.Add(<#= ModelVariable #>);
+<# if (UseAsync) {#>
+                await db.SaveChangesAsync();
+<# } else { #>
+                db.SaveChanges();
+<# } #>
+                return RedirectToAction("Index");
+            }
+
+<# foreach (var property in relatedProperties.Values) { 
+	var fkName=property.ForeignKeyPropertyNames[0];
+	if(fkName=="CreateBy" || fkName=="UpdateBy")
+		continue;
+#>
+            ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>", <#= ModelVariable #>.<#= property.ForeignKeyPropertyNames[0] #>);
+<# } #>
+            return View(<#= ModelVariable #>);
+        }
+
+        // GET: <#= routePrefix #>/Edit/5
+		[AuditFilter("请输入审计关键描述，比如“订单待编辑”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> Edit(<#= idTypeName #> id)
+<# } else { #>
+        public ActionResult Edit(<#= idTypeName #> id)
+<# } #>
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+<# if(definePrimaryKeysExpression!=null){ #>
+	<#= definePrimaryKeysExpression #>
+<# }#>
+<# if (UseAsync) { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(<#=primaryKeysExpression #>);
+<# } else { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(<#=primaryKeysExpression #>);
+<# } #>
+            if (<#= ModelVariable #> == null)
+            {
+                return HttpNotFound();
+            }
+<# foreach (var property in relatedProperties.Values) { 
+	var fkName=property.ForeignKeyPropertyNames[0];
+	if(fkName=="CreateBy" || fkName=="UpdateBy")
+		continue;
+#>
+            ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>", <#= ModelVariable #>.<#= property.ForeignKeyPropertyNames[0] #>);
+<# } #>
+            return View(<#= ModelVariable #>);
+        }
+
+        // POST: <#= routePrefix #>/Edit/5
+<# if (IsOverpostingProtectionRequired) {
+    foreach (var line in OverpostingWarningMessage.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)) { 
+#>
+        // <#= line #>
+<# } } #>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		[AuditFilter("请输入审计关键描述，比如“订单编辑”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> Edit(<#= bindAttribute #><#= ModelTypeName #> <#= ModelVariable #>)
+<# } else { #>
+        public ActionResult Edit(<#= bindAttribute #><#= ModelTypeName #> <#= ModelVariable #>)
+<# } #>
+        {
+            if (ModelState.IsValid)
+            {
+                SetModelWithChangeStates(<#= ModelVariable #>, <#= ModelVariable #>.Id);		
+<# if (UseAsync) { #>
+                await db.SaveChangesAsync();
+<# } else { #>
+                db.SaveChanges();
+<# } #>
+                return RedirectToAction("Index");
+            }
+<# foreach (var property in relatedProperties.Values) { 
+	var fkName=property.ForeignKeyPropertyNames[0];
+	if(fkName=="CreateBy" || fkName=="UpdateBy")
+		continue;
+#>
+            ViewBag.<#= property.ForeignKeyPropertyNames[0] #> = new SelectList(db.<#= property.EntitySetName #>, "<#= property.PrimaryKeyNames[0] #>", "<#= property.DisplayPropertyName #>", <#= ModelVariable #>.<#= property.ForeignKeyPropertyNames[0] #>);
+<# } #>
+            return View(<#= ModelVariable #>);
+        }
+
+        // GET: <#= routePrefix #>/Delete/5
+		[AuditFilter("请输入审计关键描述，比如“订单待删除”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> Delete(<#= idTypeName #> id)
+<# } else { #>
+        public ActionResult Delete(<#= idTypeName #> id)
+<# } #>
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+<# if(definePrimaryKeysExpression!=null){ #>
+	<#= definePrimaryKeysExpression #>
+<# }#>
+<# if (UseAsync) { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(<#=primaryKeysExpression #>);
+<# } else { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(<#=primaryKeysExpression #>);
+<# } #>
+            if (<#= ModelVariable #> == null)
+            {
+                return HttpNotFound();
+            }
+            return View(<#= ModelVariable #>);
+        }
+
+        // POST: <#= routePrefix #>/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+		[AuditFilter("请输入审计关键描述，比如“订单删除”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> DeleteConfirmed(<#= idTypeName #> id)
+<# } else { #>
+        public ActionResult DeleteConfirmed(<#= idTypeName #> id)
+<# } #>
+        {
+<# if(definePrimaryKeysExpression!=null){ #>
+	<#= definePrimaryKeysExpression #>
+<# }#>
+<# if (UseAsync) { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = await db.<#= entitySetName #>.FindAsync(<#=primaryKeysExpression #>);
+<# } else { #>
+            <#= ModelTypeName #> <#= ModelVariable #> = db.<#= entitySetName #>.Find(<#=primaryKeysExpression #>);
+<# } #>
+            db.<#= entitySetName #>.Remove(<#= ModelVariable #>);
+<# if (UseAsync) { #>
+            await db.SaveChangesAsync();
+<# } else { #>
+            db.SaveChanges();
+<# } #>
+            return RedirectToAction("Index");
+        }
+
+		// POST: <#= routePrefix #>/BatchOperation/{operation}
+        /// <summary>
+        /// 批量操作
+        /// </summary>
+        /// <param name="operation">操作方法</param>
+        /// <param name="ids">主键集合</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("<#= routePrefix #>/BatchOperation/{operation}")]
+		[AuditFilter("请输入审计关键描述，比如“订单批量操作”","<#= Guid.NewGuid().ToString() #>")]
+<# if (UseAsync) { #>
+        public async Task<ActionResult> BatchOperation(string operation, params <#= idTypeName #>[] ids)
+<# } else { #>
+        public ActionResult BatchOperation(string operation, params <#= idTypeName #>[] ids)
+<# } #>
+        {
+            var ajaxResponse = new AjaxResponse();
+            if (ids.Length > 0)
+            {
+                try
+                {
+<# if (UseAsync) { #>
+                    var models = await db.<#= entitySetName #>.Where(p => ids.Contains(<#= batchOperationContainsExpression #>)).ToListAsync();
+<# } else { #>
+                    var models = db.<#= entitySetName #>.Where(p => ids.Contains(<#= batchOperationContainsExpression #>)).ToList();
+<# } #>
+                    if (models.Count == 0)
+                    {
+                        ajaxResponse.Success = false;
+                        ajaxResponse.Message = "没有找到匹配的项，项已被删除或不存在！";
+                        return Json(ajaxResponse);
+                    }
+                    switch (operation.ToUpper())
+                    {
+                        case "DELETE":
+                            #region 删除
+                            {
+                                db.<#= entitySetName #>.RemoveRange(models);
+<# if (UseAsync) { #>
+                                await db.SaveChangesAsync();
+<# } else { #>
+								db.SaveChanges();
+<# } #>
+                                ajaxResponse.Success = true;
+                                ajaxResponse.Message = string.Format("已成功操作{0}项！", models.Count);
+                                break;
+                            }
+                            #endregion
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ajaxResponse.Success = false;
+                    ajaxResponse.Message = ex.Message;
+                }
+            }
+            else
+            {
+                ajaxResponse.Success = false;
+                ajaxResponse.Message = "请至少选择一项！";
+            }
+            return Json(ajaxResponse);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}
+<#+
+// This function converts the primary key short type name to its nullable equivalent when possible. This is required to make
+// sure that an HTTP 400 error is thrown when the user tries to access the edit, delete, or details action with null values.
+    string GetNullableTypeName(string typeName, string shortTypeName)
+    {
+        // The exceptions are caught because if for any reason the type is user defined, then the short type name will be used.
+        // In that case the user will receive a server error if null is passed to the edit, delete, or details actions.
+        Type primaryKeyType = null;
+        try
+        {
+            primaryKeyType = Type.GetType(typeName);
+        }
+        catch
+        {
+        }
+        if (primaryKeyType != null && (primaryKeyType.IsPrimitive || IsGuid(typeName)))
+        {
+            return shortTypeName + "?";
+        }
+        return shortTypeName;
+    }
+
+    bool IsGuid(string typeName) {
+        return String.Equals("System.Guid", typeName, StringComparison.OrdinalIgnoreCase);
+    }
+#>

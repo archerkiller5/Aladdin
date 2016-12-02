@@ -1,0 +1,218 @@
+﻿@using Magicodes.WeiChat.Data.Models.Site
+@using Magicodes.WeiChat.Data.Models.WeiChat
+@model WeiChat_GroupMessageLog
+@{
+    ViewBag.Title = "消息推送";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li class="active">
+                @ViewBag.Title
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="wizard-big" data-bind="with:SendDataModel" style="display:none;">
+                        <h1>选择素材</h1>
+                        <fieldset style="min-height:450px">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @Html.EnumDropDownListFor(m => m.MessageType, htmlAttributes: new { @class = "form-control", @data_bind = "value:MessageType" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input type="hidden" name="MediaId" data-bind="value:MediaId" />
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <div class="panel panel-default" data-bind="click:$root.ShowChoiceWindow">
+                                                <div class="panel-body" id="content">
+                                                    <p data-bind="if:MessageType()==0">
+                                                        <textarea class="form-control" data-bind="value:MediaId"></textarea>
+                                                    </p>
+                                                    <p data-bind="if:MessageType()==1">
+                                                        <img style="width:150px;height:100px" data-bind="attr:{src:Url==null?SiteUrl:Url}" />
+                                                    </p>
+                                                    <p data-bind="if:MessageType()==3 && MediaId()!=''">
+                                                        <audio style="width:250px;height:100px" controls="controls" data-bind="attr:{src:Url==null?SiteUrl:Url}" />
+                                                    </p>
+                                                    <p data-bind="if:MessageType()==4 && MediaId()!=''">
+                                                        <video style="height:100px !important;width:250px !important" controls="controls" data-bind="attr:{src:Url==null?SiteUrl:Url}" />
+                                                    </p>
+                                                    <p data-bind="if:MessageType()==5">
+                                                        <img style="width:150px;height:100px" data-bind="attr:{src:Url==null?SiteUrl:Url}" />
+                                                    </p>
+                                                    <div data-bind="if:MessageType()!=0">
+                                                        <p data-bind="text:Name"></p>
+                                                    </div>
+                                                    <!-- ko if:MediaId()=='' && "3,4".indexOf(MessageType())!=-1 -->
+                                                    <p>
+                                                        <a class="btn btn-primary btn-block m-t" data-bind="click:$root.ShowChoiceWindow"><i class="fa fa-plus"></i> 选择素材 </a>
+                                                    </p>
+                                                    <!-- /ko -->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <h1>选择发送对象</h1>
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>按分组选择</label>
+                                        @Html.DropDownList("UserGroupId", optionLabel: "所有分组", selectList: ViewBag.GeoupId as SelectList, htmlAttributes: new { @class = "form-control", data_bind = "value:UserGroupId" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>性别</label>
+                                        @Html.EnumDropDownListFor(m => m.SexType, htmlAttributes: new { @class = "form-control", data_bind = "value:SexType" })
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/plugins/wizardStepsStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/plugins/wizardSteps")
+    <script>
+        function ViewModel() {
+            var self = this;
+            this.SendDataModel = ko.observable({
+                MediaId: ko.observable(''),
+                Url: ko.observable('/Content/patterns/congruent_pentagon.png'),
+                Name: ko.observable('请选择素材'),
+                MessageType: ko.observable('@(string.IsNullOrEmpty(Request.QueryString["type"])?"0":Request.QueryString["type"])'),
+                UserGroupId: ko.observable(''),
+                SexType: ko.observable('0'),
+            });
+            //订阅  当前页
+            self.SendDataModel().MessageType.subscribe(function (newValue) {
+                self.SendDataModel().MediaId('');
+                self.SendDataModel().Url('/Content/patterns/congruent_pentagon.png');
+                self.SendDataModel().Name('请选择素材');
+            });
+            //this.MessageTypeChoices = ko.observableArray(['']);
+            this.ShowChoiceWindow = function (data) {
+                var MessageType = data.MessageType();
+                var url = '';
+                switch (MessageType) {
+                    //文本
+                    case "0":
+                        return;
+                        //图文
+                    case "5":
+                        url = '@Url.Action("Index", "Site_News",new { resourceType = (int)Magicodes.WeiChat.Data.Models.Site.SiteResourceTypes.News, lightLayout = 1 })';
+                        break;
+                        //图片
+                    case "1":
+                        url = '@Url.Action("Index", "Site_Resources",new { resourceType=(int)Magicodes.WeiChat.Data.Models.Site.SiteResourceTypes.Gallery, lightLayout =1})';
+                        break;
+                        //语音
+                    case "3":
+                        url = '@Url.Action("Index", "Site_Resources",new { resourceType=(int)Magicodes.WeiChat.Data.Models.Site.SiteResourceTypes.Voice, lightLayout =1})';
+                        break;
+                        //视频
+                    case "4":
+                        url = '@Url.Action("Index", "Site_Resources",new { resourceType=(int)Magicodes.WeiChat.Data.Models.Site.SiteResourceTypes.Video, lightLayout =1})';
+                        break;
+                }
+                mwc.window.show('选择素材', url);
+            }
+            this.SubmitData = function () {
+                var data = ko.toJS(self.SendDataModel());
+                mwc.restApi.post({
+                    url: '@Url.Action("Send")',
+                    data: data,
+                    success: function (resData) {
+                        if (resData.Success) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+            $('form.wizard-big').fadeIn();
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("form.wizard-big").steps({
+                bodyTag: "fieldset",
+                onStepChanging: function (event, currentIndex, newIndex) {
+                    if (CurrentModel.SendDataModel().MediaId() == '') {
+                        mwc.message.error('请选择素材！');
+                        return false;
+                    }
+                    return true;
+                },
+                onStepChanged: function (event, currentIndex, priorIndex) {
+
+                },
+                onFinishing: function (event, currentIndex) {
+                    return true;
+                },
+                onFinished: function (event, currentIndex) {
+                    window.CurrentModel.SubmitData();
+                },
+                saveState: true,
+                labels: {
+                    cancel: "取消",
+                    current: "当前步骤：",
+                    pagination: "Pagination",
+                    finish: "完成",
+                    next: "下一步",
+                    previous: "上一步",
+                    loading: "加载中 ..."
+                }
+            });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+
+        });
+
+        function choice(data) {
+            var model = window.CurrentModel.SendDataModel();
+            model.MediaId(data.MediaId);
+            model.Name(data.Name);
+            model.Url(data.FrontCoverImageUrl || data.SiteUrl || data.Url || data.PicUrl);
+        }
+    </script>
+}

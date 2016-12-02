@@ -1,0 +1,22 @@
+﻿.row.row_margin { margin: 20px 10px !important; }
+
+.row_margin .attr_label { font-weight: 600; }
+
+.row span.price { color: orangered; }
+
+.row span.g_state { color: red; }
+
+.row.row_set label { margin: 10px 20px; }
+
+.row span.g_name { color: #1C89D5; }
+
+.row span.g_type { color: #1ab394; }
+
+.td_g_img img {
+    height: 80px;
+    width: 80px;
+}
+
+.d_marginR30 { margin-right: 30px; }
+
+.tr_nobg { background-color: #fff !important; }

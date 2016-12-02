@@ -1,0 +1,164 @@
+﻿@model Magicodes.WeiChat.Data.Models.Activity.Activity_Lottery
+<div class="form-group">
+    @Html.LabelFor(model => model.IsEnable, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.IsEnable)
+        @Html.ValidationMessageFor(model => model.IsEnable, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Title, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.StartTime, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.EndTime, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Description, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.LotteryType, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EnumDropDownListFor(model => model.LotteryType, new {  @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LotteryType, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.WinningTips, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.WinningTips, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.WinningTips, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+@*<div class="form-group">
+    @Html.LabelFor(model => model.FirstPrize, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.FirstPrize, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FirstPrize, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.SecondPrize, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.SecondPrize, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SecondPrize, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ThirdPrize, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.ThirdPrize, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ThirdPrize, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.FourthPrize, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.FourthPrize, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FourthPrize, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.FifthPrize, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.FifthPrize, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FifthPrize, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.FirstPrizeCount, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.FirstPrizeCount, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FirstPrizeCount, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.SecondPrizeCount, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.SecondPrizeCount, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.SecondPrizeCount, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ThirdPrizeCount, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.ThirdPrizeCount, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ThirdPrizeCount, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.FourthPrizeCount, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.FourthPrizeCount, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FourthPrizeCount, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.FifthPrizeCount, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.FifthPrizeCount, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FifthPrizeCount, "", new { @class = "text-danger" })
+    </div>
+</div>*@
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ExpectedNumber, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.ExpectedNumber, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ExpectedNumber, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.AllowNumberPerPerson, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.AllowNumberPerPerson, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.AllowNumberPerPerson, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group">
+    @Html.LabelFor(model => model.AllowNumberPerDay, new { @class = "control-label col-sm-2" })
+    <div class="col-sm-10">
+        @Html.EditorFor(model => model.AllowNumberPerDay, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.AllowNumberPerDay, "", new { @class = "text-danger" })
+    </div>
+</div>

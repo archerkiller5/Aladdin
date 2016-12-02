@@ -1,0 +1,166 @@
+﻿@using Magicodes.WeiChat.Infrastructure
+@{
+    ViewBag.Title = "自定义菜单";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>自定义菜单</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a>功能</a>
+            </li>
+            <li class="active">
+                <strong>自定义菜单</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+
+    <div class="row" id="mainMenus">
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins" id="divVersions">
+                <div class="ibox-title">
+                    <h5>版本管理 </h5>
+                </div>
+                <div class="ibox-content">
+                    <select class="form-control" data-bind="options: Versions,optionsText: 'Remark',value: CurrentVersion,optionsCaption: '请选择需要加载的版本（系统将会自动记录您的更改）'"></select>
+                </div>
+            </div>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>菜单管理（可以拖拽排序） </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-12 full-width">
+                            <div class="col-lg-12">
+                                <button class="btn btn-default" type="button" data-bind="click:AddLv1Menu"><i class="fa fa-plus"></i>&nbsp;添加根菜单</button>
+                                <button class="btn btn-warning" type="button" data-bind="click:SyncData"><i class="fa fa-circle-o"></i>&nbsp;同步菜单</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 full-width" id="leftMenus">
+                            <div class="col-lg-12">
+                                <div class="dd" id="ddMenus" data-bind="if:Menus">
+                                    <ol class="dd-list" data-bind="sortable:{template: 'menuListTmpl', data: Menus, afterMove: $root.dropCallback }">
+
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script id="menuListTmpl" type="text/html">
+                        <li class="dd-item lv1">
+                            <div class="dd-handle">
+                                <span class="pull-right">
+                                    <i class="fa fa-plus" data-bind="click:$root.AddClick"></i> &nbsp;&nbsp;
+                                    <i class="fa fa-times" data-bind="click:$root.RemoveItem"></i>&nbsp;&nbsp;
+                                    <i class="fa fa-pencil" data-bind="click:$root.ItemClick"></i>
+                                </span>
+                                <span>
+                                    <span class="label label-info"><i class="fa" data-bind="css:$root.getIconCssByType(type)"></i></span>
+                                    <span data-bind="text:name,click:$root.ItemClick" style="margin-left: 10px;"></span>
+                                </span>
+                            </div>
+                            <!-- ko if:$data.sub_button -->
+                            <ol class="dd-list" data-bind="sortable:{template: 'menuItemTmpl', data: $data.sub_button, afterMove: $root.dropCallback }">
+                            </ol>
+                            <!-- /ko -->
+                        </li>
+                    </script>
+                    <script id="menuItemTmpl" type="text/html">
+                        <li class="dd-item lv2" data-id="2">
+                            <div class="dd-handle">
+                                <span class="pull-right">
+                                    <i class="fa fa-times" data-bind="click:$root.RemoveItem"></i>&nbsp;&nbsp;
+                                    <i class="fa fa-pencil" data-bind="click:$root.ItemClick"></i>
+                                </span>
+                                <span class="label label-success"><i class="fa" data-bind="css:$root.getIconCssByType(type)"></i></span> <span data-bind="text:name" style="margin-left: 10px;"></span>
+                            </div>
+                        </li>
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>按钮其他参数 </h5>
+                </div>
+                <div class="ibox-content" data-bind="with:EditModel" style="min-height: 630px;">
+                    <form class="form-horizontal">
+                        <!-- ko if:type() != 'empty' -->
+                        <buttonschoices params="SelectsModel: $root.SelectTypes,SelectValue:type"></buttonschoices>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" data-bind="value:name" required>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <!-- /ko -->
+                        <div data-bind="template:{name:$root.GetEditTemplateName,data:$root.EditModel,afterRender:$root.afterEditTemplateRender}">
+                        </div>
+                        <!-- ko if:type() != 'empty' -->
+                        <div>
+                            <button class="btn btn-primary pull-right" type="button" data-bind="click:$root.Save">
+                                <i class="fa fa-save"></i>
+                                <strong>保存</strong>
+                            </button>
+                        </div>
+                        <!-- /ko -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="emptyTemplate" type="text/html">
+    <div class="well animated lightSpeedIn">
+        <h3>注意事项：</h3>
+        创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。
+    </div>
+</script>
+<script id="keyTemplate" type="text/html">
+    <div class="form-group" id="buttonDetails_url_area">
+        <label class="col-sm-2 control-label">关键字</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" data-bind="value:key"/>
+        </div>
+    </div>
+</script>
+
+<script id="urlTemplate" type="text/html">
+    <div class="form-group" id="buttonDetails_url_area">
+        <label class="col-sm-2 control-label">链接</label>
+        <div class="col-sm-10">
+            <tenanturl-input params="url: url,tenantId:@WeiChatApplicationContext.Current.TenantId"></tenanturl-input>
+            @*<input type="url" class="form-control" data-bind="value:url" />*@
+        </div>
+    </div>
+</script>
+<script id="media_idTemplate" type="text/html">
+    <media-choice-button params="value: media_id"></media-choice-button>
+</script>
+<script id="newsTemplate" type="text/html">
+    <media-choice-button params="value: media_id,mediaType:5,disabledChoice:true"></media-choice-button>
+</script>
+<div data-bind="with:EditModel">
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery.validate")
+    @Scripts.Render("~/plugins/slimScroll")
+    @Scripts.Render("~/plugins/nestable")
+    @Html.Partial("_Scripts")
+}

@@ -1,0 +1,39 @@
+﻿@using Magicodes.WeiChat.Data.Models.Log
+@model List<Log_Point>
+@{
+    ViewBag.Title = "我的积分";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/aui/aui-flex/styles")
+
+
+<div class="aui-content">
+    <div class="aui-tab aui-tab-danger">
+        <ul class="aui-tab-nav aui-tab-border">
+            <li class="active">积分:@(ViewBag.SumPoint)</li>
+            @*<li data-bind="click:function(){tabClick(1);}">收益排行</li>*@
+        </ul>
+    </div>
+</div>
+<div>
+    <section class="aui-content">
+        @foreach (Log_Point log in Model)
+        {
+            <ul class="aui-list-view lst_TeamPoint">
+                <li class="aui-user-view-cell aui-img">
+                    <div class="aui-swipe-handle">
+                        <img class="aui-img-object aui-pull-left" data-bind="attr:{src:C_HeadImg}">
+                        <div class="aui-img-body">
+                            <span class="aui-text-danger">@log.Point</span>
+                            <em class="aui-pull-right">@log.Remark</em>
+                            @* <p class="aui-ellipsis-1" data-bind="text:C_Sex"> /p>*@
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        }
+    </section>
+
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>

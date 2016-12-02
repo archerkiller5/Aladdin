@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "我要充值";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/weui/slides-full/styles")
+
+<div>
+    @*带图标的表单*@
+    <div class="aui-content">
+        <div class="aui-form">
+            <div class="aui-btn-row btn-moneys">
+                <div class="aui-btn btn-money  aui-btn-success" data-val="500">500元</div>
+                <div class="aui-btn btn-money" data-val="200">200元</div>
+                <div class="aui-btn btn-money" data-val="100">100元</div>
+                <div class="aui-btn btn-money" data-val="50">50元</div>
+            </div>
+
+            <div lass="aui-input-row">
+                <input type="tel" class="aui-input input_money" placeholder="输入其他金额">
+            </div>
+
+            <div class="aui-btn-row">
+                <div class="aui-btn aui-btn-success" id="btn-pay">立即充值</div>
+            </div>
+        </div>
+
+    </div>
+    <p style="margin-top: 50px">&nbsp;</p>
+</div>
+
+@section scripts{
+    <script>
+        var money = 0;
+
+        function onBridgeReady(data) {
+            WeixinJSBridge.invoke('getBrandWCPayRequest',
+                data,
+                function(res) {
+                    is_suc = true;
+                    if (res.err_msg == "get_brand_wcpay_request:ok") { //支付成功后
+                        money = $('.input_money').val();
+                        var inpar = {
+                            Amount: money
+                        };
+                        wc.restApi.post({
+                            url: '/api/Recharge/DoRecharge',
+                            data: JSON.stringify(inpar),
+                            contenType: "appliction/json",
+                            success: function(result) {
+                                //console.log("返回值:" + JSON.stringify(result));
+                                alert("充值成功!");
+                            }
+                        });
+                        @*location.href = '@Url.TenantAction("PaySuccess", "Personal")';*@
+                    } else {
+
+                    }
+                });
+        }
+
+        function CallPay(data) {
+            if (typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady(data), false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady(data));
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady(data));
+                }
+            } else {
+                onBridgeReady(data);
+            }
+        }
+
+        //支付
+        this.toPay = function(inpara) {
+            wc.restApi.post({
+                isBlockUI: false,
+                url: '/api/Recharge/PayMoney',
+                data: JSON.stringify(inpara),
+                success: function(result) {
+                    CallPay(ko.toJS(result));
+                }
+            });
+        };
+        $(function() {
+            $('.btn-money')
+                .on('click',
+                    function() {
+                        //获取按钮对应的充值金额 .addClass
+                        console.log("进入btn的click事件");
+                        var money = $(this).data('val');
+                        $('.btn-money').removeClass('aui-btn-success');
+                        $(this).addClass('aui-btn-success');
+                        if ($('.input_money').val() != "") {
+                            $('.input_money').val('');
+                        }
+                    });
+
+            $('.input_money')
+                .click(function() {
+                    console.log("进入inout的click事件");
+                    $('.btn-money').removeClass('aui-btn-success');
+                    $(this).css("boreder", "1px solid #39D815");
+                });
+
+            $('.input_money')
+                .blur(function() {
+                    console.log("进入inout的blur事件");
+                    $(this).css("boreder", "none");
+                });
+
+            $('.input_money')
+                .change(function() {
+                    console.log('进入input的change事件');
+                    var val = $('.input_money').val();
+                    if (isNaN(val)) { //不是数字 提示
+                        wc.message.success("充值金额格式有误!请修改!", "温馨提示");
+                    }
+                });
+
+            $('#btn-pay')
+                .on('click',
+                    function() {
+                        //点击支付
+                        var payflag = 1;
+                        money = $('.input_money').val();
+                        if (money > 0) {
+                            // show出支付页面
+                            console.log("input对应金额：" + money);
+                            //支付成功后保存支付记录
+                        } else {
+                            //获取btn-moneys下样式为aui-btn-success的按钮
+                            money = $('.btn-moneys div.aui-btn-success').data('val');
+                            if (money == undefined) {
+                                wc.message.success("必须输入充值金额", "温馨提示");
+                                return;
+                            }
+                            console.log("选定的按钮对应金额：" + money);
+                        }
+
+                        if (payflag == 1) {
+                            console.log("确认支付");
+                            var inpars = {
+                                Amount: money
+                            };
+
+                            wc.restApi.post({
+                                isBlockUI: false,
+                                url: '/api/Recharge/PayMoney',
+                                data: JSON.stringify(inpars),
+                                success: function(result) {
+                                    CallPay(ko.toJS(result));
+                                }
+                            });
+                        }
+
+                    });
+
+        });
+    </script>
+}

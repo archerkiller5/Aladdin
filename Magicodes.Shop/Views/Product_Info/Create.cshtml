@@ -1,0 +1,251 @@
+﻿@model Magicodes.WeiChat.Data.Models.Product.Product_Info
+
+@{
+    ViewBag.Title = "新建商品";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">商品信息管理</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CategoryId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.DropDownList("CategoryId", ViewBag.ResourcesCategoryId as SelectList, "——————请选择——————", new {@class = "form-control", style = "width:300px;"})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.CategoryId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Intro, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Intro, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Intro, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Number, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-3">
+                                    @Html.EditorFor(model => model.Number, new {htmlAttributes = new {@class = "form-control", style = "width:250px;"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Number, "", new {@class = "text-danger"})
+                                </div>
+                                @Html.LabelFor(model => model.Price, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-3">
+                                    @Html.EditorFor(model => model.Price, new {htmlAttributes = new {onpaste = "return false", ondrageenter = "return false", onkeyup = "this.value=check(this.value);", onkeydown = "return event.keyCode>=48 && event.keyCode<=57||event.keyCode>=96 &&event.keyCode<=105 || event.keyCode==8 || event.keyCode==110 ||event.keyCode==190;", @class = "form-control", style = "width:250px;"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Price, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="Des">商品标签</label>
+                                <div class="col-sm-10">
+                                    @foreach (var item in ViewBag.ResourcesTagId)
+                                    {
+                                        <input type="checkbox" value="@item.Id" class="i-checks" name="tagId"/>
+                                        <span class="tagname">@item.Name</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Des, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    <script id="editor" type="text/plain" style="height: 300px;">
+                                    </script>
+                                    @Html.HiddenFor(model => model.Des, new {htmlAttributes = new {@class = "form-control"}})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.Des, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TypeId, new {@class = "control-label col-sm-2"})
+                                <div class="col-sm-10">
+                                    @Html.DropDownList("TypeId", ViewBag.ResourcesTypeId as SelectList, "——————请选择——————", new {@class = "form-control", style = "width:300px;", onchange = "geAttribute(this.value)"})
+                                    @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+                                    @Html.ValidationMessageFor(model => model.TypeId, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                            <div class="form-group" id="attributeSet" style="display: none;">
+                                <label class="control-label col-sm-2" for="State">属性设置</label>
+                                <div class="col-sm-10">
+                                    <span class="text-danger field-validation-error" data-valmsg-for="Name" data-valmsg-replace="true">
+                                        <span for="attributeSet" generated="true" class="">至少选择一项属性。</span>
+                                    </span>
+                                    <table id="attributeTable">
+                                        <thead>
+                                        <tr>
+                                            <td>选择</td>
+                                            <td>名称</td>
+                                            <td>价格</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="attributeList">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+    <style type="text/css">
+        #attributeTable {
+            font-family: Helvetica, STHeiti, "Microsoft YaHei", Verdana, Arial, Tahoma, sans-serif;
+            text-align: center;
+            width: 99%;
+        }
+
+        #attributeTable tr { height: 37px; }
+
+        #attributeTable tr td {
+            border: 1px solid #ddd;
+            height: 37px;
+            width: 33%;
+        }
+
+        #attributeTable thead td {
+            background-color: #F2F2F2;
+            font-size: 14px;
+        }
+
+        .icheckbox_square-green { margin: 5px 3px 0 20px; }
+
+        .tagname { margin: 5px 0 0 3px; }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/chosen")
+    @Html.Partial("_FormScript")
+    <script type="text/javascript">
+        function check(str) {
+            var temp = "";
+            for (var i = 0; i < str.length; i++)
+                if (str.charCodeAt(i) > 0 && str.charCodeAt(i) < 255)
+                    temp += str.charAt(i);
+            return temp;
+        };
+
+        $(function() {
+            mwc.bs.init();
+            $(".chosen-select").chosen({});
+            $("form")
+                .submit(function(e) {
+                    var falg = 0;
+                    $("input[name='attributeId']:checkbox")
+                        .each(function() {
+                            if ($(this).prop("checked")) {
+                                falg += 1;
+                            }
+                        });
+                    if (falg <= 0) {
+                        mwc.message.warn('必须选择一项商品属性！');
+                        return false;
+                    }
+                    return true;
+                });
+        });
+
+        function geAttribute(typeId) {
+            mwc.ui.setBusy();
+            mwc.restApi.post({
+                //请求地址
+                url: '/Product_Info/getAttributeList/',
+                data: { TypeId: typeId },
+                //是否锁定UI
+                isBlockUI: true,
+                //成功函数
+                success: function(data) {
+                    if (data.Result != null && data.Result != "") {
+                        $("#attributeSet").show();
+                        var checkboxHTML = "";
+                        var list = data.Result;
+                        for (var a in list) {
+                            checkboxHTML +=
+                                "<tr><td><input type=\"checkbox\" class=\"i-checks\" name=\"attributeId\" value=\"" +
+                                list[a].Id +
+                                "\" /></td>" +
+                                "<td>" +
+                                list[a].Name +
+                                "<input type=\"hidden\" name=\"attributeName\" value=\"" +
+                                list[a].Name +
+                                "\" /></td>" +
+                                "<td><input type=\"text\" disabled=\"disabled\" name=\"attributePrice\" value=\"0\"/></td></tr>";
+                        }
+                        $("#attributeList").append(checkboxHTML);
+
+                        $("input[type=checkbox]")
+                            .on('ifToggled',
+                                function(e) {
+                                    var obj = $(this).parents("tr").find('td').eq(2).find("input");
+                                    if (e.currentTarget.checked) {
+                                        obj.attr("disabled", false);
+                                    } else {
+                                        obj.val("0");
+                                        obj.attr("disabled", true);
+                                    }
+                                });
+                    } else {
+                        $("#attributeSet").hide();
+                        $("#attributeList").empty();
+                    }
+                    mwc.bs.init();
+                }
+            });
+        }
+    </script>
+}

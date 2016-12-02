@@ -1,0 +1,41 @@
+﻿ @using System.Text.RegularExpressions
+ @model Magicodes.WeiChat.Data.Models.Settings.Settings_SmsTemplate
+@{
+    ViewBag.Title = "模板预览";
+    Layout = "~/Views/Shared/_LightLayout.cshtml";
+    var content = Model.Content.Replace("\n", "<br>");
+    var rm = Regex.Matches(content, @"\{\{(.+?)\}\}");
+    if ((rm != null) && (rm.Count > 0))
+    {
+        foreach (Match item in rm)
+        {
+            content = content.Replace(item.Value, string.Format("<a href=\"#\" id=\"{0}\" class=\"x-editable\" data-type=\"text\" data-pk=\"1\" data-title=\"请输入内容\" data-placeholder=\"{1}\" data-value=\"\"></a>&nbsp;&nbsp;<a data-color=\"#173177\" id=\"{0}_COLOR\" class=\"colorpicker \" style=\"color:#173177\" href=\"#\">#173177</a>", item.Value.Trim('{').Trim('}'), item.Value));
+        }
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <hr style="margin: 2px 2px 10px 2px;" />
+                <h3>请编辑下面划线的文字：</h3>
+                <div class="well">
+                    @Html.Raw(content)
+                    <hr />
+                    链接：<a href="#" id="url" class="x-editable" data-pk="1" data-title="请输入链接" data-placeholder="请输入链接" data-value="http://weichat.chinacloudsites.cn/"></a><br />
+                    接收人：<a href="#" id="ReceiverId" data-pk="1" data-title="请输入内容" data-placeholder="请选择用户" data-value=""></a>
+                    <p class="pull-right">
+                        <button type="button" id="btnSend" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;发送</button>
+                    </p>
+                </div>
+
+                <h3>消息示例：</h3>
+                <div class="well">
+                    @Html.Raw(Model.Demo.Replace("\n", "<br>"))
+                </div>
+                @Html.HiddenFor(model => model.TemplateNo)
+            </div>
+        </div>
+    </div>
+</div>

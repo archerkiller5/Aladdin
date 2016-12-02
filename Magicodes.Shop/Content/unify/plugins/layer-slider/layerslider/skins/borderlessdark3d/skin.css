@@ -1,0 +1,171 @@
+/* LayerSlider Borderless Dark 3D Skin */
+
+
+
+.ls-borderlessdark3d .ls-ct-half { background: #444; }
+
+.ls-borderlessdark3d .ls-ct-center { background: white; }
+
+.ls-borderlessdark3d .ls-playvideo {
+    height: 50px;
+    margin-left: -25px;
+    margin-top: -25px;
+    width: 50px;
+}
+
+.ls-borderlessdark3d .ls-playvideo,
+.ls-borderlessdark3d .ls-nav-sides,
+.ls-borderlessdark3d .ls-bottom-slidebuttons a,
+.ls-borderlessdark3d .ls-nav-prev,
+.ls-borderlessdark3d .ls-nav-next,
+.ls-borderlessdark3d .ls-nav-start,
+.ls-borderlessdark3d .ls-nav-stop,
+.ls-borderlessdark3d .ls-fullscreen,
+.ls-borderlessdark3d .ls-loading-container { background-image: url(skin.png); }
+
+.ls-borderlessdark3d .ls-playvideo { background-position: -300px -150px; }
+
+.ls-borderlessdark3d .ls-playvideo:hover,
+.ls-borderlessdark3d .ls-vpcontainer:hover .ls-playvideo { background-position: -375px -150px; }
+
+.ls-borderlessdark3d .ls-nav-prev { background-position: 0px 0px; }
+
+.ls-borderlessdark3d .ls-nav-prev:hover { background-position: 0px -75px; }
+
+.ls-borderlessdark3d .ls-nav-next { background-position: -150px 0px; }
+
+.ls-borderlessdark3d .ls-nav-next:hover { background-position: -150px -75px; }
+
+.ls-borderlessdark3d .ls-nav-start { background-position: -300px 0px; }
+
+.ls-borderlessdark3d .ls-nav-start:hover,
+.ls-borderlessdark3d .ls-nav-start-active { background-position: -300px -75px; }
+
+.ls-borderlessdark3d .ls-nav-stop { background-position: -450px 0px; }
+
+.ls-borderlessdark3d .ls-nav-stop:hover,
+.ls-borderlessdark3d .ls-nav-stop-active { background-position: -450px -75px; }
+
+.ls-borderlessdark3d .ls-bottom-slidebuttons a { background-position: 0px -150px; }
+
+.ls-borderlessdark3d .ls-bottom-slidebuttons a.ls-nav-active,
+.ls-borderlessdark3d .ls-bottom-slidebuttons a:hover { background-position: -75px -150px; }
+
+.ls-borderlessdark3d .ls-nav-sideleft { background-position: -150px -150px; }
+
+.ls-borderlessdark3d .ls-nav-sideright { background-position: -225px -150px; }
+
+
+
+.ls-borderlessdark3d .ls-nav-prev,
+.ls-borderlessdark3d .ls-nav-next {
+    height: 40px;
+    margin-top: -20px;
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    z-index: 10000;
+}
+
+.ls-borderlessdark3d .ls-nav-prev { left: 10px; }
+
+.ls-borderlessdark3d .ls-nav-next { right: 10px; }
+
+
+
+.ls-borderlessdark3d .ls-bottom-slidebuttons,
+.ls-borderlessdark3d .ls-bottom-slidebuttons a,
+.ls-borderlessdark3d .ls-nav-start,
+.ls-borderlessdark3d .ls-nav-stop,
+.ls-borderlessdark3d .ls-nav-sides { height: 20px; }
+
+.ls-borderlessdark3d .ls-bottom-slidebuttons,
+.ls-borderlessdark3d .ls-bottom-slidebuttons a,
+.ls-borderlessdark3d .ls-nav-start,
+.ls-borderlessdark3d .ls-nav-stop,
+.ls-borderlessdark3d .ls-nav-sides { display: inline-block; }
+
+.ls-borderlessdark3d .ls-bottom-slidebuttons,
+.ls-borderlessdark3d .ls-nav-start,
+.ls-borderlessdark3d .ls-nav-stop,
+.ls-borderlessdark3d .ls-nav-sides { top: -30px; }
+
+.ls-borderlessdark3d .ls-nav-start,
+.ls-borderlessdark3d .ls-nav-stop { width: 25px; }
+
+.ls-borderlessdark3d .ls-bottom-slidebuttons a { width: 20px; }
+
+.ls-borderlessdark3d .ls-nav-sides { width: 0px; }
+
+
+
+.ls-borderlessdark3d .ls-thumbnail-hover {
+    bottom: 30px;
+    padding: 3px;
+}
+
+.ls-borderlessdark3d .ls-thumbnail-hover-bg {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #222;
+    border-radius: 4px;
+    box-shadow: 0px 2px 12px -4px black;
+}
+
+.ls-borderlessdark3d .ls-thumbnail-hover span {
+    border: 5px solid #222;
+    margin-left: -5px;
+}
+
+
+
+.ls-borderlessdark3d .ls-thumbnail { top: 10px; }
+
+.ls-borderlessdark3d .ls-thumbnail-inner {
+    -moz-border-radius: 4px;
+    -moz-box-shadow: 0px 3px 15px -5px #000;
+    -webkit-border-radius: 4px;
+    -webkit-box-shadow: 0px 3px 15px -5px #000;
+    background: #222;
+    border-radius: 4px;
+    box-shadow: 0px 3px 15px -5px #000;
+    margin-left: -3px;
+    padding: 3px;
+}
+
+.ls-borderlessdark3d .ls-thumbnail-slide a { margin-right: 3px; }
+
+.ls-borderlessdark3d .ls-nothumb { background: #333; }
+
+
+
+.ls-borderlessdark3d .ls-shadow { display: block; }
+
+
+
+.ls-borderlessdark3d .ls-loading-container {
+    background-position: -450px -150px;
+    height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    width: 40px;
+}
+
+.ls-borderlessdark3d .ls-loading-indicator {
+    background-image: url(loading.gif);
+    height: 22px;
+    margin-top: 9px;
+    width: 22px;
+}
+
+
+
+.ls-borderlessdark3d .ls-fullscreen {
+    background-position: -525px -150px;
+    height: 30px;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+}
+
+.ls-borderlessdark3d .ls-fullscreen:hover { background-position: -525px -190px; }

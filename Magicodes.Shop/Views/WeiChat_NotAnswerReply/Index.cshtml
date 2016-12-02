@@ -1,0 +1,78 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_NotAnswerReply
+
+@{
+    ViewBag.TwoTitle = "答不上来配置";
+}
+@Html.Partial("_FormHead")
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.HiddenFor(model => model.TenantId)
+                            <content-choice-button params="contentId: ContentId,mediaId:MediaId,keyWordContentType:KeyWordContentType,contentTypes:Types"></content-choice-button>
+
+                            <input type="hidden" name="KeyWordContentType" data-bind="value:KeyWordContentType"/>
+                            <input type="hidden" name="ContentId" data-bind="value:ContentId"/>
+                            <input type="hidden" name="MediaId" data-bind="value:MediaId"/>
+
+                            @Html.ValidationMessageFor(model => model.KeyWordContentType, "", new {@class = "text-danger"})
+                            @Html.ValidationMessageFor(model => model.ContentId, "", new {@class = "text-danger"})
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                                    <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+@section Scripts{
+    <script src="~/Scripts/app/components/content-choice.js"></script>
+
+    <script>
+        function ViewModel() {
+            var self = this;
+            this.KeyWordContentType = ko.observable('@((int) Model.KeyWordContentType)');
+            this.ContentId = ko.observable('@(Model.ContentId)');
+            this.Types = ko.observableArray([]);
+            this.MediaId = ko.observable('');
+            this.init = function() {
+                mwc.restApi.get({
+                    url: '@Url.Action("GetKeyWordContentTypes", "WeiChat_KeyWordAutoReply")',
+                    success: function(data) {
+                        for (var name in data) {
+                            self.Types().push({ text: name, value: data[name] });
+                        }
+                        ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+                    }
+                });
+            };
+            self.init();
+        }
+
+        $(function() {
+            window.CurrentModel = new ViewModel();
+        });
+    </script>
+}

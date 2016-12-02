@@ -1,0 +1,174 @@
+﻿@{
+    //轻量模式
+    var isLightLayout = Request.QueryString["lightLayout"] == "1";
+    var controller = Request.RequestContext.RouteData.Values["controller"].ToString();
+    var cssClass = "active";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    @*加载自定义样式*@
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", false)
+    }@*加载主体样式*@@Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/plugins/toastrStyles")
+    @Styles.Render("~/plugins/sweetalertStyles")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/signalR")
+</head>
+<body>
+    @if (isLightLayout)
+    {
+    <!-- Wrapper-->
+        <div id="wrapper">
+            <!-- Page wraper -->
+            <div id="page-wrapper" style="display: none; margin: 0 0 0 0;" class="gray-bg">
+                <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom: 0;">
+                    <!-- Main view -->
+                    @RenderBody()
+                </div>
+            </div>
+            <!-- End page wrapper-->
+        </div>
+    <!-- End wrapper-->
+    }
+    else
+    {
+    <!-- Wrapper-->
+        <div id="wrapper">
+            @*左侧导航菜单*@
+            @{ Html.RenderAction("Menus", "Modules"); }
+            @*@Html.Partial("_Navigation")*@
+            <!-- Page wraper -->
+            <div id="page-wrapper" class="gray-bg">
+                <!-- Top Navbar -->
+                @Html.Partial("_TopNavbar")
+                <!-- Main view -->
+                <div id="mainBody">
+                    @RenderBody()
+                </div>
+                <!-- Footer -->
+                @Html.Partial("_Footer")
+            </div>
+            <!-- End page wrapper-->
+        </div>
+                }
+
+    <!-- End wrapper-->
+    @*加载主要脚本*@
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/plugins/slimScroll")
+    @Scripts.Render("~/bundles/inspinia")
+    @Scripts.Render("~/plugins/toastr")
+    @Scripts.Render("~/bundles/jquery.blockUI")
+    @Scripts.Render("~/plugins/sweetalert")
+    @Scripts.Render("~/plugins/spin")
+    @Scripts.Render("~/bundles/knockout")
+    <script src="~/Scripts/plugins/layer/layer.js"></script>
+    @Scripts.Render("~/signalr/hubs")
+    @*Magicodes.WeiChat JS框架*@
+    @Scripts.Render("~/bundles/nwc")
+    <script>
+        mwc.log.level = @(HttpContext.Current.IsDebuggingEnabled ? "mwc.log.levels.DEBUG" : "mwc.log.levels.WARN");
+    </script>
+    @if (isLightLayout)
+    {
+        <script>
+            if ($('div.page-heading').length > 0) {
+                $('div.page-heading').remove();
+            }
+            $('#page-wrapper').show();
+            $('nav').show();
+        </script>
+    }
+    else
+    {
+        <script>
+            if (self != parent) {
+                if ($('div.page-heading').length > 0) {
+                    $('div.page-heading').remove();
+                }
+                $('nav').remove();
+                $('#page-wrapper').show().css('margin', '0 0 0 0');
+            } else {
+                $('nav').show();
+            }
+            var notifyViewModel= function(){
+                var self=this;
+                this.Show=function(){
+                    $('#notify').addClass('open');
+                };
+                this.Notifies=ko.observableArray([]);
+                this.GetTime=function(time){
+                    if(time.indexOf('+08:00')==-1)
+                        time+='+08:00';
+                    var date=new Date(time);
+                    var now=new Date();
+                    var min=parseInt(Math.abs(now-date)/1000/60);
+                    if(min<=1)
+                        return '刚刚';
+                    if(min<=60)
+                        return min+'分钟前';
+                    if(min<=60*24)
+                        return parseInt(min/60)+'小时前';
+                    if(min<=60*24*30)
+                        return parseInt(min/60/24)+'天前';
+                    return "很久以前";
+                };
+                this.Remove=function(item){
+                    mwc.restApi.delete({url:'/api/Site_Notifies/'+item.Id,blockUI:false,success:function(){
+                        self.Notifies.remove(item);
+                    }});
+                };
+                this.Init=function(){
+                    var notifyHubProxy = $.connection.notifyHub;
+                    //接收通知（注意，务必在连接前定义）
+                    notifyHubProxy.client.Notify = function (notify) {
+                        console.debug(notify);
+                        if (typeof(notify.length)!='undefined') {
+                            self.Notifies(notify);
+                        }else{
+                            var arr=self.Notifies();
+                            var hasExist=false;
+                            $.each(arr,function(i,v){
+                                if (v.Id == notify.Id) {
+                                    arr.splice(i,1,notify)
+                                    hasExist=true;
+                                    return;
+                                }
+                            });
+                            if (!hasExist) {
+                                arr.push(notify);
+                                if(arr.length>8)
+                                    arr.splice(7,1)
+                            }
+                            self.Notifies(arr.sort(function(left,right){
+                                return left.UpdateTime<right.UpdateTime?1:-1;
+                            }));
+                            self.Show();
+                            console.debug(self.Notifies());
+                        }
+                    };
+                    $.connection.hub.start().done(function () {
+                        console.debug('已成功连接服务器！');
+
+                    }).fail(function(){ console.log('连接失败！'); });
+                };
+                self.Init();
+            };
+            ko.applyBindings(new notifyViewModel(),document.getElementById('notify'));
+        </script>
+    }
+    @*加载自定义脚本*@
+    @RenderSection("scripts", false)
+</body>
+</html>

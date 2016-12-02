@@ -1,0 +1,251 @@
+/*Center Icon*/
+.center-icon {
+    background: #fff;
+    border: 1px solid #eee;
+    color: #585f69;
+    font-size: 23px;
+    margin: 0 -22px 0 10px;
+    min-width: 45px;
+    padding: 10px 5px;
+    position: absolute;
+    right: 50%;
+    text-align: center;
+    top: -22px;
+}
+
+/*Wrapping element for colorful background Block-Description, Job_Team 
+------------------------------------*/
+
+.block-description,
+.job-team {
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+    padding: 40px 0 30px;
+    position: relative;
+}
+
+/*Wrapping element for white background Block-Level-v2, Contacts
+------------------------------------*/
+
+.block-level-v2,
+.contacts {
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 30px 0;
+    position: relative;
+}
+
+/*Image Block
+------------------------------------*/
+
+.image-block {
+    min-height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.image-block { background: url(../../../img/bg/19.jpg) 30% 40% no-repeat; }
+
+/*Company Description*/
+
+.image-block .company-description {
+    background: rgba(255, 255, 255, 0.9);
+    margin: 40px auto;
+    max-width: 500px;
+    padding: 35px 25px;
+    position: relative;
+    text-align: center;
+}
+
+.image-block .company-description h2 {
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.image-block .company-description p { text-align: right; }
+
+.image-block .benefits { margin-bottom: 20px; }
+
+.image-block .benefits li {
+    font-style: italic;
+    margin: 0 0 10px 7px;
+}
+
+.image-block .benefits li i {
+    border: 1px solid #555;
+    color: #555;
+    font-size: 15px;
+    margin-left: 10px;
+    min-width: 32px;
+    padding: 7px 6px;
+    text-align: center;
+}
+
+/*Block Description
+------------------------------------*/
+
+.block-description { padding-bottom: 80px !important; }
+
+/*Left-Inner*/
+
+.block-description .left-inner {
+    background: #fff;
+    padding: 20px;
+    position: relative;
+}
+
+.block-description .left-inner .hex {
+    color: #777;
+    margin-bottom: 0;
+}
+
+.block-description .left-inner i.position-top {
+    color: #585f69;
+    font-size: 18px;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+.block-description .left-inner img {
+    border: 1px solid #eee;
+    float: right;
+    height: auto;
+    margin: 0 0 10px 10px;
+    padding: 3px;
+    width: 80px;
+}
+
+.block-description .left-inner h3 { margin: 0 0 5px; }
+
+.block-description .left-inner p.hex { margin-bottom: 5px; }
+
+.block-description .star-vote {
+    float: right;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.block-description .star-vote li { padding: 0; }
+
+/*Progresses*/
+
+.block-description .progression span {
+    float: right;
+    margin: -8px 0 0 15px;
+    width: 150px;
+}
+
+/*Right Inner*/
+
+.block-description .right-inner {
+    background: #fff;
+    padding: 20px;
+}
+
+.block-description .right-inner img {
+    float: right;
+    height: auto;
+    margin-left: 10px;
+    width: 90px;
+}
+
+.block-description .right-inner .font-s { font-size: 18px; }
+
+.block-description .right-inner hr { margin: 15px 0; }
+
+/*P chart v2*/
+
+.block-description .p-chart { overflow: hidden; }
+
+.block-description .p-chart h3 { font-size: 16px; }
+
+.block-description .p-chart .circle {
+    float: right;
+    margin-left: 10px;
+}
+
+.block-description .p-chart .overflow-h li i,
+.block-description .p-chart .overflow-h li a { color: #72c02c; }
+
+.block-description .p-chart .overflow-h li a { font-size: 11px; }
+
+/*Circle in Responsive*/
+
+@media (max-width: 450px) {
+    .block-description .p-chart.col-xs-6 { width: 100%; }
+}
+
+/*Save Job*/
+
+.block-description .save-job li { padding: 2px 0; }
+
+.block-description .save-job i {
+    color: #555;
+    min-width: 25px;
+    text-align: center;
+}
+
+.block-description .save-job a { color: #555; }
+
+.block-description .save-job a:hover { color: #72c02c; }
+
+/*Overview*/
+
+.block-description .overview { margin-bottom: 10px; }
+
+.block-description .overview i {
+    background: #585f69;
+    color: #fff;
+    float: right;
+    font-size: 20px;
+    margin-left: 10px;
+    min-width: 38px;
+    padding: 10px 3px;
+    text-align: center;
+}
+
+/*People Say*/
+
+.block-description .people-say img {
+    float: right;
+    height: auto;
+    margin: 6px 0 0 10px;
+    width: 40px;
+}
+
+.block-description .people-say .overflow-h span { font-weight: 700; }
+
+.block-description .people-say .overflow-h p {
+    font-style: italic;
+    line-height: 1.3;
+}
+
+.block-description .people-say .overflow-h small {
+    font-style: italic;
+    text-align: left;
+}
+
+/*Block Level
+------------------------------------*/
+
+.block-level { padding-bottom: 10px !important; }
+
+/*Block Level v2
+------------------------------------*/
+
+.block-level-v2 .responsive-video { margin-bottom: 15px; }
+
+/*Job Team
+------------------------------------*/
+
+.parallax-team { border-top: 1px solid #eee; }
+
+/*Contacts
+------------------------------------*/
+
+.contacts { padding-bottom: 70px; }
+
+.contacts h3 { margin-top: 0; }
+
+.contacts hr { margin: 10px 0; }

@@ -1,0 +1,504 @@
+﻿@{
+    ViewBag.Title = "素材管理";
+}
+@section Styles
+{
+    <style type="text/css">
+        /* leave this part out */
+        .clearfix { *zoom: 1; }
+
+        .clearfix:before,
+        .clearfix:after {
+            content: "";
+            display: table;
+            line-height: 0;
+        }
+
+        .clearfix:after { clear: both; }
+
+        .hide-text {
+            background-color: transparent;
+            border: 0;
+            color: transparent;
+            font: 0/0 a;
+            text-shadow: none;
+        }
+
+        .input-block-level {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            min-height: 30px;
+            width: 100%;
+        }
+
+        .btn-file {
+            overflow: hidden;
+            position: relative;
+            vertical-align: middle;
+        }
+
+        .btn-file > input {
+            cursor: pointer;
+            direction: ltr;
+            filter: alpha(opacity=0);
+            font-size: 23px;
+            margin: 0;
+            opacity: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: translate(-300px, 0) scale(4);
+        }
+
+        .fileupload { margin-bottom: 9px; }
+
+        .fileupload .uneditable-input {
+            cursor: text;
+            display: inline-block;
+            margin-bottom: 0px;
+            vertical-align: middle;
+        }
+
+        .fileupload .thumbnail {
+            display: inline-block;
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .fileupload .thumbnail > img {
+            display: inline-block;
+            max-height: 100%;
+            vertical-align: middle;
+        }
+
+        .fileupload .btn { vertical-align: middle; }
+
+        .fileupload-exists .fileupload-new,
+        .fileupload-new .fileupload-exists { display: none; }
+
+        .fileupload-inline .fileupload-controls { display: inline; }
+
+        .fileupload-new .input-append .btn-file {
+            -moz-border-radius: 0 3px 3px 0;
+            -webkit-border-radius: 0 3px 3px 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .thumbnail-borderless .thumbnail {
+            -moz-border-radius: 0;
+            -moz-box-shadow: none;
+            -webkit-border-radius: 0;
+            -webkit-box-shadow: none;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .fileupload-new.thumbnail-borderless .thumbnail { border: 1px solid #ddd; }
+
+        .control-group.warning .fileupload .uneditable-input {
+            border-color: #a47e3c;
+            color: #a47e3c;
+        }
+
+        .control-group.warning .fileupload .fileupload-preview { color: #a47e3c; }
+
+        .control-group.warning .fileupload .thumbnail { border-color: #a47e3c; }
+
+        .control-group.error .fileupload .uneditable-input {
+            border-color: #b94a48;
+            color: #b94a48;
+        }
+
+        .control-group.error .fileupload .fileupload-preview { color: #b94a48; }
+
+        .control-group.error .fileupload .thumbnail { border-color: #b94a48; }
+
+        .control-group.success .fileupload .uneditable-input {
+            border-color: #468847;
+            color: #468847;
+        }
+
+        .control-group.success .fileupload .fileupload-preview { color: #468847; }
+
+        .control-group.success .fileupload .thumbnail { border-color: #468847; }
+    </style>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        //file upload 按钮自定义
+        ! function(e) {
+            var t = function(t, n) {
+                this.$element = e(t), this.type = this.$element.data("uploadtype") ||
+                    (this.$element.find(".thumbnail").length > 0 ? "image" : "file"), this.$input = this.$element
+                    .find(":file");
+                if (this.$input.length === 0) return;
+                this.name = this.$input.attr("name") || n.name, this.$hidden = this.$element
+                        .find('input[type=hidden][name="' + this.name + '"]'),
+                    this.$hidden.length === 0 &&
+                    (this.$hidden = e('<input type="hidden" />'), this.$element
+                        .prepend(this.$hidden)), this.$preview = this.$element.find(".fileupload-preview");
+                var r = this.$preview.css("height");
+                this.$preview.css("display") != "inline" &&
+                    r != "0px" &&
+                    r != "none" &&
+                    this.$preview.css("line-height", r), this.original = {
+                    exists: this.$element.hasClass("fileupload-exists"),
+                    preview: this.$preview.html(),
+                    hiddenVal: this.$hidden.val()
+                }, this.$remove = this.$element
+                    .find('[data-dismiss="fileupload"]'), this.$element.find('[data-trigger="fileupload"]')
+                    .on("click.fileupload", e.proxy(this.trigger, this)), this.listen();
+            };
+            t.prototype = {
+                listen: function() {
+                    this.$input
+                            .on("change.fileupload", e.proxy(this.change, this)),
+                        e(this.$input[0]
+                                .form)
+                            .on("reset.fileupload", e.proxy(this.reset, this)),
+                        this.$remove && this.$remove.on("click.fileupload", e.proxy(this.clear, this));
+                },
+                change: function(e, t) {
+                    if (t === "clear") return;
+                    var n = e.target.files !== undefined
+                        ? e.target.files[0]
+                        : e.target.value
+                        ? {
+                            name: e.target.value.replace(/^.+\\/, "")
+                        }
+                        : null;
+                    if (!n) {
+                        this.clear();
+                        return;
+                    }
+                    this.$hidden.val(""), this.$hidden.attr("name", ""), this.$input.attr("name", this.name);
+                    if (this.type === "image" &&
+                        this.$preview.length > 0 &&
+                        (typeof n
+                            .type !=
+                            "undefined"
+                            ? n.type.match("image.*")
+                            : n.name.match(/\.(gif|png|jpe?g)$/i)) &&
+                        typeof FileReader != "undefined") {
+                        var r = new FileReader,
+                            i = this.$preview,
+                            s = this.$element;
+                        r.onload = function(e) {
+                            i.html('<img src="' +
+                                e.target.result +
+                                '" ' +
+                                (i
+                                    .css("max-height") !=
+                                    "none"
+                                    ? 'style="max-height: ' + i.css("max-height") + ';"'
+                                    : "") +
+                                " />"), s.addClass("fileupload-exists").removeClass("fileupload-new");
+                        }, r.readAsDataURL(n);
+                    } else
+                        this.$preview.text(n.name), this.$element.addClass("fileupload-exists")
+                            .removeClass("fileupload-new");
+                },
+                clear: function(e) {
+                    this.$hidden.val(""), this.$hidden.attr("name", this.name), this.$input.attr("name", "");
+                    if (navigator.userAgent.match(/msie/i)) {
+                        var t = this.$input.clone(!0);
+                        this.$input.after(t), this.$input.remove(), this.$input = t;
+                    } else this.$input.val("");
+                    this.$preview.html(""), this.$element
+                        .addClass("fileupload-new")
+                        .removeClass("fileupload-exists"), e &&
+                        (this.$input.trigger("change", ["clear"]), e.preventDefault());
+                },
+                reset: function(e) {
+                    this.clear(), this.$hidden.val(this.original.hiddenVal), this.$preview
+                        .html(this.original.preview), this.original.exists
+                        ? this.$element.addClass("fileupload-exists").removeClass("fileupload-new")
+                        : this.$element.addClass("fileupload-new").removeClass("fileupload-exists");
+                },
+                trigger: function(e) {
+                    this.$input.trigger("click"), e.preventDefault();
+                }
+            }, e.fn.fileupload = function(n) {
+                return this.each(function() {
+                    var r = e(this),
+                        i = r.data("fileupload");
+                    i || r.data("fileupload", i = new t(this, n)), typeof n == "string" && i[n]();
+                });
+            }, e.fn.fileupload.Constructor = t, e(document)
+                .on("click.fileupload.data-api",
+                    '[data-provides="fileupload"]',
+                    function(t) {
+                        if (this.innerText.trim() == "选择图片文件") {
+                            var n = e(this);
+                            if (n.data("fileupload")) return;
+                            n.fileupload(n.data());
+                            var r = e(t.target).closest('[data-dismiss="fileupload"], [data-trigger="fileupload"]');
+                            r.length > 0 && (r.trigger("click.fileupload"), t.preventDefault());
+                        } else {
+                            //ajax upload
+                            var data = new FormData();
+                            var files = $("#uploadImageFile").get(0).files;
+                            if (files.length <= 0) {
+                                return false;
+                            }
+                            data.append("UploadedImage", files[0]);
+                            var ajaxRequest = $.ajax({
+                                type: "POST",
+                                url: "/Material/UploadImage",
+                                contentType: false,
+                                processData: false,
+                                data: data
+                            });
+                            ajaxRequest.done(function(xhr, textStatus) {
+                                if (xhr == "ok") {
+                                    //刷新
+                                    location.reload();
+                                }
+                            });
+                            return false;
+                        }
+                    });
+        }(window.jQuery)
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            //图文消息切换
+            $("#msgTab")
+                .click(function() {
+                    //显示此按钮已被激活
+                    $("#msgTab").addClass("active");
+                    //其他按钮不激活
+                    $("#imageTab").removeClass("active");
+                    $("#voiceTab").removeClass("active");
+                    $("#videoTab").removeClass("active");
+                    //显示图文消息上传容器
+                    $("#msgUploadContainer").show();
+                    //隐藏其他容器
+                    $("#imageUploadContainer").hide();
+                    $("#voiceUploadContainer").hide();
+                    $("#videoUploadContainer").hide();
+                    //清空素材容器
+                    $("#materialContainer").empty();
+                    //加载列表数据
+                    $.ajax({
+                        url: "/material/GetMsgJsonResult",
+                        type: "Get",
+                        dataType: "JSON",
+                        success: function(data) {
+                            var tmpHtml = "";
+                            $.each(data.item,
+                                function(index, value) {
+                                    var t = new Date(1970, 0, 1);
+                                    t.setSeconds(value.update_time);
+                                    tmpHtml += " <div id='" +
+                                        value.media_id +
+                                        "' class='file-box'> " +
+                                        "<div class='file'>  " +
+                                        "<a href='#'>" +
+                                        "<span class='corner'></span> " +
+                                        "<div class='icon'>" +
+                                        "<i class='img-responsive fa fa-film'></i> " +
+                                        "</div>" +
+                                        "<div class='file-name'> " +
+                                        value.content.news_item[0].title +
+                                        " <br />" +
+                                        "<small>" +
+                                        value.content.news_item[0].digest +
+                                        "</small>" +
+                                        "</div>" +
+                                        "</a>" +
+                                        "</div> " +
+                                        "</div>";
+                                });
+                            //附加到容器中
+                            $("#materialContainer").append(tmpHtml);
+                        }
+                    });
+                });
+            //图片切换
+            $("#imageTab")
+                .click(function() {
+                    //显示此按钮已被激活
+                    $("#imageTab").addClass("active");
+                    //其他按钮不激活
+                    $("#msgTab").removeClass("active");
+                    $("#voiceTab").removeClass("active");
+                    $("#videoTab").removeClass("active");
+                    //显示图片上传容器
+                    $("#imageUploadContainer").show();
+                    //隐藏其他容器
+                    $("#msgUploadContainer").hide();
+                    $("#voiceUploadContainer").hide();
+                    $("#videoUploadContainer").hide();
+                    //清空素材容器
+                    $("#materialContainer").empty();
+                    //加载图片列表
+                    $.ajax({
+                        url: "/Material/GetMediaJsonResult?fileType=image",
+                        type: "Get",
+                        dataType: "JSON",
+                        success: function(data) {
+                            var tmpHtml = "";
+                            $.each(data.item,
+                                function(index, value) {
+                                    var t = new Date(1970, 0, 1);
+                                    t.setSeconds(value.update_time);
+                                    tmpHtml += " <div id='" +
+                                        value.media_id +
+                                        "' class='file-box'> " +
+                                        "<div class='file'>  " +
+                                        "<a href='#'>" +
+                                        "<span class='corner'></span> " +
+                                        "<div class='image'>" +
+                                        "<img alt='image' class='img-responsive' src='" +
+                                        value.url +
+                                        "'> " +
+                                        "</div>" +
+                                        "<div class='file-name'> " +
+                                        value.name +
+                                        " <br />" +
+                                        "<small>" +
+                                        t.toLocaleDateString() +
+                                        "</small>" +
+                                        "</div>" +
+                                        "</a>" +
+                                        "</div> " +
+                                        "</div>";
+                                });
+                            //附加到容器中
+                            $("#materialContainer").append(tmpHtml);
+                        }
+                    });
+                });
+            //语音切换
+            $("#voiceTab")
+                .click(function() {
+                    //显示此按钮已被激活
+                    $("#voiceTab").addClass("active");
+                    //其他按钮不激活
+                    $("#msgTab").removeClass("active");
+                    $("#imageTab").removeClass("active");
+                    $("#videoTab").removeClass("active");
+                    //显示语音上传容器
+                    $("#voiceUploadContainer").show();
+                    //隐藏其他容器
+                    $("#msgUploadContainer").hide();
+                    $("#imageUploadContainer").hide();
+                    $("#videoUploadContainer").hide();
+                    //清空素材容器
+                    $("#materialContainer").empty();
+                });
+            //视频切换
+            $("#videoTab")
+                .click(function() {
+                    //显示此按钮已被激活
+                    $("#videoTab").addClass("active");
+                    //其他按钮不激活
+                    $("#msgTab").removeClass("active");
+                    $("#imageTab").removeClass("active");
+                    $("#voiceTab").removeClass("active");
+                    //显示视频上传容器
+                    $("#videoUploadContainer").show();
+                    //隐藏其他容器
+                    $("#msgUploadContainer").hide();
+                    $("#imageUploadContainer").hide();
+                    $("#voiceUploadContainer").hide();
+                    //清空素材容器
+                    $("#materialContainer").empty();
+                });
+
+            //手动触发图文消息Click事件
+            $("#msgTab").click();
+        });
+    </script>
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>素材管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                管理
+            </li>
+            <li class="active">
+                <strong>素材管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="file-manager">
+                        <a id="msgTab" href="#" class="file-control ">图文消息</a>
+                        <a id="imageTab" href="#" class="file-control">图片</a>
+                        <a id="voiceTab" href="#" class="file-control">语言</a>
+                        <a id="videoTab" href="#" class="file-control">视频</a>
+                        <div class="hr-line-dashed"></div>
+                    </div>
+                    <div id="imageUploadContainer" class="fileupload fileupload-new" data-provides="fileupload" style="display: none">
+                        <span class="btn btn-primary btn-file">
+                            <span class="fileupload-new">选择图片文件</span>
+                            <span class="fileupload-exists">上传</span>    
+                            <input type="file" id="uploadImageFile"/>
+                        </span>
+                        <span class="fileupload-preview"></span>
+                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+                    </div>
+                    <div id="voiceUploadContainer" class="fileupload fileupload-new" data-provides="fileupload" style="display: none">
+                        <span>语言</span>
+                    </div>
+                    <div id="msgUploadContainer" style="display: none" class="fileupload fileupload-new" data-provides="fileupload">
+                        <span>图文消息</span>
+                    </div>
+                    <div id="videoUploadContainer" style="display: none" class="fileupload fileupload-new" data-provides="fileupload">
+                        <span>视频</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12" id="materialContainer">
+                    @*@foreach (var item in ((MediaList_OthersResult) ViewBag.Images).item)
+                        {
+                                <div class="file-box">
+                                    <div class="file">
+                                        <a href="#">
+                                            <span class="corner"></span>
+                                            <div class="image">
+                                                <img alt="image" class="img-responsive" src="@item.url">
+                                            </div>
+                                            <div class="file-name">
+                                                @item.name
+                                                <br />
+                                                @{
+                                                    var dt = new DateTime(1970, 1, 1);
+                                                    dt = dt.AddSeconds(double.Parse(item.update_time));
+                                                    <small>@dt.ToString("yyyy-MM-dd")</small>
+                                                    }
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                        }*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

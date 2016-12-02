@@ -1,0 +1,157 @@
+/*Timeline v2
+------------------------------------*/
+.timeline-v2 {
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+/* The line */
+
+.timeline-v2 > li { position: relative; }
+
+.timeline-v2:before {
+    background: #f3f3f3;
+    bottom: 0;
+    content: '';
+    left: 22%;
+    margin-left: -14px;
+    position: absolute;
+    top: 0;
+    width: 4px;
+}
+
+/* The date/time */
+
+.timeline-v2 > li .cbp_tmtime {
+    display: block;
+    padding-right: 80px;
+    position: absolute;
+    width: 25%;
+}
+
+.timeline-v2 > li .cbp_tmtime span {
+    display: block;
+    position: relative;
+    text-align: right;
+    top: 9px;
+}
+
+.timeline-v2 > li .cbp_tmtime span:first-child {
+    color: #999;
+    font-size: 14px;
+    line-height: 0.9;
+}
+
+.timeline-v2 > li .cbp_tmtime span:last-child {
+    color: #585f69;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+/* Right content */
+
+.timeline-v2 > li .cbp_tmlabel {
+    background: #f3f3f3;
+    clear: both;
+    color: #fff;
+    line-height: 1.4;
+    /*border-radius: 5px;*/
+    margin: 0 0 40px 25%;
+    padding: 10px 20px 20px;
+    position: relative;
+}
+
+/*
+.timeline-v2 > li .cbp_tmlabel img.big-thumb {
+	width: 100%;
+}
+*/
+
+.timeline-v2 > li .cbp_tmlabel li { padding: 0; }
+
+/*
+.timeline-v2 > li .cbp_tmlabel img.small-thumb {
+	width: 111px;
+	height: auto;
+}
+*/
+
+.timeline-v2 > li .cbp_tmlabel h2 {
+    border-bottom: 1px solid #ddd;
+    font-size: 21px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    padding: 0 0 5px;
+    text-transform: capitalize;
+}
+
+.timeline-v2 > li .cbp_tmlabel .text-left { float: left; }
+
+/* The triangle */
+
+.timeline-v2 > li .cbp_tmlabel:after {
+    border: solid transparent;
+    border-right-color: #f3f3f3;
+    border-width: 10px;
+    content: " ";
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 100%;
+    top: 18px;
+    width: 0;
+}
+
+/* The icons */
+
+.timeline-v2 > li .cbp_tmicon {
+    -webkit-font-smoothing: antialiased;
+    background: #72c02c;
+    box-shadow: 0 0 0 4px #f3f3f3;
+    height: 10px;
+    left: 22%;
+    margin: 0 0 0 -17px;
+    position: absolute;
+    top: 22px;
+    width: 10px;
+}
+
+/* Example Media Queries */
+
+@media screen and (max-width: 65.375em) {
+    .timeline-v2 > li .cbp_tmtime span:last-child { font-size: 1.5em; }
+}
+
+@media screen and (max-width: 47.2em) {
+    .timeline-v2:before { display: none; }
+
+    .timeline-v2 > li .cbp_tmtime {
+        padding: 0 0 20px 0;
+        position: relative;
+        width: 100%;
+    }
+
+    .timeline-v2 > li .cbp_tmtime span { text-align: left; }
+
+    .timeline-v2 > li .cbp_tmlabel {
+        font-weight: 400;
+        margin: 0 0 30px 0;
+        padding: 1em;
+    }
+
+    .timeline-v2 > li .cbp_tmlabel:after {
+        border-bottom-color: #f3f3f3;
+        border-right-color: transparent;
+        left: 20px;
+        right: auto;
+        top: -20px;
+    }
+
+    .timeline-v2 > li .cbp_tmicon {
+        float: right;
+        left: auto;
+        margin: -55px 5px 0 0px;
+        position: relative;
+    }
+}

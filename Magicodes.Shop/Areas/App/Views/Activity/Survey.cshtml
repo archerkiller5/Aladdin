@@ -1,0 +1,138 @@
+﻿@model Magicodes.WeiChat.Data.Models.Activity.Activity_Survey
+
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.HideFooter = true;
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/msui/styles")
+    <style type="text/css">
+        body {
+            font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+            background-color: #f7cf68;
+        }
+    </style>
+}
+@section Scripts
+{
+    <script>
+        function ViewModel() {
+            var self = this;
+            this.Topics = ko.observableArray([]);
+            this.GetTopicTemplateName = function (data) {
+                return typeof (data) !== "undefined" && typeof (data.TopicType) !== "undefined" ? data.TopicType + "Template" : "Template";
+            }
+            this.Init = function () {
+                wc.restApi.get({
+                    url: '/api/Activity/Survey/@Model.Id/@ViewBag.OpenId',
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (typeof (data[i].Options) !== "undefined") {
+                                $.each(data[i].Options, function (j, option) {
+                                    option.Checked = false;
+                                })
+                                data[i].Options = ko.observableArray(data[i].Options);
+                            } else {
+                                data[i].Answer = "";
+                            }
+                        }
+                        self.Topics(data);
+                        $('#submit').fadeIn();
+                    }
+                });
+            }
+            this.Submit = function () {
+                var data = ko.toJS(self.Topics());
+                var answers = [];
+                $.each(data, function (i, topic) {
+                    if (typeof (topic.Options) !== "undefined") {
+                        $.each(topic.Options, function (j, option) {
+                            if (option.Checked)
+                                answers.push({ topicId: topic.Id, answer: topic.Answer, optionId: option.Id, type: topic.TopicType });
+                        });
+
+                    } else {
+                        answers.push({ topicId: topic.Id, answer: topic.Answer, optionId: -1, type: topic.TopicType });
+                    }
+                });
+                console.debug(answers);
+                wc.restApi.post({
+                    data: JSON.stringify(answers),
+                    contentType: 'application/json; charset=utf-8',
+                    url: '/api/Activity/Survey/@Model.Id/@ViewBag.OpenId',
+                    success: function (data) {
+                        alert('提交成功！');
+                        location.reload();
+                    }
+                });
+            }
+            self.Init();
+        }
+        $(function () {
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+    </script>
+}
+<script id="Template" type="text/html">
+</script>
+<script id="1Template" type="text/html">
+    <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+            <h1 data-bind="text:Title" />
+        </li>
+        <!-- ko foreach:Options -->
+        <li class="aui-list-view-cell">
+            <input class="aui-checkbox" type="checkbox" data-bind="checked:Checked,attr:{id:'option'+Id,name:'topic'+$parent.Id}">
+            <label class="aui-checkbox-name" data-bind="text:OptionText,attr:{for:'option'+Id}"></label>
+        </li>
+        <!-- /ko -->
+    </ul>
+</script>
+<script id="0Template" type="text/html">
+    <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+            <h1 data-bind="text:Title" />
+        </li>
+        <!-- ko foreach:Options -->
+        <li class="aui-list-view-cell">
+            <input class="aui-radio" type="radio" data-bind="checked:Checked,attr:{id:'option'+Id,name:'topic'+$parent.Id}">
+            <label class="aui-radio-name" data-bind="text:OptionText,attr:{for:'option'+Id}"></label>
+        </li>
+        <!-- /ko -->
+    </ul>
+</script>
+<script id="2Template" type="text/html">
+    <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+            <h1 data-bind="text:Title" />
+        </li>
+        <li class="align-top aui-padded-10">
+            <div class="item-input">
+                <textarea data-bind="value:Answer" placeholder="请输入答案"></textarea>
+            </div>
+        </li>
+    </ul>
+</script>
+<div class="aui-content">
+    <header class="aui-bar aui-bar-nav aui-bar-dark" style="background-color: #9c694e;">@Model.Title</header>
+    <div class="aui-content">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell" style="border-color: #7c7c7c;color: #7c7c7c;font-size: 12px;word-wrap:break-word;">
+                @Model.Description
+            </li>
+        </ul>
+    </div>
+
+    <div data-bind="foreach:Topics" style="padding-left:10px;padding-right:10px;margin-top:10px">
+        <div class="aui-content">
+            <div data-bind="template:{name:$root.GetTopicTemplateName,data:$data}">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="submit" class="aui-content-padded" style="display:none">
+    <div class="aui-btn aui-btn-block aui-btn-primary" data-bind="click:Submit">提交</div>
+</div>

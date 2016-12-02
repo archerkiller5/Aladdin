@@ -1,0 +1,67 @@
+/*Portfolio v2
+------------------------------------*/
+.sorting-block ul {
+    margin: 0;
+    padding: 0;
+}
+
+/*Sorting Navigation*/
+
+.sorting-block .sorting-nav { margin-bottom: 30px; }
+
+.sorting-block .sorting-nav li {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    list-style: none;
+    padding: 0 2px;
+}
+
+.sorting-block .sorting-nav li.active {
+    border-bottom: solid 1px #72c02c;
+    color: #72c02c;
+}
+
+/*Sorting Navigation v1*/
+
+.sorting-block .sorting-nav-v1 li {
+    font-size: 17px;
+    font-style: italic;
+    margin: 0 5px;
+}
+
+/*Sorting Grid*/
+
+.sorting-block .sorting-grid { list-style: none; }
+
+.sorting-block .sorting-grid .mix {
+    display: none;
+    margin-bottom: 30px;
+    opacity: 0;
+}
+
+/*Sorting Grid with Text*/
+
+.sorting-block .sorting-grid li a:hover { text-decoration: none; }
+
+.sorting-block .sorting-grid li .sorting-cover {
+    background: #fcfcfc;
+    display: block;
+    margin-top: 1px;
+    padding: 8px;
+}
+
+.sorting-block .sorting-grid li .sorting-cover p { margin-bottom: 0; }
+
+.sorting-block .sorting-grid li .sorting-cover span { font-size: 16px; }
+
+.sorting-block .sorting-grid li a:hover .sorting-cover {
+    -moz-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    background: #72c02c;
+    transition: all 0.4s ease;
+}
+
+.sorting-block .sorting-grid li a:hover .sorting-cover p,
+.sorting-block .sorting-grid li a:hover .sorting-cover span { color: #fff; }

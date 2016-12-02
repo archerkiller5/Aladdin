@@ -1,0 +1,170 @@
+﻿@model Magicodes.WeiChat.Data.Models.Activity.Activity_Survey
+
+@{
+    ViewBag.Title = "问题设置";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+    ViewBag.HideFooter = true;
+}
+@section Styles
+{
+    @Styles.Render("~/Content/msui/styles")
+    <style type="text/css">
+        body {
+            font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+        }
+    </style>
+}
+@section Scripts
+{
+    <script>
+        function ViewModel() {
+            var self = this;
+            this.Topics = ko.observableArray([]);
+            this.CreateTypes = ko.observableArray([]);
+            this.CurrentValue = ko.observable();
+            this.AddTopic = function () {
+                if (self.CurrentValue() === "" || self.CurrentValue() === undefined) {
+                    alert('请选择题型！');
+                    return;
+                }
+                var type = self.CurrentValue();
+                var topic = { Title: "请输入标题内容", TopicType: type };
+
+                switch (type) {
+                    //单选题
+                    case 0:
+                        topic.Options = ko.observableArray([{ OptionText: "" }, { OptionText: "" }]);
+                        break;
+                        //多选题
+                    case 1:
+                        topic.Options = ko.observableArray([{ OptionText: "" }, { OptionText: "" }]);
+                        break;
+                        break;
+                        //问答题
+                    case 2:
+
+                        break;
+                }
+                self.Topics.push(topic);
+            }
+            this.AddOption = function (data) {
+                console.debug(data);
+                data.Options.push({ OptionText: "" });
+            }
+            this.GetTopicTemplateName = function (data) {
+                return typeof (data) !== "undefined" && typeof (data.TopicType) !== "undefined" ? data.TopicType + "Template" : "Template";
+            }
+            this.Init = function () {
+                wc.restApi.get({
+                    url: '@Url.Action("GetSurveyTopicTypes")',
+                    success: function (data) {
+                        self.CreateTypes(data);
+                    }
+                });
+                wc.restApi.get({
+                    url: '/Activity_Survey/Topics/@Model.Id',
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (typeof (data[i].Options) !== "undefined") {
+                                data[i].Options = ko.observableArray(data[i].Options);
+                            }
+                        }
+                        self.Topics(data);
+                    }
+                });
+            }
+            this.Submit = function () {
+                var data = ko.toJSON(self.Topics());
+                wc.restApi.post({
+                    data: { topics: data },
+                    url: '/Activity_Survey/Topics/@Model.Id',
+                    success: function (data) {
+                        setTimeout(function () {
+                            parent.location.reload();
+                        }, 200);
+                    }
+                });
+            }
+            self.Init();
+        }
+        $(function () {
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+    </script>
+}
+<script id="Template" type="text/html">
+</script>
+<script id="1Template" type="text/html">
+    <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+            <input type="text" data-bind="value:Title" />
+        </li>
+        <!-- ko foreach:Options -->
+        <li class="aui-list-view-cell">
+            <input class="aui-checkbox" type="checkbox">
+            <input style="width:80%" type="text" data-bind="value:OptionText" />
+        </li>
+        <!-- /ko -->
+        <li class="aui-list-view-cell">
+            <div class="aui-btn aui-btn-block" data-bind="click:$root.AddOption">添加选项</div>
+        </li>
+    </ul>
+</script>
+<script id="0Template" type="text/html">
+    <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+            <input type="text" data-bind="value:Title" />
+        </li>
+        <!-- ko foreach:Options -->
+        <li class="aui-list-view-cell">
+            <input class="aui-radio" type="radio">
+            <input style="width:80%" type="text" data-bind="value:OptionText" />
+        </li>
+        <!-- /ko -->
+        <li class="aui-list-view-cell">
+            <div class="aui-btn aui-btn-block" data-bind="click:$root.AddOption">添加选项</div>
+        </li>
+    </ul>
+</script>
+<script id="2Template" type="text/html">
+    <ul class="aui-list-view">
+        <li class="aui-list-view-cell">
+            <input type="text" data-bind="value:Title" />
+        </li>
+        <li class="align-top aui-padded-10">
+            <div class="item-input">
+                <textarea></textarea>
+            </div>
+        </li>
+    </ul>
+</script>
+<div class="aui-content">
+    <header class="aui-bar aui-bar-nav aui-bar-dark">@Model.Title</header>
+    <div data-bind="foreach:Topics" style="padding-left:10px;padding-right:10px">
+        <div class="aui-content">
+            <div data-bind="template:{name:$root.GetTopicTemplateName,data:$data}">
+            </div>
+        </div>
+    </div>
+    <div class="aui-content" style="border-color:red;margin-top:10px;">
+        <div class="aui-card">
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell aui-bg-info">
+                    <h1 class="aui-text-warning">添加题目</h1>
+                </li>
+                <li class="aui-list-view-cell">
+                    <select data-bind="options:CreateTypes,optionsText: 'displayName',optionsValue:'value',value:CurrentValue,optionsCaption: '请选择需要创建的题型...'"></select>
+                </li>
+                <li class="aui-list-view-cell">
+                    <div class="aui-col-xs-6 aui-padded-10">
+                        <div class="aui-btn aui-btn-block" data-bind="click:AddTopic">添加</div>
+                    </div>
+                    <div class="aui-col-xs-6 aui-padded-10">
+                        <div class="aui-btn aui-btn-block aui-btn-success" data-bind="click:Submit">提交</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

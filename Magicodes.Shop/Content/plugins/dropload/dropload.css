@@ -1,0 +1,46 @@
+﻿.dropload-up, .dropload-down {
+    /* 开启硬件加速 */
+    -webkit-transform: translateZ(0);
+    font-size: 12px;
+    height: 0;
+    overflow: hidden;
+    position: relative;
+    transform: translateZ(0);
+}
+
+.dropload-down { height: 50px; }
+
+.dropload-refresh, .dropload-update, .dropload-load, .dropload-noData {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+
+.dropload-load .loading {
+    -webkit-animation: rotate 0.75s linear infinite;
+    animation: rotate 0.75s linear infinite;
+    border: 2px solid #666;
+    border-bottom-color: transparent;
+    border-radius: 100%;
+    display: inline-block;
+    height: 15px;
+    margin: 6px;
+    vertical-align: middle;
+    width: 15px;
+}
+
+@-webkit-keyframes rotate {
+    0% { -webkit-transform: rotate(0deg); }
+
+    50% { -webkit-transform: rotate(180deg); }
+
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+
+    50% { transform: rotate(180deg); }
+
+    100% { transform: rotate(360deg); }
+}

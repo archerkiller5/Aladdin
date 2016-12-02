@@ -1,0 +1,79 @@
+﻿@model Magicodes.WeiChat.Data.Models.Site.Site_Menu
+
+@{
+    ViewBag.Title = "查看";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Url)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Url)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Controller)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Controller)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Action)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Action)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IconCls)
+                        </dt>
+
+                        <dd>
+                            <i class="@Model.IconCls"></i>
+                        </dd>
+
+                    </dl>
+                    <p>
+                        @Html.ActionLink("编辑", "Edit", new {id = Model.Id}) |
+                        @Html.ActionLink("返回", "Index")
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function() {
+            $("input[type=checkbox]")
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+        });
+    </script>
+}

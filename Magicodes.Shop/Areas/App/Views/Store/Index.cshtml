@@ -1,0 +1,178 @@
+﻿@using Magicodes.Shop.Helpers
+@{
+    ViewBag.Title = "商城";
+    //Layout = "~/Areas/App/Views/Shared/_MallLayout.cshtml";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/weui/slides/styles")
+@Scripts.Render("~/Content/weui/slides/scripts")
+@section styles{
+    <style type="text/css">
+        .slider {
+            margin-bottom: 0;
+        }
+
+            .slider img {
+                display: inherit;
+                height: 120px;
+                width: 100%;
+            }
+
+        .aui-grid-sixteen:after {
+            border: none;
+        }
+
+        .aui-grid-sixteen li:after {
+            border: none;
+        }
+
+        .aui-grid-sixteen li .aui-iconfont {
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 20px;
+            height: 38px;
+            line-height: 38px;
+            width: 38px;
+        }
+
+        p.goods-title {
+            color: #333;
+            font-size: 1em;
+        }
+
+        p.goods-info {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .aui-line-x {
+            margin: 5px 0;
+        }
+
+            .aui-line-x:after {
+                border-color: #ddd;
+            }
+
+        .goods-price {
+            font-size: 0.875em;
+        }
+
+            .goods-price strong {
+                font-size: 16px;
+                margin: 0 5px;
+            }
+
+        #productName {
+            font-size: 12px;
+            height: 40px;
+            overflow: hidden;
+        }
+    </style>
+}
+<div class="aui-content slider">
+    <div id="aui-slide">
+        <div class="aui-slide-wrap">
+            <!-- ko foreach:Slides -->
+            <div class="aui-slide-node bg-dark">
+                <img data-bind="attr:{src:Url}" />
+            </div>
+            <!-- /ko -->
+        </div>
+        <div class="aui-slide-page-wrap"><!--分页容器--></div>
+    </div>
+</div>
+<div class="aui-content">
+    <ul class="aui-grid-sixteen" id="seclssify">
+        @*<li class="aui-col-xs-3 aui-text-center" data-url="@Url.TenantAction("ProductList","Product")">
+                <span class="aui-iconfont aui-icon-profilefill aui-bg-success"></span>
+                <p>商品分类</p>
+            </li>*@
+        <li class="aui-col-xs-3 aui-text-center" data-url="@Url.TenantAction("ProductList", "Product", new {tagType = "精品排行"})">
+            <span class="aui-iconfont aui-icon-creativefill aui-bg-warning"></span>
+            <p>精品排行</p>
+        </li>
+        <li class="aui-col-xs-3 aui-text-center" data-url="@Url.TenantAction("ProductList", "Product", new {tagType = "新品促销"})">
+            <span class="aui-iconfont aui-icon-apps aui-bg-danger"></span>
+            <p>新品促销</p>
+        </li>
+        <li class="aui-col-xs-3 aui-text-center" data-url="@Url.TenantAction("ProductList", "Product", new {tagType = "热门推荐"})">
+            <span class="aui-iconfont aui-icon-countdownfill aui-bg-info"></span>
+            <p>热门推荐</p>
+        </li>
+    </ul>
+</div>
+<div class="aui-content">
+    <ul class="aui-list-view aui-grid-view" data-bind="foreach:Product">
+        <li class="aui-list-view-cell aui-img aui-col-xs-6" data-bind="click:$root.gotoDetail">
+            <img class="aui-img-object" data-bind="attr:{src:Photos[0].Url}">
+            <div class="aui-img-body aui-text-left">
+                <div id="productName" data-bind="text:ProductInfo.Name"></div>
+                <p>
+                    <span class="goods-price aui-text-danger">¥<strong data-bind="text:ProductInfo.Price"></strong>元</span>
+                </p>
+                <p class="goods-info">
+                   <span class="aui-text-info aui-text-left" data-bind="text:'共售出:'+ ProductInfo.SellCount+'件'"></span>
+   
+                   <span class="aui-text-info aui-text-right"
+                     data-bind="text:'共评价:'+ (ProductInfo.CommentCount>=0?ProductInfo.CommentCount:0)+'条'"></span>                 
+                </p>               
+            </div>
+        </li>
+    </ul>
+</div>
+<p style="height: 50px"></p>
+
+@section scripts{
+    <script type="text/javascript" src="~/Content/aui/script/api.js"></script>
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.Slides = ko.observableArray([]);
+            this.Product = ko.observableArray([]);
+            this.reload = function() {
+                //-----------------------------baner图轮换------------------------------------//
+                wc.restApi.get({
+                    url: '/api/Advertise',
+                    data: { typeId: "6FAC25BF-DBE1-423D-93C8-FB31D98D8F72" },
+                    success: function(data) {
+                        self.Slides(data);
+                        var slide = new auiSlide({
+                            container: document.getElementById("aui-slide"),
+                            // "width":300,
+                            "height": 200,
+                            "speed": 1000,
+                            "autoPlay": 3000,
+                            "pageShow": true,
+                            "pageStyle": 'dot',
+                            "loop": true,
+                            'dotPosition': 'center'
+                        });
+                    }
+                });
+                wc.restApi.get({
+                    url: "/api/Product",
+                    success: function(data) {
+                        //$.each(data, function (i, v) {
+                        //    v.ImageUrl = v.Images.length > 0 ? (v.Images[0].URL || '/Content/aui/image/pordut1.png') : '/Content/aui/image/pordut1.png';
+                        //});
+                        self.Product(data);
+                    }
+                });
+            };
+            self.reload();
+            this.gotoDetail = function() {
+                location.href = '@Url.TenantAction("ProductDetail", "Product")' + '&productId=' + this.ProductInfo.Id;
+            };
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+}

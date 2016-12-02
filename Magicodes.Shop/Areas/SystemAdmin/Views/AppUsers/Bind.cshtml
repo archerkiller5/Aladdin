@@ -1,0 +1,24 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_QRCode
+
+@{
+    ViewBag.Title = "绑定微信管理员";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <div>
+                        <img width="400" height="400" src="@Magicodes.WeChat.SDK.WeChatApisContext.Current.QrCodeApi.GetQrCodeUrl(Model.Ticket)"/>
+                    </div>
+                    <div>请扫描以上二维码绑定管理员</div>
+                </div>
+                <p>
+                    @Html.ActionLink("返回", "Index")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

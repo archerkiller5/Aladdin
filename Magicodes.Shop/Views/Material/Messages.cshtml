@@ -1,0 +1,104 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<Magicodes.Shop.Models.MaterialNewsViewModel>
+@{
+    ViewBag.Title = "图文消息管理";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>图文消息管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                素材管理
+            </li>
+            <li class="active">
+                <strong>图文消息管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <a class="btn btn-primary pull-right" href="@Url.Action("AddMessage", "Material")">添加</a>
+            <br/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 animated fadeInRight">
+            @foreach (var item in Model)
+            {
+                <div class="file-box">
+                    <div class="file">
+                        <a href="#">
+                            <span class="corner"></span>
+                            <div class="image">
+                                <img alt="image" class="img-responsive" src="/MediaFiles/thumb/@(item.ThumbMediaId).jpg">
+                            </div>
+                            <div class="file-name">
+                                @item.Title
+                                <br/>
+                                <small>@item.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")</small>
+                                <span class="pull-right"><i class="fa fa-trash" data-id="@item.Id"></i></span>
+                                <br/>
+                                <br/>
+                                <span class="label label-warning">多图文</span>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            }
+        </div>
+        @Html.Partial("_BootStrapPager", Model)
+    </div>
+</div>
+
+@section Styles {
+}
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+        $(function() {
+            $('.fa-trash')
+                .click(function() {
+                    if (!confirm("确定要删除么？")) {
+                        return;
+                    }
+                    var apiModel = new ApiModel();
+                    apiModel.request("DELETE",
+                    {
+                        url: "/api/news/" + $(this).data("id"),
+                        func: function(data) {
+                            toastr.success('温馨提示', "操作成功！");
+                            setTimeout(function() {
+                                    location.reload();
+                                },
+                                1000);
+                        }
+                    });
+                });
+        });
+
+        function showUploadMessage(theDrop, data, file) {
+            if (theDrop.files.length > 1) {
+                if (file) {
+                    if (!data.IsError) {
+                        toastr.success('温馨提示', file.name + " 上传成功！");
+                    } else {
+                        toastr.warning('警告', file.name + " 上传失败！" + data.Message);
+                    }
+                    return;
+                }
+            }
+            if (!data.IsError) {
+                toastr.success('温馨提示', data.Message);
+            } else {
+                toastr.warning('警告', data.Message);
+            }
+        }
+    </script>
+}

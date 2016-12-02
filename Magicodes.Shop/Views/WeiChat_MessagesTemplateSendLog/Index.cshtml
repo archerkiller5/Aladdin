@@ -1,0 +1,162 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<Magicodes.WeiChat.Data.Models.WeiChat.WeiChat_MessagesTemplateSendLog>
+
+@{
+    ViewBag.Title = "模板消息发送日志";
+    Layout = "~/Views/Shared/_LightLayout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <hr style="margin: 2px 2px 10px 2px;"/>
+                <div class="row">
+                    <div class="col-sm-3">
+                        @using (Html.BeginForm("Index", Request.RequestContext.RouteData.GetRequiredString("controller"), FormMethod.Get))
+                        {
+                            <div class="input-group">
+                                @Html.TextBox("q", ViewBag.q as string, new {placeholder = "请输入关键字", @class = "input-sm form-control"})
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-search"></i>&nbsp;搜索</button>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                    <a class="btn btn-warning btn-sm" id="btnDelete" data-action="Delete" data-comfirmmessage="确定删除所选内容么？"><i class="fa fa-remove"></i>&nbsp;批量删除</a>
+                </div>
+                <div>
+                    <table class="table table-striped table-bordered table-hover" style="overflow-x: scroll">
+                        <tr>
+                            <th>
+                                <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks"/>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MessagesTemplate.Title)
+                            </th>
+                            <th>
+                                接收人
+                            </th>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.Content)
+                            </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreateTime)
+                            </th>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.TopColor)
+                            </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.Url)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Result)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="ids" class="i-checks" value="@(item.Id)"/>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MessagesTemplate.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Receiver.NickName)
+                                </td>
+                                @*<td>
+                                    @Html.DisplayFor(modelItem => item.Content)
+                                </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreateTime)
+                                </td>
+                                @*<td>
+                                    @Html.DisplayFor(modelItem => item.TopColor)
+                                </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Url)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Result)
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Details", new {id = item.Id})" class="btn btn-white">查看</a>
+                                        <a href="@Url.Action("Delete", new {id = item.Id})" class="btn btn-white">删除</a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="row">
+                    @Html.Partial("_BootStrapPager", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        function batchOperation(operation, comfirmMessage) {
+            var $checkInputs = $("input[type=checkbox][name=ids]:checked");
+            if ($checkInputs.length == 0) {
+                mwc.message.warn("请至少选择一项！");
+                return;
+            }
+
+            function post() {
+                var ids = new Array();
+                $.each($("input[type=checkbox][name=ids]:checked").serializeArray(),
+                    function(i, v) {
+                        ids.push(v.value);
+                    });
+                mwc.restApi.post({
+                    url: "@Request.RequestContext.RouteData.GetRequiredString("controller")/BatchOperation/" +
+                        operation,
+                    contentType: "application/x-www-form-urlencoded",
+                    data: { ids: ids },
+                    success: function(data) { location.reload(); }
+                });
+            }
+
+            if (comfirmMessage) {
+                mwc.message.confirm("",
+                    comfirmMessage,
+                    function(isConfirmed) {
+                        isConfirmed && post();
+                    });
+            } else {
+                post();
+            }
+
+        }
+
+        $(function() {
+            $('input[type=checkbox]')
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+            $("#chkCheckAll")
+                .on('ifToggled',
+                    function(e) {
+                        $("input[type=checkbox][name=ids]").iCheck(e.currentTarget.checked ? "check" : "uncheck");
+                    });
+            //批量操作
+            $("#toolBar button[data-action], a[data-action]")
+                .on('click',
+                    function() {
+                        batchOperation($(this).data("action"), $(this).data("comfirmmessage"));
+                    });
+        });
+    </script>
+}

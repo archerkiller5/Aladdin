@@ -1,0 +1,1129 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeChatStore.Store_Info
+
+@{
+    ViewBag.Title = "新建";
+}
+
+@*一览图*@
+
+@*<div class="picView">示例</div>*@
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">卡券管理</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper main_page  wrapper-content animated fadeInRight">
+    <div class="row col-lg-9 col-md-9 col-sm-9">
+        <div class="form-horizontal">
+            <div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content" data-bind="with:EditModel">
+                        <hr style="margin:2px 2px 10px 2px;" />
+                        <h2>选择卡券类型</h2>
+                        <hr style="margin:2px 2px 10px 2px;" />
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">卡券类型 *</label>
+                                    <div class="col-sm-8">
+                                        <select data-bind="options:$root.CardTypes,optionsCaption: '请选择卡券类型',optionsText: 'text',optionsValue: 'value',value:card_type" class="form-control" id="select_option"></select>
+                                        <span class="help-block m-b-none">相关说明。</span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                                <div data-bind="template:{name:$root.GetEditTemplateName,data:$root.EditModel}">
+                                </div>
+
+                            </div>
+
+                            @*<div class="col-lg-12 col-md-12">
+                                <div class="well">
+                                    <h1>ViewModel:</h1>
+                                    <pre data-bind="text: ko.toJSON($root.EditModel, null, 2)"></pre>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card_excl">
+    <div class="view col-lg-12 col-md-12 col-sm-12" data-bind="with:EditModel" style="padding-left:0;padding-right:0">
+        <div class="subView">
+            <div class="directTitle">
+                <div class="VIPdSmg col-lg-6 col-md-6 col-sm-6">会员卡展示</div>
+                <div class="VIPdEsc col-lg-6 col-md-6 col-sm-6">会员卡详情</div>
+            </div>
+            <div class="topbar">
+                <ul>
+                    <li>&#xe685;</li>
+                    <li>&#xe644;</li>
+                </ul>
+            </div>
+            <div class="directView">
+                <div id="VIPdSmg">
+                    <div class="card_bg" data-bind="style:{'background':$root.currentColor}">
+                        <img data-bind="attr:{src:base_info.background_pic_url}" alt="" />
+                    </div>
+                    <div class="base_info">
+                        <div class="logo_url"><img data-bind="attr:{src:base_info.logo_url}" alt="" /></div>
+                        <div class="card_info">
+                            <div class="name_info">
+                                <ul>
+                                    <li data-bind="text:base_info.brand_name">商户名称</li>
+                                    <li data-bind="text:base_info.title">会员卡标题</li>
+                                </ul>
+                            </div>
+                            <div class="card_QRcode">
+                                <img data-bind="attr:{src:base_info.code_type}" alt="" />
+                            </div>
+                            <div class="card_code">0188 0685 8835</div>
+                        </div>
+                    </div>
+                    <div class="ertrise">
+                        <ul>
+                            <li>
+                                <div>积分</div>
+                                <div>100</div>
+                            </li>
+                            <li>
+                                <div>等级</div>
+                                <div>查看</div>
+                            </li>
+                            <li>
+                                <div>优惠券</div>
+                                <div>查看</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="center_btn">
+                        <div class="center_title" data-bind="text:base_info.center_title">中心按纽</div>
+                        <div class="center_tips" data-bind="text:base_info.center_sub_title">买单立减9.00折，积分可抵扣现金</div>
+                    </div>
+                    <div class="custom_list">
+                        <div>
+                            <ul>
+                                <li data-bind="text:base_info.custom_url_name">自定义会员类目</li>
+                                <li><span data-bind="text:base_info.custom_url_sub_title">会员卡激活后显示</span><span>&#xe656;</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul>
+                                <li data-bind="text:base_info.promotion_url_name">营销场景入口</li>
+                                <li><span>&#xe656;</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul>
+                                <li data-bind="text:base_info.promotion_url_name">营销场景入口</li>
+                                <li><span>&#xe656;</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="VIPdEsc">
+                    <div class="column_list">
+                        <div class="left_title">特权说明</div>
+                        <div class="columns" data-bind="text:base_info.bonus_rules">
+                            激活成功则赠送100积分,
+                            每消费1.00元，怎送10积分,
+                            单次赠送上限1000积分,
+                            没使用1积分，抵扣1.00元,
+                            用卡可享受9折优惠,
+                        </div>
+                    </div>
+                    <div class="column_list" data-bind="if:base_info.date_info.type()=='DATE_TYPE_FIX_TIME_RANGE'">
+                        <div class="left_title">有效日期</div>
+                        <div class="columns">
+                            <!--固定日期空间-->
+                            <span data-bind="text:base_info.date_info.begin_time">2016/05/02</span>至<span data-bind="text:base_info.date_info.end_time">2016/09/09</span>
+                        </div>
+                    </div>
+                    <div class="column_list" data-bind="if:base_info.date_info.type()=='DATE_TYPE_FIX_TERM'">
+                        <div class="left_title">有效日期</div>
+                        <div class="columns">
+                            <!--自领取后固定天数-->
+                            <div>有效期：<span data-bind="text:base_info.date_info.fixed_term">16</span>天</div>
+                            <div>待启用时间：<span data-bind="text:base_info.date_info.fixed_begin">2</span>天</div>
+                            <div>卡券过期时间：<span data-bind="text:base_info.date_info.end_time">2016/09/02</span></div>
+                        </div>
+                    </div>
+                    <div class="column_list">
+                        <div class="left_title">可用时段</div>
+                        <div class="columns">
+                            @*<span data-bind="text:advanced_info.time_limit[0].begin_hour">0</span>:
+                                <span data-bind="text:advanced_info.time_limit[0].begin_minute">00</span>至
+                                <span data-bind="text:advanced_info.time_limit[0].end_hour">0</span>:
+                                <span data-bind="text:advanced_info.time_limit[0].end_minute">00</span>
+                                <span data-bind="text:advanced_info.time_limit[0].type">全天</span>*@
+                        </div>
+                    </div>
+                    <div class="column_list">
+                        <div class="left_title service_phone">电话</div>
+                        <div class="columns phone_num" data-bind="text:base_info.service_phone">81167888</div>
+                    </div>
+                    <div class="column_list">
+                        <div class="left_title">商户服务</div>
+                        <div class="columns service">
+                            <span data-bind="">免费WIFI</span>
+                            <span>可带宠物</span>
+                            <span>免费停车</span>
+                        </div>
+                    </div>
+                    <div class="column_list">
+                        <div class="left_title">使用须知</div>
+                        <div class="columns" data-bind="text:base_info.description">积分每年最后一弹清零</div>
+                    </div>
+                    <div class="tetx_image_list">
+                        <div class="listTitle">图文介绍</div>
+                        <div class="list_box">
+                            <div class="image_list"><img src="images/11.jpg" alt="" /></div>
+                            <div class="text_list">美式，拿铁，柠檬树语……</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="undefined_Template" type="text/html">
+
+</script>
+<script id="GROUPON_Template" type="text/html">
+    <hr style="margin:2px 2px 10px 2px;" />
+    <h2>填写基础信息</h2>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <div data-bind="template:{name:'base_info',data:$data.base_info}">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">团购详情</label>
+                <div class="col-sm-9">
+                    <textarea style="height:300px" class="form-control" data-bind="value:deal_detail" />
+                    <span class="help-block m-b-none">团购详情，如:双人套餐进口红酒一支。孜然牛肉一份。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="submit"><button type="button" data-bind="click:$root.Submit" class="btn btn-default btn-lg submit_btn">提交</button></div>
+</script>
+<script id="CASH_Template" type="text/html">
+    <hr style="margin:2px 2px 10px 2px;" />
+    <h2>填写基础信息</h2>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <div data-bind="template:{name:'base_info',data:$data.base_info}">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">起用金额</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" data-bind="value:least_cost" />
+                    <span class="help-block m-b-none">起用金额<strong>（单位为分）</strong>,如果无起用门槛则填0。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">减免金额</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" data-bind="value:reduce_cost" />
+                    <span class="help-block m-b-none">减免金额<strong>（单位为分）</strong>。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="submit"><button type="button" data-bind="click:$root.Submit" class="btn btn-default btn-lg submit_btn">提交</button></div>
+</script>
+<script id="DISCOUNT_Template" type="text/html">
+    <hr style="margin:2px 2px 10px 2px;" />
+    <h2>填写基础信息</h2>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <div data-bind="template:{name:'base_info',data:$data.base_info}">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">打折额度</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" data-bind="value:discount" />
+                    <span class="help-block m-b-none">打折额度<strong>（百分比）</strong>,填30就是七折。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="submit"><button type="button" data-bind="click:$root.Submit" class="btn btn-default btn-lg submit_btn">提交</button></div>
+</script>
+<script id="GIFT_Template" type="text/html">
+    <hr style="margin:2px 2px 10px 2px;" />
+    <h2>填写基础信息</h2>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <div data-bind="template:{name:'base_info',data:$data.base_info}">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">兑换内容的名称</label>
+                <div class="col-sm-9">
+                    <textarea style="height:300px" class="form-control" data-bind="value:gift" />
+                    <span class="help-block m-b-none">兑换内容的名称，如：可兑换音乐木盒一个。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="submit"><button type="button" data-bind="click:$root.Submit" class="btn btn-default btn-lg submit_btn">提交</button></div>
+</script>
+<script id="GENERAL_COUPON_Template" type="text/html">
+    <hr style="margin:2px 2px 10px 2px;" />
+    <h2>填写基础信息</h2>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <div data-bind="template:{name:'base_info',data:$data.base_info}">
+    </div>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <h2>填写高级信息</h2>
+    <hr style="margin:2px 2px 10px 2px;" />
+    <div data-bind="template:{name:'advanced_info',data:$data.advanced_info}">
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">优惠详情</label>
+                <div class="col-sm-9">
+                    <textarea style="height:300px" class="form-control" data-bind="value:default_detail" />
+                    <span class="help-block m-b-none">优惠详情，如：音乐木盒。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="submit"><button type="button" data-bind="click:$root.Submit" class="btn btn-default btn-lg submit_btn">提交</button></div>
+</script>
+<script id="base_info" type="text/html">
+    <div class="row">
+        @*<div class="col-lg-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">logo_url</label>
+                    <div class="col-sm-9">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                                <div>
+                                    <span class="btn btn-default btn-file">
+                                        <span class="fileinput-new">选择图片</span>
+                                        <span class="fileinput-exists">重新选择</span>
+                                        <input type="file" name="logo_url" id="logo_url">
+                                    </span>
+                                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">移除</a>
+                                </div>
+                            </div>
+                            <span class="help-block m-b-none">卡券的商户logo，建议像素为300*300。</span>
+                    </div>
+                </div>
+            </div>*@
+
+
+        <div class="well">
+            <h3>卡券基本信息</h3>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">卡券背景图片</label>
+                    <div class="col-sm-9">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 280px; height: 160px; line-height: 160px;"></div>
+                        <input type="file" class="form-control" name="background_pic_url" id="background_pic_url" data-bind="file:background_pic_url" style="width:280px" />
+                        <span class="help-block m-b-none">卡券背景图片，建议像素为280*160。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">商户LOGO</label>
+                    <div class="col-sm-9">
+                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 200px; line-height:200px;"></div>
+                        <input type="file" class="form-control" name="logo_url" id="logo_url" data-bind="file:logo_url" style="width:200px" />
+                        <span class="help-block m-b-none">卡券的商户logo，建议像素为200*200。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">商户名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:brand_name" />
+                        <span class="help-block m-b-none">商户名字,字数上限为12个汉字。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">码型</label>
+                    <div class="col-sm-9">
+                        <select data-bind="options:$root.CodeTypes,optionsCaption: '请选择卡券类型',optionsText: 'text',optionsValue: 'value',value:code_type" class="form-control"></select>
+                        <span class="help-block m-b-none">码型。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">卡劵名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:title" />
+                        <span class="help-block m-b-none">卡券名，字数上限为9个汉字。(建议涵盖卡券属性、服务及金额)。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">卡劵副标题</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:sub_title" />
+                        <span class="help-block m-b-none">卡劵副标题。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="well color_choice">
+                    <label class="col-lg-3 col-md-3">请选择卡券颜色</label>
+                    <ul data-bind="foreach:$root.Colors" class="col-lg-9 col-md-9 colorCheckParent">
+                        <li class="radio radio-success radio-inline" style="width:130px;margin-left:0px;">
+                            <input type="radio" name="rdoColors" data-bind="value:value,attr:{id:'rdo'+value},event:{change:$root.ColorChanged}" class="colorCheck">
+                            <label data-bind="text:value,attr:{for:'rdo'+value},style:{'background-color':color}" style="padding-left:5px;color:white;padding-right:5px"></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">卡劵使用提醒</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:notice" />
+                        <span class="help-block m-b-none">卡劵使用提醒。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">客服电话</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:service_phone" />
+                        <span class="help-block m-b-none">客服电话。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">卡劵使用说明</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:description" />
+                        <span class="help-block m-b-none">卡劵使用说明,，字数上限为1024个字符。</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">特权说明</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" data-bind="value:bonus_rules" />
+                        <span class="help-block m-b-none">卡劵使用说明,，字数上限为1024个字符。</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="well" data-bind="with:date_info">
+                <h3>使用日期，有效期的信息设置</h3>
+                <div>
+                    <div class="row">
+                        <div class="col-lg-12  col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">使用时间的类型</label>
+                                <div class="col-sm-9">
+                                    <select data-bind="options:$root.DateInfoTypes,optionsCaption: '请选择时间类型',optionsText: 'text',optionsValue: 'value',value:type" class="form-control"></select>
+                                    <span class="help-block m-b-none">使用时间的类型。</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12" data-bind="if:type()=='DATE_TYPE_FIX_TERM'">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">有效期</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" data-bind="value:fixed_term" />
+                                    <span class="help-block m-b-none">自领取后多少天内有效，不支持填写0。</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">
+                                    待启用时间
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" data-bind="value:fixed_begin" />
+                                    <span class="help-block m-b-none">自领取后多少天开始生效，领取后当天生效填写0。</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">
+                                    卡券过期时间
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" data-bind="date:end_time,value:end_time" />
+                                    <span class="help-block m-b-none">卡券统一过期时间。</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12" data-bind="if:type()=='DATE_TYPE_FIX_TIME_RANGE'">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">起止日期</label>
+                                <div class="col-sm-9">
+                                    <div class="input-daterange input-group" id="datepicker">
+                                        <input type="text" class="form-control" name="start" data-bind="date:begin_time,value:begin_time" />
+                                        <span class="input-group-addon">至</span>
+                                        <input type="text" class="form-control" name="end" data-bind="date:end_time,value:end_time" />
+                                    </div>
+                                    <span class="help-block m-b-none">起止日期。</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">结束时间</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" data-bind="value:end_timestamp" />
+                                        <span class="help-block m-b-none">end_timestamp。</span>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="well" data-bind="with:sku">
+                <h3>商品信息</h3>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">卡券库存</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:quantity" />
+                                <span class="help-block m-b-none">卡券库存的数量，上限为100000000。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">限领</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:get_limit" />
+                    <span class="help-block m-b-none">每人可领劵的数量限制。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">是否自定义Code码</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-warning">
+                        <input type="checkbox" name="use_custom_code" data-bind="checked:use_custom_code" />
+                        <label for="use_custom_code">
+                            启用
+                        </label>
+                    </div>
+                    <span class="help-block m-b-none">
+                        是否自定义Code码。通常自有优惠码系统的开发者选择自定义Code码，并在卡券投放时带入
+                        Code码，详情见 <a href="https://mp.weixin.qq.com/wiki?action=doc&id=mp1451025056&t=0.17739008225725028&token=&lang=zh_CN#2.2.2" target="_blank">是否自定义Code码</a>。
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">是否指定用户领取</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-warning">
+                        <input type="checkbox" name="bind_openid" data-bind="checked:bind_openid" />
+                        <label for="bind_openid">
+                            启用
+                        </label>
+                    </div>
+                    <span class="help-block m-b-none">通常指定特殊用户群体投放卡券或防止刷券时选择指定用户领取。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">卡券领取页面是否可分享</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-warning">
+                        <input type="checkbox" name="can_share" data-bind="checked:can_share" />
+                        <label for="can_share">
+                            启用
+                        </label>
+                    </div>
+                    <span class="help-block m-b-none">卡券领取页面是否可分享。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">卡券是否可转赠</label>
+                <div class="col-sm-9">
+                    <div class="checkbox checkbox-warning">
+                        <input type="checkbox" name="can_give_friend" data-bind="checked:can_give_friend" />
+                        <label for="can_give_friend">
+                            启用
+                        </label>
+                    </div>
+                    @*<span class="help-block m-b-none">can_give_friend。</span>*@
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">选择门店</label>
+                <div class="col-sm-9">
+
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">居中按钮</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:center_title" />
+                    <span class="help-block m-b-none">具备线下门店的商户为必填。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">按钮提示语</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:center_sub_title" />
+                    <span class="help-block m-b-none">显示在入口下方的提示语，仅在卡券状态正常(可以核销)时显示。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">顶部居中的URL</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:center_url" />
+                    <span class="help-block m-b-none">顶部居中的URL，仅在卡券状态正常(可以核销)时显示。。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">自定义跳转外链入口名字</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:custom_url_name" />
+                    <span class="help-block m-b-none">自定义跳转外链的入口名字。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">自定义跳转URL</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:custom_url" />
+                    <span class="help-block m-b-none">自定义跳转URL。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">右侧提示语</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:custom_url_sub_title" />
+                    <span class="help-block m-b-none">显示在入口右侧的提示语。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">营销入口名称</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:promotion_url_name" />
+                    <span class="help-block m-b-none">营销场景的自定义入口名称。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">营销入口链接URL</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:promotion_url" />
+                    <span class="help-block m-b-none">入口跳转外链的地址连接。</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="form-group">
+                <label class="control-label col-sm-3">第三方来源名</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" data-bind="value:source" />
+                    <span class="help-block m-b-none">第三方来源名,例如同程旅游、大众点评等。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</script>
+<script id="advanced_info" type="text/html">
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="well" data-bind="with:use_condition">
+                <h3>使用门槛 </h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">可用商品类目</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:accept_catagory" />
+                                <span class="help-block m-b-none">指定可用的商品类目，仅用于代金券类型，填入后将在券面拼写适用于xxx。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">不可用商品类目</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:reject_category" />
+                                <span class="help-block m-b-none">指定不可用的商品类目，仅用于代金券类型，填入后将在券面拼写不适用于xxxx。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">满减门槛</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:least_cost" />
+                                <span class="help-block m-b-none">满减门槛字段，可用于兑换券和代金券，填入后将在全面拼写消费满xx元可用。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">可用类型门槛</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:object_use_for" />
+                                <span class="help-block m-b-none">购买xx可用类型门槛，仅用于兑换，填入后自动拼写购买xxx可用。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">可与其他优惠共享</label>
+                            <div class="col-sm-9">
+                                <div class="checkbox checkbox-warning">
+                                    <input type="checkbox" name="can_use_with_other_discount" data-bind="checked:can_use_with_other_discount" />
+                                    <label for="can_use_with_other_discount">
+                                        启用
+                                    </label>
+                                </div>
+                                <span class="help-block m-b-none">不可以与其他类型共享门槛，填写false时系统将在使用须知里拼写“不可与其他优惠共享”，填写true时系统将在使用须知里拼写“可与其他优惠共享”，默认为true。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="terms col-lg-12 col-md-12">
+                <div class="col-lg-offset-3 col-md-offset-3 col-lg-9 col-md-9">
+                    注：使用门槛（条件）。若不填写使用条件则在券面显示：无最低消费限制，不限品类，全场通用；并在使用说明显示：可与其他优惠共享。
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="well" data-bind="with:abstract">
+                <h3>封面摘要</h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">封面摘要简介</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:abstract" />
+                                <span class="help-block m-b-none">封面摘要简介。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">封面图片列表</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:icon_url_list" />
+                                <span class="help-block m-b-none">
+                                    封面图片列表，仅支持填入一个封面图片链接。建议图片尺寸像素850*350。
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <!--图文列表-->
+            <div class="well">
+                <h3>图文列表</h3>
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3">文字介绍</label>
+                        <div class="col-sm-9 text_image_list">
+                            <input type="text" class="form-control" data-bind="text_image_list[0].text" />
+                            <span class="help-block m-b-none">请输入文字说明。</span>
+                        </div>
+                        <label class="control-label col-sm-3">图片概览</label>
+                        <div class="col-sm-9">
+                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 280px; height: 160px; line-height: 160px;"></div>
+                            <input type="file" class="form-control" name="text_image_list" id="text_image_list" style="width:280px" data-bind="file:text_image_list[0].image_url" />
+                            <span class="help-block m-b-none">图片说明。图文列表，显示在详情内页，优惠券开发者须至少传入一组图文列表。</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <div class="well">
+                <h3>使用时段限制</h3>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">时间段类型</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:time_limit.type" />
+                                <span class="help-block m-b-none">限制类型枚举值。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">开始时间（小时）</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:time_limit.begin_hour" />
+                                <span class="help-block m-b-none">
+                                    当前type类型下的起始时间（小时），如当前结构体内填写了MONDAY，此处填写了10，则表示周一 10:00可用。
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">开始时间（分钟）</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:time_limit.begin_minute" />
+                                <span class="help-block m-b-none">当前类型下的起始时间（分钟），如当前结构体内填写了MONDAY，此处填写10，此处填写了59，则此处表示周一 10:59可用。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">结束时间（小时）</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:time_limit.end_hour" />
+                                <span class="help-block m-b-none">当前类型下的结束时间（小时），如当前结构体内填写了MONDAY，此处填写了20，则此处表示周一 10:00-20:00可用。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3">结束时间（分钟）</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" data-bind="value:time_limit.end_minute" />
+                                <span class="help-block m-b-none">当前类型下的结束时间（分钟），如当前结构体内填写了MONDAY，此处填写10，此处填写了59，则此处表示周一 10:59-00:59可用。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="well">
+                            <h3>商户服务</h3>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">商户服务</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" />
+                                            <span class="help-block m-b-none">商家服务类型。</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+@section Styles {
+    <link rel="stylesheet" href="~/AppHtml/appCSS/createCard.css" />
+    @*请自行移除没用到的样式*@
+    @*复选框样式*@
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/jasnyBootstrapStyles")
+    @Styles.Render("~/plugins/awesome-bootstrap-checkboxStyles")
+    @*日期控件样式*@
+    @Styles.Render("~/plugins/dataPickerStyles")
+    <link href="~/Content/card/createCard.css" rel="stylesheet" />
+}
+@section scripts {
+    <script src="~/AppHtml/appJS/createCard.js"></script>
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/validate")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/jasnyBootstrap")
+    @*日期控件脚本*@
+    @Scripts.Render("~/plugins/dataPicker")
+    <script src="~/Content/card/createCard.js"></script>
+    <script>
+        ko.bindingHandlers.date = {
+            init: function (element, valueAccessor) {
+                $(element).datepicker({
+                    todayBtn: "linked",
+                    //keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true,
+                    todayHighlight: true,
+                    language: "zh-CN"
+                });
+                var value = valueAccessor();
+                value($(element).val());
+            },
+            update: function (element, valueAccessor) {
+
+            }
+        };
+
+        ko.bindingHandlers.file = {
+            init: function (element, valueAccessor) {
+                $(element).change(function () {
+                    var $input = $(this);
+                    var file = this.files[0];
+                    var name = file.name;
+                    var size = file.size;
+                    var type = file.type;
+                    if (name.length < 1) {
+                    }
+                    else if (size > 1000000) {
+                        mwc.notify.error("图片过大！");
+                    }
+                    else if (file.type != 'image/png' && file.type != 'image/jpg' && file.type != 'image/jpeg') {
+                        mwc.notify.error("仅支持 png和jpg 格式的图片！");
+                    } else {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = shipOff;
+                        function shipOff(event) {
+                            var result = event.target.result;
+                            $(element).prev('div.fileinput-preview').html('<img src="' + result + '" style="width:100%;height:100%;" />');
+                            $.post('Upload', { data: result, name: name }, function (data) {
+                                if (typeof (data.Success) === "undefined") {
+                                    var value = valueAccessor();
+                                    value(data.url || data.Url);
+                                } else {
+                                    mwc.notify.warn(data.Message);
+                                }
+                            });
+                        }
+                    }
+                });
+            },
+            update: function (element, valueAccessor) {
+                //if (ko.unwrap(value))
+                //    element.focus();
+                //else
+                //    element.blur();
+            }
+        };
+
+        function ViewModel() {
+            var self = this;
+            this.EditModel = ko.mapping.fromJS({
+                card_type: '',
+                base_info: {
+                    logo_url: '', background_pic_url: '', brand_name: '', code_type: '', title: '', sub_title: '', color: 'Color020', notice: '', service_phone: '', description: '', bonus_rules: '',
+
+                    date_info: {
+                        type: 'DATE_TYPE_FIX_TIME_RANGE', begin_time: '', end_time: '', fixed_term: 15, fixed_begin: 0
+                    },
+                    sku: { quantity: 500000 },
+                    get_limit: 0, use_custom_code: false, bind_openid: false, can_share: true, can_give_friend: true, location_id_list: [], center_title: '', center_sub_title: '', center_url: '', custom_url_name: '', custom_url: '', custom_url_sub_title: '', promotion_url_name: '', promotion_url: '', source: ''
+                },
+                advanced_info: {
+                    use_condition: {
+                        accept_catagory: '',
+                        reject_category: '',
+                        least_cost: 0,
+                        object_use_for: '',
+                        can_use_with_other_discount: true
+                    },
+                    abstract: {
+                        abstract: '',
+                        icon_url_list: [],
+                    },
+
+                    time_limit: [
+                        {
+                            "type": "MONDAY",
+                            "begin_hour": 0,
+                            "end_hour": 10,
+                            "begin_minute": 10,
+                            "end_minute": 59
+                        },
+                        {
+                            "type": "HOLIDAY"
+                        }
+                    ],
+                    text_image_list: [
+                    {
+                        "image_url": "",
+                        "text": ""
+                    }
+                    ],
+                    business_service: ["BIZ_SERVICE_FREE_WIFI", "BIZ_SERVICE_WITH_PET", "BIZ_SERVICE_FREE_PARK", "BIZ_SERVICE_DELIVER"]
+                },
+                default_detail: '',
+                gift: '',
+                discount: 30,
+                reduce_cost: 10,
+                least_cost: 0,
+                deal_detail: ''
+            });
+
+            this.Submit = function () {
+                var postData = ko.mapping.toJS(self.EditModel);
+                switch (postData.card_type) {
+                    case "GROUPON":
+                        postData.groupon = { base_info: postData.base_info, deal_detail: postData.deal_detail };
+                        break;
+                    case "CASH":
+                        postData.cash = { base_info: postData.base_info, least_cost: postData.least_cost, reduce_cost: postData.reduce_cost };
+                        break;
+                    case "DISCOUNT":
+                        postData.discount = { base_info: postData.base_info, discount: postData.discount };
+                        break;
+                    case "GIFT":
+                        postData.gift = { base_info: postData.base_info, gift: postData.gift };
+                        break;
+                    case "GENERAL_COUPON":
+                        postData.general_coupon = { base_info: postData.base_info, advanced_info: postData.advanced_info, default_detail: postData.default_detail };
+                        break;
+                    default:
+                        break;
+                }
+
+                mwc.restApi.post({
+                    url: '@Url.Action("Add")',
+                    data: { cardInfo: JSON.stringify(postData) },
+                    success: function (data) {
+                        if (data.Success)
+                            location.href = '@Url.Action("Index")';
+                    }
+                });
+            };
+
+            //根据类型获取编辑模板
+            this.GetEditTemplateName = function (data) {
+                return data.card_type() + '_Template';
+            };
+
+            //卡券类型
+            this.CardTypes = ko.observableArray([]);
+            //码型
+            this.CodeTypes = ko.observableArray([]);
+            //使用时间的类型
+            this.DateInfoTypes = ko.observableArray([]);
+            //预览背景颜色
+            this.currentColor = ko.observable("");
+            //背景颜色
+            this.Colors = ko.observableArray([
+                { value: 'Color010', color: '#63b359', isChecked: ko.observable(false) },
+                { value: 'Color020', color: '#2c9f67', isChecked: ko.observable(false) },
+                { value: 'Color030', color: '#509fc9', isChecked: ko.observable(false) },
+                { value: 'Color040', color: '#5885cf', isChecked: ko.observable(false) },
+                { value: 'Color050', color: '#9062c0', isChecked: ko.observable(false) },
+                { value: 'Color060', color: '#d09a45', isChecked: ko.observable(false) },
+                { value: 'Color070', color: '#e4b138', isChecked: ko.observable(false) },
+                { value: 'Color080', color: '#ee903c', isChecked: ko.observable(false) },
+                { value: 'Color081', color: '#f08500', isChecked: ko.observable(false) },
+                { value: 'Color082', color: '#a9d92d', isChecked: ko.observable(false) },
+                { value: 'Color090', color: '#dd6549', isChecked: ko.observable(false) },
+                { value: 'Color100', color: '#cc463d', isChecked: ko.observable(false) },
+                { value: 'Color101', color: '#cf3e36', isChecked: ko.observable(false) },
+                { value: 'Color102', color: '#5E6671', isChecked: ko.observable(false) },
+            ]);
+            //初始化卡券类型
+            this.InitCardTypes = function () {
+                mwc.restApi.get({
+                    url: '@Url.Action("GetCardTypes")',
+                    blockUI: false,
+                    success: function (data) {
+                        self.CardTypes(data);
+                    }
+                });
+                mwc.restApi.get({
+                    url: '@Url.Action("GetCodeTypes")',
+                    blockUI: false,
+                    success: function (data) {
+                        self.CodeTypes(data);
+                    }
+                });
+                mwc.restApi.get({
+                    url: '@Url.Action("GetDateInfoTypes")',
+                    blockUI: false,
+                    success: function (data) {
+                        self.DateInfoTypes(data);
+                    }
+                });
+            };
+            //卡卷背景色
+            this.ColorChanged = function () {
+                var Colors = self.Colors();
+                var tempColor = $("input[name='rdoColors']:checked").val();
+                $.each(Colors, function (i, v) {
+                    if (v.value == tempColor) {
+                        self.currentColor(v.color);
+                        return;
+                    }
+                })
+            }
+
+            //初始化，加载数据
+            this.Init = function () {
+                self.InitCardTypes();
+
+            };
+            self.Init();
+        }
+        $(function () {
+            window.CurrentModel = new ViewModel();
+            ko.applyBindings(window.CurrentModel, document.getElementById('mainBody'));
+        });
+    </script>
+}

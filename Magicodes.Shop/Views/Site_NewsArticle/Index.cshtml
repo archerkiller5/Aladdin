@@ -1,0 +1,143 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<Magicodes.WeiChat.Data.Models.Site.Site_NewsArticle>
+@{
+    ViewBag.TwoTitle = "图文文章管理";
+}
+@Html.Partial("_FormHead")
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin: 2px 2px 10px 2px;"/>
+                    <div class="row">
+                        <div style="margin-left: 15px;">
+                            <a class="btn btn-info btn-sm" href="@Url.Action("Index", "Site_News")"><i class="fa fa-angle-left"></i>&nbsp;返回图文列表</a>
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("Create", new {newsId = Request.QueryString["newsId"]})" id="btnAdd"><i class="fa fa-plus"></i>&nbsp;新建</a>
+                            <a class="btn btn-warning btn-sm" id="btnDelete" data-action="Delete" data-comfirmmessage="确定删除所选内容么？"><i class="fa fa-remove"></i>&nbsp;批量删除</a>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table table-striped table-bordered table-hover" style="overflow-x: scroll">
+                            <tr>
+                                <th>
+                                    <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks"/>
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Article)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FrontCoverImage)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsShowInText)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreateTime)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="ids" class="i-checks" value="@(item.Id)"/>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Article.Name)
+                                    </td>
+                                    <td>
+                                        <img class="img-circle" width="38" height="38" src="@item.FrontCoverImage.SiteUrl"/>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsShowInText)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreateTime)
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            @Html.ActionLink("查看", "Details", new {id = item.Id}, new {@class = "btn btn-white"})
+                                            <button data-toggle="dropdown" class="btn btn-white dropdown-toggle">更多操作 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("编辑", "Edit", new {id = item.Id, newsId = Request.QueryString["newsId"]})</li>
+                                                <li>@Html.ActionLink("删除", "Delete", new {id = item.Id, newsId = Request.QueryString["newsId"]})</li>
+                                                @*分割线*@
+                                                @*<li class="divider"></li>*@
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    <div class="row">
+                        @Html.Partial("_BootStrapPager", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        function batchOperation(operation, comfirmMessage) {
+            var $checkInputs = $("input[type=checkbox][name=ids]:checked");
+            if ($checkInputs.length === 0) {
+                mwc.message.warn("请至少选择一项！");
+                return;
+            }
+
+            function post() {
+                var ids = new Array();
+                $.each($("input[type=checkbox][name=ids]:checked").serializeArray(),
+                    function(i, v) {
+                        ids.push(v.value);
+                    });
+                mwc.restApi.post({
+                    url: '@Request.RequestContext.RouteData.GetRequiredString("controller")/BatchOperation/' +
+                        operation,
+                    contentType: "application/x-www-form-urlencoded",
+                    data: { ids: ids },
+                    success: function(data) { location.reload(); }
+                });
+            }
+
+            if (comfirmMessage) {
+                mwc.message.confirm("",
+                    comfirmMessage,
+                    function(isConfirmed) {
+                        isConfirmed && post();
+                    });
+            } else {
+                post();
+            }
+
+        }
+
+        $(function() {
+            $('input[type=checkbox]')
+                .iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green'
+                });
+            $("#chkCheckAll")
+                .on('ifToggled',
+                    function(e) {
+                        $("input[type=checkbox][name=ids]").iCheck(e.currentTarget.checked ? "check" : "uncheck");
+                    });
+            //批量操作
+            $("#toolBar button[data-action], a[data-action]")
+                .on('click',
+                    function() {
+                        batchOperation($(this).data("action"), $(this).data("comfirmmessage"));
+                    });
+        });
+    </script>
+}

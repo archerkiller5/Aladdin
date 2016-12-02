@@ -1,0 +1,126 @@
+﻿@using Magicodes.WeiChat.Infrastructure
+@{
+    ViewBag.Title = "相册";
+}
+<div class="aui-content-padded">
+    <header class="aui-bar aui-bar-nav aui-bar-info">最新上传</header>
+</div>
+
+<div id="aui-slide" class="aui-content-padded">
+    <div class="aui-slide-wrap">
+        <!-- ko foreach:Slides -->
+        <div class="aui-slide-node bg-dark">
+            <img data-bind="attr:{src:SiteUrl}">
+        </div>
+        <!-- /ko -->
+        <div class="aui-slide-page-wrap"><!--分页容器--></div>
+    </div>
+</div>
+<div class="aui-content-padded">
+    <header class="aui-bar aui-bar-nav aui-bar-info">相册列表</header>
+    <ul data-bind="foreach:Albums">
+        <li class="aui-list-view aui-border">
+            <div class="aui-col-xs-12 image">
+                <img data-bind="attr:{src:Cover},click:$root.gotoDetail" style="height: 200px">
+            </div>
+            <div class="aui-col-xs-12 aui-padded-5" style="background-color: #f4f4f4;">
+                <span data-bind="text:Title" class="aui-text-info" style="font-weight: bold;"></span>
+                @*<span class="aui-pull-right">
+                    <i class="aui-iconfont aui-icon-cameraaddfill aui-text-warning"></i>
+                </span>*@
+            </div>
+            <p style="margin-top: 20px;"></p>
+        </li>
+    </ul>
+</div>
+@section Styles{
+    @Styles.Render("~/Content/weui/slides/styles")
+    <style type="text/css">
+        body { background: #f7f9f8; }
+
+        /*重新定义*/
+
+        .aui-list-view { border-radius: 6px; }
+
+        .aui-list-view:after { border-top: 0; }
+
+        .aui-list-view:before { border-top: 0; }
+
+        .aui-grid-sixteen li .aui-iconfont {
+            background: #ff9900;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 20px;
+            height: 38px;
+            line-height: 38px;
+            width: 38px;
+        }
+
+        /*自定义*/
+
+        .icons { margin-top: 15px; }
+
+        .image img { width: 100%; }
+
+        p {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .content { font-size: 12px; }
+
+        .aui-iconfont { color: #ffffff; }
+
+        .bg-dark { background: #333333 !important; }
+
+        .aui-slide-node img {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+}
+@section scripts{
+    @Scripts.Render("~/Content/weui/slides/scripts")
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this;
+            this.Albums = ko.observableArray([]);
+            this.Slides = ko.observableArray([]);
+            this.reload = function() {
+                wc.restApi.get({
+                    url: '/api/AppDemo/PhotoGallery',
+                    success: function(data) {
+                        self.Albums(data);
+                    }
+                });
+                wc.restApi.get({
+                    url: '/api/AppDemo/PhotoGallery/Slides',
+                    success: function(data) {
+                        self.Slides(data);
+                        var slide = new auiSlide({
+                            container: document.getElementById("aui-slide"),
+                            // "width":300,
+                            "height": 260,
+                            "speed": 300,
+                            "pageShow": true,
+                            "pageStyle": 'dot',
+                            "loop": true,
+                            'dotPosition': 'center'
+                        });
+                    }
+                });
+            };
+            this.gotoDetail = function() {
+                location.href = '/App/AppDemo/PhotoGallery/' +
+                    this.Id +
+                    '/Photos?TenantId=@WeiChatApplicationContext.Current.TenantId';
+            };
+            self.reload();
+        }
+
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+        });
+    </script>
+}

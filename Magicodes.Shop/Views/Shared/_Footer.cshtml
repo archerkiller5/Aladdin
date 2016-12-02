@@ -1,0 +1,9 @@
+﻿@using System.Web.Configuration
+<div class="footer">
+    <div class="pull-right">
+        @WebConfigurationManager.AppSettings["CustomerInformation"]
+    </div>
+    <div>
+        <strong>Copyright</strong> © @DateTime.Now.Year
+    </div>
+</div>

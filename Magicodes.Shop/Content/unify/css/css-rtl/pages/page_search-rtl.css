@@ -1,0 +1,86 @@
+/*Page Search
+------------------------------------*/
+/*Search Block*/
+.search-block {
+    background: url(../../../img/bg/7.jpg) 50% 0 repeat fixed;
+    margin-bottom: 20px;
+    padding: 80px 0;
+    position: relative;
+    text-align: center;
+}
+
+.search-block:before {
+    background: rgba(0, 0, 0, 0.3);
+    content: " ";
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+.search-block h1 {
+    color: #fff;
+    font-size: 34px;
+    font-weight: 200;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.search-block .input-group { margin-bottom: 10px; }
+
+.search-block .form-control {
+    border: none;
+    font-size: 16px;
+    font-weight: 200;
+    height: 48px;
+}
+
+/*Checkbox*/
+
+.search-block form.page-search-form { border: none; }
+
+.search-block form.page-search-form .radio,
+.search-block form.page-search-form .checkbox { margin: 0 96% 0 3%; }
+
+.search-block form.page-search-form .checkbox {
+    color: #fff;
+    font-weight: 200;
+}
+
+.search-block form.page-search-form .radio i,
+.search-block form.page-search-form .checkbox i {
+    border: none;
+    height: 15px;
+    top: 6px;
+    width: 15px;
+}
+
+/*Category
+------------------------------------*/
+
+/*Section-Block*/
+
+.section-block {
+    border: 1px solid #eee;
+    box-shadow: 0 0 3px #eee;
+    padding: 20px;
+}
+
+.section-block h2 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 200;
+    margin: 10px 0 15px;
+}
+
+.section-block .text-center p { margin-bottom: 0; }
+
+.section-block .section-block-info {
+    border-top: solid 1px #eee;
+    margin-top: 5px;
+    padding-top: 20px;
+}
+
+.section-block .section-block-info ul { margin-bottom: 0; }

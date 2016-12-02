@@ -1,0 +1,44 @@
+﻿@{
+    var OneTitle = ViewBag.OneTitle == null ? "主页" : ViewBag.OneTitle;
+    var TwoTitle = ViewBag.TwoTitle == null ? "" : ViewBag.TwoTitle;
+    var ThreeTitle = ViewBag.ThreeTitle == null ? "" : ViewBag.ThreeTitle;
+    var url = Request.Url.AbsoluteUri;
+    if (ThreeTitle == "")
+    {
+        if (url.Contains("Edit"))
+        {
+            ThreeTitle = "编辑";
+        }
+        else if (url.Contains("Create"))
+        {
+            ThreeTitle = "创建";
+        }
+        else if (url.Contains("Delete"))
+        {
+            ThreeTitle = "删除";
+        }
+        else if (url.Contains("Details"))
+        {
+            ThreeTitle = "查看";
+        }
+    }
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@(ThreeTitle == "" ? TwoTitle : ThreeTitle)</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">@OneTitle</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">@TwoTitle</a>
+            </li>
+            @if (ThreeTitle != "")
+            {
+                <li class="active">
+                    <strong>@ThreeTitle</strong>
+                </li>
+            }
+        </ol>
+    </div>
+</div>

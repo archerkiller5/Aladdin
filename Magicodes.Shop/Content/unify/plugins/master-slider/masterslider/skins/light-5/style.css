@@ -1,0 +1,203 @@
+/**
+ *  Master Slider
+ *  Light 5
+ */
+
+.ms-skin-light-5 .ms-slide .ms-slide-vpbtn,
+.ms-skin-light-5 .ms-video-btn {
+    background: url(light-skin-5.png) black no-repeat -24px -160px;
+    height: 32px;
+    left: 50%;
+    margin: -18px 0 0 -18px;
+    top: 50%;
+    width: 32px;
+}
+
+.ms-skin-light-5 .ms-slide .ms-slide-vpbtn:hover,
+.ms-skin-light-5 .ms-video-btn:hover { background-color: #646464; }
+
+.ms-skin-light-5 .ms-slide .ms-slide-vcbtn {
+    background: url(light-skin-5.png) white no-repeat -24px -28px;
+    height: 30px;
+    right: 30px;
+    top: 18px;
+    width: 30px;
+}
+
+/* controls */
+
+.ms-skin-light-5 .ms-nav-next,
+.ms-skin-light-5 .ms-nav-prev {
+    background: url(light-skin-5.png) white;
+    background-position: -94px -32px;
+    bottom: 40px;
+    cursor: pointer;
+    height: 32px;
+    left: 40px;
+    margin-top: -20px;
+    position: absolute;
+    width: 32px;
+    z-index: 110;
+}
+
+.ms-skin-light-5 .ms-nav-next:hover,
+.ms-skin-light-5 .ms-nav-prev:hover { background-color: #E0E0E0; }
+
+.ms-skin-light-5 .ms-nav-next {
+    background-position: -93px -110px;
+    left: 73px;
+}
+
+.ms-skin-light-5 .ms-bullets.ms-dir-h {
+    bottom: 20px;
+    position: absolute;
+    right: 50%;
+    width: 100px;
+}
+
+.ms-skin-light-5 .ms-bullets.ms-dir-h .ms-bullets-count {
+    position: relative;
+    right: -50%;
+}
+
+.ms-skin-light-5 .ms-bullet {
+    background: url(light-skin-5.png) no-repeat;
+    background-position: -34px -117px;
+    height: 10px;
+    margin: 4px;
+    width: 10px;
+}
+
+.ms-skin-light-5 .ms-bullet-selected { background-position: -34px -84px; }
+
+.ms-skin-light-5 .ms-timerbar {
+    background: white;
+    height: 3px;
+}
+
+.ms-skin-light-5 .ms-time-bar {
+    background: #646464;
+    height: 1px;
+    margin-top: 1px;
+}
+
+.ms-skin-light-5 .ms-tooltip {
+    cursor: auto;
+    position: absolute;
+    z-index: 210;
+}
+
+.ms-skin-light-5 .ms-tooltip-top .ms-tooltip-arrow,
+.ms-skin-light-5 .ms-tooltip-bottom .ms-tooltip-arrow {
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+}
+
+.ms-skin-light-5 .ms-tooltip-top .ms-tooltip-arrow {
+    border-top: solid 10px;
+    border-top-color: silver;
+    border-top-color: rgba(240, 240, 240, 0.88);
+    bottom: -10px;
+}
+
+.ms-skin-light-5 .ms-tooltip-bottom .ms-tooltip-arrow {
+    border-bottom: solid 10px;
+    border-bottom-color: silver;
+    border-bottom-color: rgba(240, 240, 240, 0.88);
+    top: -10px;
+}
+
+.ms-skin-light-5 .ms-tooltip-right .ms-tooltip-arrow,
+.ms-skin-light-5 .ms-tooltip-left .ms-tooltip-arrow {
+    border-bottom: solid 10px transparent;
+    border-top: solid 10px transparent;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+}
+
+.ms-skin-light-5 .ms-tooltip-right .ms-tooltip-arrow {
+    border-right: solid 10px;
+    border-right-color: silver;
+    border-right-color: rgba(240, 240, 240, 0.88);
+    left: -10px;
+}
+
+.ms-skin-light-5 .ms-tooltip-left .ms-tooltip-arrow {
+    border-left: solid 10px;
+    border-left-color: silver;
+    border-left-color: rgba(240, 240, 240, 0.88);
+    right: -10px;
+}
+
+.ms-skin-light-5 .ms-tooltip-point { cursor: pointer; }
+
+.ms-skin-light-5 .ms-tooltip-point .ms-point-center {
+    background: white;
+    border: solid 2px #BBB;
+    border-radius: 15px;
+    height: 12px;
+    margin: -8px 0 0 -8px;
+    position: absolute;
+    width: 12px;
+    z-index: 105;
+}
+
+.ms-skin-light-5 .ms-tooltip-point .ms-point-border {
+    -moz-animation: point-anim 1.5s infinite;
+    -o-animation: point-anim 1.5s infinite;
+    -webkit-animation: point-anim 1.5s infinite;
+    animation: point-anim 1.5s infinite;
+    background: black;
+    background: rgba(0, 0, 0, 0.36);
+    border-radius: 15px;
+	
+    height: 22px;
+    margin: -11px 0 0 -11px;
+    position: absolute;
+    width: 22px;
+}
+
+/* In Android browser, using css animations over slider causes some crashes */
+
+.ms-android.ms-skin-light-5 .ms-tooltip-point .ms-point-border {
+    -moz-animation: none;
+    -o-animation: none;
+    -webkit-animation: none;
+    animation: none;
+}
+
+.ms-ie7.ms-skin-light-5 .ms-tooltip-point .ms-point-border,
+.ms-ie8.ms-skin-light-5 .ms-tooltip-point .ms-point-border { display: none; }
+
+.ms-skin-light-5 .ms-tooltip { max-width: 200px; }
+
+.ms-skin-light-5 .ms-tooltip-cont {
+    background: silver;
+    background: rgba(240, 240, 240, 0.88);
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.04);
+    padding: 10px;
+    text-shadow: 0 1px 0px white;
+}
+
+/* retina */
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min--moz-device-pixel-ratio: 2),
+only screen and (-o-min-device-pixel-ratio: 2/1),
+only screen and (min-device-pixel-ratio: 2),
+only screen and (min-resolution: 192dpi),
+only screen and (min-resolution: 2dppx) {	
+    .ms-skin-light-5 .ms-slide .ms-slide-vpbtn,
+    .ms-skin-light-5 .ms-video-btn,
+    .ms-skin-light-5 .ms-slide .ms-slide-vcbtn,
+    .ms-skin-light-5 .ms-nav-next,
+    .ms-skin-light-5 .ms-nav-prev {
+        background-image: url(light-skin-5-retina.png);
+        background-size: 152px 225px;
+    }	
+}

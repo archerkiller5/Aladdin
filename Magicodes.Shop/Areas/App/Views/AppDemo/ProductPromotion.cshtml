@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Magicodes.WeiChat";
+}
+
+<div class="aui-slider-close" tapmode onclick="closeWin()">关闭</div>
+<div class="aui-slider-full">
+    <div class="aui-slider-list text aui-bg-primary aui-text-center">
+        <h1>Magicodes.WeiChat</h1>
+        <p class="aui-text-left" style="margin: 3px 10px 5px 10px">
+            “Magicodes.WeiChat，是由Magicode.WeiChat团队打造的一个基于ASP.NET MVC5微信业务快速开发与定制的开发框架。目的让微信业务开发与定制更快速、简单。”
+        </p>
+        <p>--{ http://www.cnblogs.com/codelove }--</p>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片1.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片2.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片3.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片4.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片5.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片6.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片7.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片8.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片9.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片10.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片11.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片12.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片13.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片14.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片15.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片16.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片17.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片18.PNG"/>
+    </div>
+    <div class="aui-slider-list aui-flex-col aui-flex-middle">
+        <img src="~/Images/App/幻灯片19.PNG"/>
+    </div>
+    <span class="aui-slider-up">
+        <i class="aui-iconfont aui-icon-fold"></i>
+    </span>
+</div>
+@section scripts{
+    @Scripts.Render("~/Content/weui/slider-full/scripts")
+    <script type="text/javascript">
+        apiready = function() {
+            api.parseTapmode();
+        };
+        var sliderFull = new auiSliderFull({
+            direction: 'y'
+        });
+
+        function closeWin() {
+            api.closeWin({
+                name: 'slider_full_win',
+                animation: {
+                    type: 'push',
+                    subType: 'from_top'
+                }
+            });
+        }
+    </script>
+}
+@section styles{
+    @Styles.Render("~/Content/weui/slides-full/styles")
+    <style type="text/css">
+        .text h1 {
+            color: #ffffff;
+            font-size: 30px;
+            margin-top: 180px;
+        }
+
+        .text p { color: #ffffff; }
+    </style>
+}

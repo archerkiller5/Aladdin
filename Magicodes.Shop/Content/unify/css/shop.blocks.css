@@ -1,0 +1,302 @@
+/*   
+ * Template Name: Unify - Responsive Bootstrap Template
+ * Description: Business, Corporate, Portfolio, E-commerce and Blog Theme.
+ * Version: 1.7
+ * Author: @htmlstream
+ * Website: http://htmlstream.com
+*/
+
+/*Tab v5
+------------------------------------*/
+.tab-v5 .nav-tabs { border-bottom-color: #dedede; }
+
+.tab-v5 .nav-tabs > li { margin-right: 30px; }
+
+.tab-v5 .nav-tabs > li > a {
+    background: none;
+    border: none;
+    border-bottom: solid 1px transparent;
+    color: #687074;
+    font-size: 18px;
+    margin-right: 0;
+    padding: 6px 0;
+    text-transform: uppercase;
+}
+
+.tab-v5 .nav-tabs > li.active > a,
+.tab-v5 .nav-tabs > li.active > a:hover,
+.tab-v5 .nav-tabs > li.active > a:focus {
+    border-bottom: 1px solid #18ba9b;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+.tab-v5 .nav-tabs > li > a:hover { border-bottom: 1px solid #18ba9b; }
+
+.tab-v5 .nav-tabs > li > a:focus { border: none; }
+
+.tab-v5 .tab-content { padding: 30px 0; }
+
+/*Accordion v2
+------------------------------------*/
+
+.accordion-v2 .panel { box-shadow: none; }
+
+.accordion-v2 .panel-default { border-color: #eee; }
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body { border-top-color: #eee; }
+
+.accordion-v2 .panel-heading {
+    box-shadow: none;
+    padding: 0;
+}
+
+.accordion-v2 .panel-heading a {
+    background: #f8f8f8;
+    color: #555;
+    display: block;
+    font-size: 16px;
+    padding: 10px 15px;
+}
+
+.accordion-v2 .panel-heading a.active:before { content: "\f068"; }
+
+.accordion-v2 .panel-heading i {
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+.accordion-v2 .panel-heading a:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+/*Plus Toggle*/
+
+.accordion-v2.plus-toggle .panel-heading a:before {
+    background: #18ba9b;
+    color: #fff;
+    content: "\f068";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 10px;
+    height: 20px;
+    line-height: 12px;
+    margin-right: 10px;
+    padding: 5px 0;
+    text-align: center;
+    width: 20px;
+}
+
+.accordion-v2.plus-toggle .panel-heading a.collapsed:before { content: "\f067"; }
+
+.accordion-v2.plus-toggle .panel-body { padding-left: 50px; }
+
+/*Breadcrumbs v4
+------------------------------------*/
+
+.breadcrumbs-v4 {
+    background-image: url(../img/breadcrumbs-img.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 25px 0;
+    position: relative;
+    width: 100%;
+}
+
+.breadcrumbs-v4:before {
+    background: rgba(0, 0, 0, 0.3);
+    content: " ";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.breadcrumbs-v4 .container { position: relative; }
+
+.breadcrumbs-v4 span.page-name {
+    color: #fff;
+    display: block;
+    font-size: 18px;
+    font-weight: 200;
+    margin: 0 0 5px 3px;
+}
+
+.breadcrumbs-v4 h1 {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 200;
+    line-height: 50px;
+    margin: 0 0 20px;
+    text-transform: uppercase;
+}
+
+.breadcrumbs-v4 .breadcrumb-v4-in {
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.breadcrumbs-v4 .breadcrumb-v4-in > li {
+    color: #fff;
+    display: inline-block;
+    font-size: 13px;
+}
+
+.breadcrumbs-v4 .breadcrumb-v4-in > li + li:before {
+    color: #fff;
+    content: "\f105";
+    font-family: FontAwesome;
+    margin-left: 7px;
+    padding-right: 8px;
+}
+
+.breadcrumbs-v4 .breadcrumb-v4-in li a { color: #fff; }
+
+.breadcrumbs-v4 .breadcrumb-v4-in li.active,
+.breadcrumbs-v4 .breadcrumb-v4-in li a:hover {
+    color: #18ba9b;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .breadcrumbs-v4 { text-align: center; }
+
+    .breadcrumbs-v4 span.page-name { font-size: 18px; }
+
+    .breadcrumbs-v4 h1 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+}
+
+/*Breadcrumbs v5
+------------------------------------*/
+
+.breadcrumb-v5 {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.breadcrumb-v5 > li {
+    color: #999;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.breadcrumb-v5 > li + li:before {
+    color: #ccc;
+    content: "\f105";
+    font-family: FontAwesome;
+    margin-left: 7px;
+    padding-right: 8px;
+}
+
+.breadcrumb-v5 li h1 { margin: 0; }
+
+.breadcrumb-v5 li a { color: #999; }
+
+.breadcrumb-v5 li i {
+    font-size: 18px;
+    margin: 0 auto;
+}
+
+.breadcrumb-v5 li.active,
+.breadcrumb-v5 li a:hover {
+    color: #18ba9b;
+    text-decoration: none;
+}
+
+/*Full Width*/
+
+.full-width { width: 100%; }
+
+/*Shop Color Red*/
+
+.shop-red { color: #c9253c; }
+
+.shop-green { color: #18ba9b; }
+
+/*Shop Background Red*/
+
+.shop-bg-red { background: #c9253c; }
+
+.shop-bg-green { background: #18ba9b; }
+
+.shop-rgba-red { background: rgba(201, 37, 60, 0.5); }
+
+.shop-rgba-dark-green { background: rgba(24, 171, 155, 0.5); }
+
+.shop-rgba-dark { background: rgba(0, 0, 0, 0.5); }
+
+/*Button Sea Shop*/
+
+.btn-u.btn-u-sea-shop { background: #18ba9b; }
+
+.btn-u.btn-u-sea-shop:hover,
+.btn-u.btn-u-sea-shop:focus,
+.btn-u.btn-u-sea-shop:active,
+.btn-u.btn-u-sea-shop.active,
+.open .dropdown-toggle.btn-u.btn-u-sea-shop { background: #2cd5b6; }
+
+.btn-u.btn-u-split-sea.dropdown-toggle { border-left: solid 1px #2cd5b6; }
+
+/*Button Bordered Sea Shop*/
+
+.btn-u.btn-brd.btn-u-sea-shop {
+    background: none;
+    border-color: #18ba9b;
+    color: #18ba9b;
+}
+
+.btn-u.btn-brd.btn-u-sea-shop:hover {
+    border-color: #18ba9b;
+    color: #18ba9b;
+}
+
+.btn-u.btn-brd.btn-u-sea-shop.btn-brd-hover:hover { background: #18ba9b; }
+
+/*Label Danger Shop*/
+
+.label.label-danger-shop {
+    background: #c9253c;
+    color: #fff;
+    font-size: 9px;
+    padding: 1px 5px;
+    text-transform: uppercase;
+}
+
+/*Removes Bootstrap carousel background images*/
+
+.carousel-control.left,
+.carousel-control.right { background-image: none; }
+
+/*RGBA Banner*/
+
+.rgba-banner-position { position: relative; }
+
+.rgba-banner {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 3px 8px;
+    position: absolute;
+    right: -5px;
+    text-transform: uppercase;
+    top: 20px;
+}
+
+.rgba-banner-v2 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 3px 8px;
+    position: absolute;
+    right: 0;
+    text-transform: uppercase;
+    top: 20px;
+}

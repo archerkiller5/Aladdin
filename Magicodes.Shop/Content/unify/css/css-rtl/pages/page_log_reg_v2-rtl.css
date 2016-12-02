@@ -1,0 +1,64 @@
+/*Registration and Login Page v2
+------------------------------------*/
+body { background: #555; }
+
+.reg-block {
+    background: #fff;
+    border-top: solid 2px #72c02c;
+    margin: 60px auto;
+    padding: 20px;
+    width: 380px;
+}
+
+.reg-block h2,
+.reg-block p,
+.reg-block p a { color: #777; }
+
+.reg-block-header h2 { font-size: 28px; }
+
+.reg-block p a { text-decoration: underline; }
+
+.reg-block p a:hover { text-decoration: none; }
+
+/*Forms*/
+
+.reg-block .input-group-addon {
+    background: none;
+    color: #bbb;
+    min-width: 40px;
+}
+
+.reg-block .form-control:focus {
+    border-color: #999;
+    box-shadow: none;
+}
+
+.reg-block .checkbox {
+    color: #555;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+/*Reg Header*/
+
+.reg-block-header {
+    border-bottom: solid 1px #eee;
+    margin-bottom: 30px;
+    padding-bottom: 5px;
+}
+
+.reg-block-header h2 {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.reg-block-header p { text-align: center; }
+
+/*For Mobile Devices*/
+
+@media (max-width: 500px) {
+    .reg-block {
+        margin: 60px auto;
+        width: 300px;
+    }
+}

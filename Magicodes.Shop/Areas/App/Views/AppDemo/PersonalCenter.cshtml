@@ -1,0 +1,142 @@
+﻿@using Magicodes.WeiChat.Infrastructure
+@model Magicodes.WeiChat.Data.Models.WeiChat_User
+@{
+    ViewBag.Title = "个人中心";
+}
+
+<div class="aui-content my-header">
+    <div class="my-info">
+        <img src="@Model.HeadImgUrl"/>
+        <p class="nickname">@Model.NickName</p>
+    </div>
+</div>
+<div class="aui-content aui-text-center amount-info">
+    <div class="aui-col-xs-4">
+        <p class="aui-text-danger">
+            <strong id="amount">398.20</strong>元
+        </p>
+        <p>我的资金</p>
+    </div>
+    <div class="aui-col-xs-4">
+        <p class="aui-text-warning">
+            <strong>648</strong>个
+        </p>
+        <p>我的积分</p>
+    </div>
+    <div class="aui-col-xs-4">
+        <strong class="aui-iconfont aui-icon-write aui-text-info"></strong>
+        <p>每日签到</p>
+    </div>
+</div>
+<div class="aui-content">
+    <ul class="aui-list-view aui-in">
+        <li class="aui-list-view-cell">
+            <i class="aui-iconfont aui-icon-profile aui-bg-info"></i>个人资料
+        </li>
+        <li class="aui-list-view-cell">
+            <i class="aui-iconfont aui-icon-pay aui-bg-danger"></i>我的钱包
+        </li>
+        <li class="aui-list-view-cell">
+            <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我的发布
+        </li>
+        <li class="aui-list-view-cell">
+            <i class="aui-iconfont aui-icon-shop aui-bg-warning"></i>店铺管理
+        </li>
+        <li class="aui-list-view-cell">
+            <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>我的订单
+        </li>
+        <li class="aui-list-view-cell">
+            <i class="aui-iconfont aui-icon-favor aui-bg-info"></i>我的收藏
+        </li>
+    </ul>
+    <footer class="aui-nav" id="aui-footer">
+        <ul class="aui-bar-tab">
+            <li class="active-warning">
+                <span class="aui-iconfont aui-icon-home"></span>
+                <p>
+                    <a href="@Url.Action("WeChatOAuthTest", new {WeiChatApplicationContext.Current.TenantId})">首页</a>
+                </p>
+            </li>
+            <li class="active-warning">
+                <span class="aui-iconfont aui-icon-addressbook"></span>
+                <p>
+                    <a href="@Url.Action("PhotoGallery", new {WeiChatApplicationContext.Current.TenantId})">相册列表</a>
+                </p>
+            </li>
+            @*<li class="active-warning">
+                <span class="aui-iconfont aui-icon-cameraadd"></span>
+                <p><a data-bind="click:uploadPicClick">上传照片</a></p>
+            </li>*@
+        </ul>
+    </footer>
+</div>
+@section scripts{
+
+
+}
+
+@section styles{
+    <style type="text/css">
+        .my-header {
+            background-color: #e74c3c;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .my-info {
+            bottom: 0;
+            padding: 20px 0;
+            position: relative;
+            text-align: center;
+            vertical-align: center;
+            width: 100%;
+        }
+
+        .my-info img {
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+        }
+
+        .my-info p.nickname {
+            color: #ffffff;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        .aui-list-view-cell { line-height: 26px; }
+
+        .amount-info {
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .amount-info p { font-size: 0.75em; }
+
+        .amount-info p strong { font-size: 18px; }
+
+        .aui-list-view-cell { line-height: 26px; }
+
+        .amount-info .aui-col-xs-4 {
+            height: 80px;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .amount-info .aui-col-xs-4:after {
+            -webkit-transform: scale(1);
+            -webkit-transform-origin: 0 0;
+            border-left: 1px solid #ddd;
+            bottom: 0;
+            content: '';
+            display: block;
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .amount-info .aui-col-xs-4:first-child:after { border: none; }
+    </style>
+}

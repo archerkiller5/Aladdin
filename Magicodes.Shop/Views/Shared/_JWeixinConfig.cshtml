@@ -1,0 +1,15 @@
+﻿@using Magicodes.WeChat.SDK
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+@Scripts.Render("~/Scripts/wc.weichat")
+@{
+    var jssdkInfo = WeChatConfigManager.Current.GetJSSDKConfigInfo();
+}
+<script type="text/javascript">
+    wc.weiChat.init({
+        debug: '@(HttpContext.Current.IsDebuggingEnabled.ToString().ToLower())' == 'true',
+        appId: '@jssdkInfo.AppId',
+        timestamp: '@jssdkInfo.Timestamp',
+        nonceStr: '@jssdkInfo.NonceStr',
+        signature: '@jssdkInfo.Signature'
+    });
+</script>

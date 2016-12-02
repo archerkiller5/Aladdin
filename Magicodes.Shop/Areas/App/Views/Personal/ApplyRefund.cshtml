@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "退款申请";
+    Layout = "~/Areas/App/Views/Shared/_MallLayout.cshtml";
+}
+<div class="aui-content" data-bind="with:Order">
+    <div class="aui-col-xs-12">
+        <ul class="aui-list-view">
+            <li class="aui-list-view-cell ">
+                <div class="aui-col-xs-12 ">
+                    订单商品
+                </div>
+            </li>
+            <!-- ko template:{name:'tplGoods',foreach:Details} -->
+            <!-- /ko -->
+        </ul>
+        <ul class="aui-list-view" id="htmlAppend">
+            <li class="aui-text-right" style="color: red; padding-right: 10px;">
+                <div class="aui-input-row">
+                    <span class="aui-input-addon">退款理由:</span>
+                    <input type="text" class="aui-input" id="txt_Tkly" placeholder="如需退款!请认真编写退款理由！"/>
+                </div>
+
+                <div class="aui-col-xs-12 aui-btn" data-bind="click:$root.ToApplyRefund">
+                    <strong>申请退款</strong>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<p style="line-height: 55px"> &nbsp; </p>
+
+<script type="text/html" id="tplGoods">
+    <li class="aui-list-view-cell aui-img">
+        <div class="aui-swipe-handle">
+            <img class="aui-img-object aui-pull-left" data-bind="attr:{src:ProductImage}">
+            <div class="aui-img-body">
+                <span data-bind="text: ProductName"></span>
+                <em class="aui-text-right aui-pull-right" data-bind="text:'数量 x '+ Quantity"></em>
+                <p class="aui-ellipsis-1" style="color: red" data-bind="text:'单价 ¥ '+ Price"></p>
+                <p class="aui-ellipsis-1" style="color: red" data-bind="text:'小计 ¥ '+ Quantity*Price"></p>
+            </div>
+        </div>
+    </li>
+</script>
+
+@section scripts{
+    <script type="text/javascript">
+        function viewModel() {
+            var self = this; //observable
+            this.Order = ko.observable();
+            var _orderid = '@(ViewBag.OrderId)';
+            this.reload = function() {
+                wc.restApi.get({
+                    url: '/api/MyOrder/Detail?id=' + _orderid + '',
+                    success: function(data) {
+                        self.Order(data);
+                    }
+                });
+            };
+
+            //退款申请
+            this.ToApplyRefund = function() {
+
+                var txt_Tkly = $("#txt_Tkly").val();
+                var txt_Tkly = txt_Tkly.trim(txt_Tkly);
+                if (txt_Tkly == "") {
+                    wc.notify.warn('退款申请理由必须输入！');
+                    $("#txt_Tkly").focus();
+                    return;
+                }
+                var arr = [_orderid, txt_Tkly];
+                wc.restApi.post({
+                    url: '/api/MyOrder/ApplyRefund',
+                    data: JSON.stringify(arr),
+                    success: function(result) {
+                        self.reload();
+                    }
+                });
+            };
+            self.reload();
+        }
+
+        apiready = function() {
+            api.parseTapmode();
+
+        };
+        $(function() {
+            window.CurrentModel = new viewModel();
+            ko.applyBindings(window.CurrentModel);
+
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            
+        });
+
+    </script>
+}

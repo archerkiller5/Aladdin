@@ -1,0 +1,137 @@
+.wrapper { margin: 5px 10px; }
+
+.searchBar {
+    height: 30px;
+    padding: 7px 0 3px;
+    text-align: center;
+}
+
+.searchBtn {
+    font-size: 13px;
+    height: 24px;
+}
+
+.resultBar {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #D3D6DA;
+    margin: 5px auto;
+    overflow: hidden;
+    width: 460px;
+}
+
+.listPanel { overflow: hidden; }
+
+.panelon { display: block; }
+
+.paneloff { display: none }
+
+.page {
+    margin: 20px auto;
+    overflow: hidden;
+    width: 220px;
+}
+
+.pageon {
+    background: none;
+    border: none;
+    color: #000;
+    float: right;
+    font-weight: bold;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 5px;
+    text-align: center;
+    width: 24px;
+}
+
+.pageoff {
+    background-color: #fff;
+    border: 1px solid #E7ECF0;
+    color: #2D64B3;
+    cursor: pointer;
+    float: right;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 5px;
+    text-align: center;
+    text-decoration: none;
+    width: 24px;
+}
+
+.m-box { width: 460px; }
+
+.m-m {
+    float: left;
+    height: 20px;
+    line-height: 20px;
+}
+
+.m-h {
+    background-color: #FAFAFA;
+    border-bottom: 1px solid #DAD8D8;
+    color: #333;
+    font-size: 12px;
+    font-weight: bold;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 46px;
+}
+
+.m-l {
+    float: left;
+    width: 40px;
+}
+
+.m-t {
+    float: left;
+    width: 140px;
+}
+
+.m-s {
+    float: left;
+    width: 110px;
+}
+
+.m-z {
+    float: left;
+    width: 100px;
+}
+
+.m-try-t {
+    float: left;
+    width: 60px;
+    ;
+}
+
+.m-try {
+    background: url('http://static.tieba.baidu.com/tb/editor/images/try_music.gif') no-repeat;
+    float: left;
+    height: 20px;
+    width: 20px;
+}
+
+.m-trying {
+    background: url('http://static.tieba.baidu.com/tb/editor/images/stop_music.gif') no-repeat;
+    float: left;
+    height: 20px;
+    width: 20px;
+}
+
+.loading {
+    background: url(http://static.tieba.baidu.com/tb/editor/images/loading.gif) no-repeat;
+    font-size: 7px;
+    height: 7px;
+    margin: 60px auto;
+    width: 95px;
+}
+
+.empty {
+    color: #006699;
+    height: 40px;
+    line-height: 40px;
+    margin: 50px auto;
+    padding: 2px;
+    text-align: center;
+    width: 300px;
+}

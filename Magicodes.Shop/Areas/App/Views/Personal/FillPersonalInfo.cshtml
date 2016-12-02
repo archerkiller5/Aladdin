@@ -1,0 +1,39 @@
+﻿@using Magicodes.WeiChat.Data.Models.User
+@model User_Info
+@{
+    ViewBag.Title = "请完善您的信息";
+}
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true, "", new { @class = "aui-text-danger" })
+    if (ViewBag.OpenId != null)
+    {
+        <input type="hidden" name="OpenId" value="@ViewBag.OpenId" />
+    }
+    if (Model != null)
+    {
+        @Html.HiddenFor(m => m.OpenId)
+    }
+    <div class="aui-content" style="margin-top:20px">
+        <div class="aui-card aui-noborder">
+            <h1 class="aui-padded-10 aui-text-center aui-text-success">请完善您的信息</h1>
+            <p class="aui-padded-10 aui-text-info">
+                为了便于商家更好的为您提供服务，以及相关活动奖励的顺利发放，请务必填写真实有效的信息！
+            </p>
+            <div class="aui-form">
+                <div class="aui-input-row">
+                    <i class="aui-input-addon  aui-iconfont aui-icon-people"></i>
+                    @Html.TextBoxFor(m => m.TrueName, new { @class = "aui-input", placeholder = "姓名" })
+                </div>
+                <div class="aui-input-row">
+                    <i class="aui-input-addon  aui-iconfont aui-icon-mobile"></i>
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "aui-input", placeholder = "手机号码" })
+                </div>
+                <div class="aui-btn-row">
+                    <div class="aui-btn aui-btn-block aui-btn-success" onclick="return false;">确认</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

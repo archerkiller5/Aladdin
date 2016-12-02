@@ -1,0 +1,134 @@
+﻿@using Magicodes.WeiChat.Data.Models.Site
+@{
+    //轻量模式
+    var isLightLayout = Request.QueryString["lightLayout"] == "1";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    @*<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>*@
+    @*加载自定义样式*@
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", false)
+    }
+
+    @*加载主体样式*@@Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/plugins/toastrStyles")
+    @Styles.Render("~/plugins/sweetalertStyles")
+</head>
+<body>
+@if (isLightLayout)
+{
+    <!-- Wrapper-->
+    <div id="wrapper">
+        <!-- Page wraper -->
+        <div id="page-wrapper" style="display: none; margin: 0 0 0 0;" class="gray-bg">
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom: 0;">
+                <!-- Main view -->
+                @RenderBody()
+            </div>
+        </div>
+        <!-- End page wrapper-->
+    </div>
+    <!-- End wrapper-->
+}
+else
+{
+    <!-- Wrapper-->
+    <div id="wrapper">
+
+        @*左侧导航菜单*@
+        @{ Html.RenderAction("Menus", "Modules", new
+           {
+               area = string.Empty,
+               tag = "System"
+           }); }
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+
+            <!-- Top Navbar -->
+            @Html.Partial("_TopNavbar")
+
+            @if (ViewBag.ShowPageHeader == null)
+            {
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-lg-9">
+                        <h2>@ViewBag.Title</h2>
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="@Url.Action("AdminHome")">主页</a>
+                            </li>
+                            <li class="active">
+                                <strong>@ViewBag.Title</strong>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            }
+
+            <!-- Main view -->
+            @RenderBody()
+
+            <!-- Footer -->
+            @Html.Partial("_Footer")
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+}
+
+@*加载主要脚本*@
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/plugins/slimScroll")
+@Scripts.Render("~/bundles/inspinia")
+@Scripts.Render("~/plugins/toastr")
+@Scripts.Render("~/bundles/jquery.blockUI")
+@Scripts.Render("~/plugins/sweetalert")
+@Scripts.Render("~/plugins/spin")
+@Scripts.Render("~/bundles/knockout")
+
+<script src="~/Scripts/plugins/layer/layer.js"></script>
+@*Magicodes.WeiChat JS框架*@
+@Scripts.Render("~/bundles/nwc")
+<script>
+    mwc.log.level = @(HttpContext.Current.IsDebuggingEnabled ? "mwc.log.levels.DEBUG" : "mwc.log.levels.WARN");
+</script>
+@if (isLightLayout)
+{
+    <script>
+        if ($('div.page-heading').length > 0) {
+            $('div.page-heading').remove();
+        }
+        $('#page-wrapper').show();
+        $('nav').show();
+    </script>
+}
+else
+{
+    <script>
+        if (self != parent) {
+            if ($('div.page-heading').length > 0) {
+                $('div.page-heading').remove();
+            }
+            $('nav').remove();
+            $('#page-wrapper').show().css('margin', '0 0 0 0');
+        } else {
+            $('nav').show();
+        }
+    </script>
+}
+@*加载自定义脚本*@
+@RenderSection("scripts", false)
+</body>
+</html>

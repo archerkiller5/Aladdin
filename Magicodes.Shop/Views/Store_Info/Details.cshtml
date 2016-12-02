@@ -1,0 +1,221 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeChatStore.Store_Info
+
+@{
+    ViewBag.Title = "查看";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/">主页</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index")">上级页面</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <hr style="margin:2px 2px 10px 2px;" />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.BranchName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.BranchName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Province)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Province)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.City)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.City)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.District)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.District)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Telephone)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Telephone)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Categorys)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Categorys)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Longitude)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Longitude)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Latitude)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Latitude)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Recommend)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Recommend)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Special)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Special)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Introduction)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Introduction)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.OpenTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.OpenTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AvgPrice)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.AvgPrice)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.HasApproved)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.HasApproved)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PhotoList)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.PhotoList)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreateBy)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreateUser.UserName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreateTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreateTime)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdateBy)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdateUser.UserName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.UpdateTime)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.UpdateTime)
+                        </dd>
+                    </dl>
+                    <p>
+                        @Html.ActionLink("编辑", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("返回", "Index")
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    <script type="text/javascript">
+        $(function () {
+            $("input[type=checkbox]").iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+    </script>
+}

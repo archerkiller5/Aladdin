@@ -1,0 +1,60 @@
+﻿@using Magicodes.Shop.Helpers
+@using Magicodes.WeiChat.Infrastructure
+@model List<Magicodes.WeiChat.Data.Models.User.User_Address>
+@{
+    ViewBag.Title = "地址库";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+<div class="aui-content">
+    <div class="aui-btn aui-btn-danger aui-btn-block " onclick="window.location.href = '@Url.TenantAction("AddressInfo", "Personal")'"> 添加新地址</div>
+    <div class="aui-col-xs-12">
+        <ul class="aui-list-view">
+            @foreach (var m in Model)
+            {
+                <li class="aui-list-view-cell">
+                    <div class="aui-arrow-right" onclick="window.location.href = '@Url.Action("EditAddress", "Personal", new {m.Id, WeiChatApplicationContext.Current.TenantId})'">
+                        <span class="aui-pull" style="font-size: 12px" id="PayType" data-id="">收件人：@m.Name</span><br/>
+                        <span class="aui-pull" style="font-size: 12px">联系电话：@m.PhoneNumber</span> <br/>
+                        <span class="aui-pull" style="font-size: 12px">@(m.Province + m.City + m.District + m.Street)</span>
+                    </div>
+                    <p>
+                        <div class="aui-btn aui-pull-left" style="font-size: 12px" onclick="Edit('@m.Id')">编辑</div>
+                        <div class="aui-btn aui-pull-right" style="font-size: 12px" onclick="Del('@m.Id')">删除</div>
+                    </p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        function Edit(obj) {
+            location.href = "/APP/Personal/EditAddress/" + obj + "?TenantId=@ViewBag.TenantId";
+        }
+
+        function Del(obj) {
+            var data = { Id: obj };
+            wc.restApi.post({
+                url: '/api/MyAddress/DelAddress',
+                data: JSON.stringify(data),
+                contenType: "appliction/json",
+                success: function(result) {
+                    self.location.reload();
+                    wc.notify.warn('删除数据成功！');
+                }
+            });
+        }
+
+        $(function() {
+            $("#footerPeople").addClass("active-primary").siblings().removeClass("active-primary");
+            $('li[data-url]')
+                .on('click',
+                    function() {
+                        location.href = $(this).data('url');
+                    });
+        });
+    </script>
+
+}
