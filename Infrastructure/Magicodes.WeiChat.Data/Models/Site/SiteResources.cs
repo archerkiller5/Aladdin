@@ -150,7 +150,7 @@ namespace Magicodes.WeiChat.Data.Models.Site
         [Display(Name = "文章")] Article = 4,
         [Display(Name = "多图文")] News = 5
     }
-
+    
     /// <summary>
     ///     文章
     /// </summary>
@@ -187,6 +187,11 @@ namespace Magicodes.WeiChat.Data.Models.Site
         [MaxLength(500)]
         [Display(Name = "原文链接")]
         public string OriginalUrl { get; set; }
+
+        [MaxLength(500)]
+        [Display(Name = "图片集合")]
+        public List<Site_Image> site_images { get; set; }
+
     }
 
 

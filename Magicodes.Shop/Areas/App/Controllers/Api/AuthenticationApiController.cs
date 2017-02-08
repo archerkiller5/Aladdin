@@ -67,7 +67,7 @@ namespace Magicodes.Shop.Areas.App.Controllers.Api
                 //var server = new AlidayuMsmService();
                 //server.SendBindPhoneAsync(inparamter);
                 //log.Log(LoggerLevels.Debug, "调用SendBindPhoneAsync完毕");
-                
+
                 //发送成功后需要将验证码保存到数据库用于确定时候的验证
                 var model = new User_BindPhone
                 {
@@ -94,7 +94,7 @@ namespace Magicodes.Shop.Areas.App.Controllers.Api
         [HttpPost]
         [Route("DoAuthentication")] //string[] inparamters
         public IHttpActionResult DoAuthentication([FromBody] JObject jdata)
-            // string[] inparamters string yzm, string phone, 
+        // string[] inparamters string yzm, string phone, 
         {
             //验证校验码是否与系统发出的校验码一致，不一致则返回消息给前台
             log.Log(LoggerLevels.Trace, "进入DoAuthentication方法");
@@ -105,18 +105,15 @@ namespace Magicodes.Shop.Areas.App.Controllers.Api
             string name = json.name;
 
 
-            string nickname =json.nickname;
+            string nickname = json.nickname;
             string idcard = json.idcard;
-            string email =json.email;
+            string email = json.email;
             string workplace1 = json.workplace1;
             string businessscope1 = json.businessscope1;
             string workplace2 = json.workplace2;
             string businessscope2 = json.businessscope2;
-            string workplace3 =json.workplace3;
+            string workplace3 = json.workplace3;
             string businessscope3 = json.businessscope3;
-
-
-
 
             log.Log(LoggerLevels.Trace, "yzm:" + yzm + "phone:" + phone + "name:" + name);
             var res = new AjaxResponse
@@ -132,36 +129,57 @@ namespace Magicodes.Shop.Areas.App.Controllers.Api
 
             var openid = WeiChatApplicationContext.Current.WeiChatUser.OpenId;
             var user = db.User_Infos.Find(openid);
+            if (user == null)
+            {
+                user = new User_Info();
+                user.Mobile = phone;
+                user.TrueName = name;
+                user.NickName = nickname;
+                user.IdCard = idcard;
+                user.Email = email;
+                user.WorkPlace_1 = workplace1;
+                user.Business_scope_1 = businessscope1;
+                user.WorkPlace_2 = workplace2;
+                user.Business_scope_2 = businessscope2;
+                user.WorkPlace_3 = workplace3;
+                user.Business_scope_3 = businessscope3;
+                db.User_Infos.Add(user);
+                
 
-            ////屏蔽验证码环节
-            //if (!string.IsNullOrWhiteSpace(user.Mobile))
-            //    return BadRequest("用户已完成了手机验证不需要反复验证!");
-            //var check_bind =
-            //    db.User_BindPhones.Where(p => (p.OpenId == openid) && (p.CheckNumber == yzm)).FirstOrDefault();
-            //if (check_bind == null) return BadRequest("没有找到验证信息，请重新获取验证码进行验证!");
+            }
+            else
+            {
 
-            //var checkdate = long.Parse(check_bind.CreateTime.ToString("yyyyMMddHHmmss"));
-            //var nowdate = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
-            //var timespan = nowdate - checkdate;
+                ////屏蔽验证码环节
+                //if (!string.IsNullOrWhiteSpace(user.Mobile))
+                //    return BadRequest("用户已完成了手机验证不需要反复验证!");
+                //var check_bind =
+                //    db.User_BindPhones.Where(p => (p.OpenId == openid) && (p.CheckNumber == yzm)).FirstOrDefault();
+                //if (check_bind == null) return BadRequest("没有找到验证信息，请重新获取验证码进行验证!");
 
-            //log.Log(LoggerLevels.Debug, "nowdate:" + nowdate + ", checkdate:" + checkdate + ",验证时间相隔秒数:" + timespan);
-            //if (timespan >= 60)
-            //    return BadRequest("验证时间超时，请重新获取验证码进行验证!");
+                //var checkdate = long.Parse(check_bind.CreateTime.ToString("yyyyMMddHHmmss"));
+                //var nowdate = long.Parse(DateTime.Now.ToString("yyyyMMddHHmmss"));
+                //var timespan = nowdate - checkdate;
 
-            user.Mobile = phone;
-            user.TrueName = name;
-            user.NickName = nickname;
-            user.IdCard = idcard;
-            user.Email = email;
-            user.WorkPlace_1 = workplace1;
-            user.Business_scope_1 = businessscope1;
-            user.WorkPlace_2 = workplace2;
-            user.Business_scope_2 = businessscope2;
-            user.WorkPlace_3 = workplace3;
-            user.Business_scope_3 = businessscope3;
+                //log.Log(LoggerLevels.Debug, "nowdate:" + nowdate + ", checkdate:" + checkdate + ",验证时间相隔秒数:" + timespan);
+                //if (timespan >= 60)
+                //    return BadRequest("验证时间超时，请重新获取验证码进行验证!");
+
+                user.Mobile = phone;
+                user.TrueName = name;
+                user.NickName = nickname;
+                user.IdCard = idcard;
+                user.Email = email;
+                user.WorkPlace_1 = workplace1;
+                user.Business_scope_1 = businessscope1;
+                user.WorkPlace_2 = workplace2;
+                user.Business_scope_2 = businessscope2;
+                user.WorkPlace_3 = workplace3;
+                user.Business_scope_3 = businessscope3;
 
 
-            db.SaveChanges();
+                db.SaveChanges();
+            }
 
             return Json(res);
         }

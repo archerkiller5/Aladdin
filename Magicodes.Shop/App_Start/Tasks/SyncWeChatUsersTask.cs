@@ -87,7 +87,8 @@ namespace Magicodes.Shop.App_Start.Tasks
                     {
                         City = userInfo.City,
                         Country = userInfo.Country,
-                        GroupId = userInfo.GroupId,
+                        //多对多修改
+                        GroupIds = userInfo.GroupIds,
                         HeadImgUrl = userInfo.Headimgurl,
                         Language = userInfo.Language,
                         NickName = userInfo.NickName,
@@ -110,7 +111,7 @@ namespace Magicodes.Shop.App_Start.Tasks
                         {
                             weChatUser.City = item.City;
                             weChatUser.Country = item.Country;
-                            weChatUser.GroupId = item.GroupId;
+                            weChatUser.GroupIds = item.GroupIds;
                             weChatUser.HeadImgUrl = item.HeadImgUrl;
                             weChatUser.Language = item.Language;
                             weChatUser.NickName = item.NickName;

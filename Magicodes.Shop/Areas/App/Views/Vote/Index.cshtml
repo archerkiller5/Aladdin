@@ -1,0 +1,126 @@
+﻿@model Magicodes.Shop.Areas.App.Models.VoteViewModel
+@{
+    ViewBag.Title = "投票";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/msui/styles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    <style type="text/css">
+        body {
+            font-family: 'Microsoft YaHei UI', 'Microsoft YaHei';
+        }
+    </style>
+}
+@section Scripts{
+    @Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/plugins/toastrStyles")
+    @Styles.Render("~/plugins/sweetalertStyles")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name='checkAll']").click(function () {
+                $('input[name="OptionTexts"]').attr("checked", this.checked);
+            });
+            var $subBox = $("input[name='OptionTexts']");
+            $subBox.click(function () {
+                $("#quanxuan").attr("checked", $subBox.length == $("input[name='OptionTexts']:checked").length ? true : false);
+            });
+            //mouseover
+        });
+        $($("[name=OptionTexts]:checked")).each(function (i) {
+            if (0 == i) {
+                stu_id = $(this).val();
+            } else
+            {
+                stu_id += ("," + $(this).val());
+            }
+        });
+    </script>
+}
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+@using (Html.BeginForm("Submit", "Vote", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <input type="hidden" name="id" class="i-check" value="@(Model.Id)" />
+        <input type="hidden" name="surveyId" value="@ViewBag.surveyId" />
+        <table class="table table-striped table-bordered table-hover" style="overflow-x: scroll">
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Voter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllowNumberPerPerson)&nbsp;
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AllowNumberPerDay)
+                </th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(model => model.Title)&nbsp;
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Voter)&nbsp;
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.StartTime)&nbsp;
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.EndTime)&nbsp;
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.AllowNumberPerPerson)&nbsp;
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.AllowNumberPerDay)&nbsp;
+                </td>
+            </tr>
+        </table>
+        <div>
+            <table class="table table-striped table-bordered table-hover" style="overflow-x: scroll">
+                
+                <tr>
+                    <th>
+                        <input type="checkbox" name="checkAll" id="chkCheckAll" class="i-checks" />
+                    </th>
+                    <th>
+                        投票选项
+                    </th>
+                </tr>
+                @foreach (var item in Model.VoteOption)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="@item.OptionText" class="i-checks" name="OptionTexts" />
+                        </td>
+                        <td>
+                            <span>@item.OptionText</span>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                    <a href="@Url.Action("Index","Personal" )" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

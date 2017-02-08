@@ -10,16 +10,16 @@
     <div class="aui-input-row">
         <i class="aui-input-addon  aui-iconfont aui-icon-phone"></i>
         @*<div class="aui-col-xs-7">*@
-            <input type="number" class="aui-input" id="input_phone" placeholder="手机号码">
+        <input type="number" class="aui-input" id="input_phone" placeholder="手机号码" value="@Model.Mobile">
         @*</div>*@
         @*<div class="aui-col-xs-3">
-            <button id="btnSendCode" class="aui-btn" disabled="disabled" onclick="sendMessage()">获取校验码</button>
-        </div>*@
+                <button id="btnSendCode" class="aui-btn" disabled="disabled" onclick="sendMessage()">获取校验码</button>
+            </div>*@
     </div>
     @*<div class="aui-input-row">
-        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
-        <input type="text" class="aui-input input_xym" placeholder="校验码">
-    </div>*@
+            <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+            <input type="text" class="aui-input input_xym" placeholder="校验码">
+        </div>*@
     <div class="aui-input-row">
         <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
         <input type="text" class="aui-input" id="input_nickname" placeholder="昵称" value="@Model.NickName">
@@ -30,12 +30,18 @@
     </div>
 
     <div class="aui-input-row">
-        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>  
         <input type="text" class="aui-input" id="input_idcard" placeholder="身份证号" value="@Model.IdCard">
     </div>
+
+
     <div class="aui-input-row">
-        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
-        <input type="text" class="aui-input" id="input_idcard" placeholder="性别" value="@Model.Sex">
+        <i class="aui-input-addon aui-iconfont aui-icon-form"></i>  
+          
+            @Html.DropDownList("Sex", ViewBag.Seax as IEnumerable<SelectListItem>, new { @class = "aui-input" })
+            @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
+           
+         
     </div>
     <div class="aui-input-row">
         <i class="aui-input-addon aui-iconfont aui-icon-form"></i>
@@ -68,7 +74,15 @@
     <div class="aui-btn-row">
         <div id="but_cmt" class="aui-btn aui-success" disabled="disabled">确认</div>
     </div>
-</div>
+
+    <div class="aui-btn-row">
+         
+    </div>
+
+    <div class="aui-btn-row">
+        
+    </div>
+</div> 
 @section scripts{
     <script type="text/javascript">
         var InterValObj; //timer变量，控制时间
@@ -84,7 +98,6 @@
                         var tx_yzm = $(".input_xym").val();
                         var tx_phone = $("#input_phone").val();
                         var tx_name = $("#input_truename").val();
-
                         var tx_nickname = $("#input_nickname").val();
                         var tx_idcard = $("#input_idcard").val();
                         var tx_email = $("#input_email").val();
@@ -175,7 +188,5 @@
                 $("#btnSendCode").html("重获校验码" + "(" + curCount + ")");
             }
         }
-
-
     </script>
 }

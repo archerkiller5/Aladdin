@@ -227,7 +227,6 @@ namespace Magicodes.Shop.Areas.SystemAdmin.Controllers
                 //    await syncHelper.Sync(WeiChat_SyncTypes.Sync_MKF, true, UserId);
                 //if (Request.Form["Sync_MessagesTemplates"] == "1")
                 //    await syncHelper.Sync(WeiChat_SyncTypes.Sync_MessagesTemplates, true, UserId);
-
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

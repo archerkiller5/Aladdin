@@ -166,6 +166,8 @@ namespace Magicodes.WeiChat.Data
 
             //筛选多租户
             modelBuilder.Filter("TenantEntryFilter", (ITenantId app, int tenantId) => app.TenantId == tenantId, 0);
+            //modelBuilder.Filter("GroupsEntryFilter", (ITenantId app, int tenantId) => app.TenantId == tenantId, 0);
+
 
             //删除Filter
             //modelBuilder.Filter("IsDeletedFilter", (IDeleted d) => d.IsDeleted, false);

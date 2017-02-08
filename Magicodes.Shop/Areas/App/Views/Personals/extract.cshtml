@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "提现";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>提现</title>
+    <style>
+        * {
+            font-family: "微软雅黑";
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+        }
+
+        .biao {
+            width: 88%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .biao p {
+                font-size: 20px;
+                text-align: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .biao li {
+                font-size: 16px;
+                padding-bottom: 10px;
+                padding-top: 10px;
+            }
+
+                .biao li input {
+                    line-height: 20px;
+                    width: 60%;
+                    border: none;
+                }
+
+            .biao ul {
+                width: 100%;
+                border-bottom: 1px solid #666666;
+            }
+
+        .tijiao_box {
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 50px;
+        }
+
+        .tijiao {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .tijiao input {
+                background-image: url(images/juxing.png);
+                background-position: center center;
+                background-repeat: no-repeat;
+                border: none;
+                width: 100%;
+                line-height: 30px;
+                border-radius: 10px;
+            }
+    </style>
+</head>
+<body>
+    <form id="form1">
+        <div>
+            <div class="biao">
+                <p>会员提现</p>
+                <ul><li>余额：<asp:Label ID="Label1" runat="server"></asp:Label></li></ul>
+                <ul><li> 提现额度：<asp:TextBox ID="TextBox1" runat="server" Width="122px"></asp:TextBox></li></ul>
+            </div>
+            <div class="tijiao_box">
+                <div class="tijiao"><asp:Button ID="Button1" style="color:#FFF; font-size:16px; background:#0095b3; border:none;" runat="server" Text="确定" OnClick="Button1_Click" /></div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

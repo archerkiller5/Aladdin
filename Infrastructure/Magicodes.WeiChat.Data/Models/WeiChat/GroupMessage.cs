@@ -22,7 +22,7 @@ namespace Magicodes.WeiChat.Data.Models.WeiChat
     /// </summary>
     public class WeiChat_GroupMessageLog : WeiChat_TenantBase<long>
     {
-        public string UserGroupId { get; set; }
+        public string UserGroupIds { get; set; }
 
         public SexTypes SexType { get; set; }
 

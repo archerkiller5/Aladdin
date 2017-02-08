@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>daiban_task</title>
+</head>
+<body>
+    @Html.Partial("MasterPage")
+    <div class="qiandao_box">
+        <a class="qiandao" href="@Url.Action("Sign_Info","schedule")">
+            <img src="/images/qd.png">
+            <span>签到</span>
+        </a>
+        <a class="qiandao qiandao1" href="/Member/daiban_renwu.aspx">
+            <img src="/images/db.png">
+            <span>待办任务</span>
+        </a>
+        <a class="qiandao" href="/Member/daiban_queren.aspx">
+            <img src="/images/dq.png">
+            <span>待确认的任务</span>
+        </a>
+        <div class="clearfix"></div>
+    </div>
+    <div class="qiandao_box">
+        <a class="qiandao" href="/Member/daiban_yiwan.aspx">
+            <img src="/images/yw.png">
+            <span>已完成任务</span>
+        </a>
+        <a class="qiandao qiandao1" href="/shop/userinfo.aspx?wid=34&openid=<%=memberid %>">
+            <img src="/images/ww.png">
+            <span>未完成的订单</span>
+        </a>
+        <div class="clearfix"></div>
+    </div>
+    
+</body>
+</html>

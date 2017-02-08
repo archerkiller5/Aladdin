@@ -441,7 +441,7 @@ namespace Magicodes.Shop.Controllers.Order
         {
             return Regex.IsMatch(s, @"^\d{3,4}-?\d{6,8}$", RegexOptions.IgnoreCase);
         }
-
+        #region 身份证号码验证
         /// <summary>
         ///     验证身份证是否有效
         /// </summary>
@@ -517,7 +517,7 @@ namespace Magicodes.Shop.Controllers.Order
             //符合15位身份证标准
             return true;
         }
-
+        #endregion
         /// <summary>
         ///     邮政编码
         /// </summary>

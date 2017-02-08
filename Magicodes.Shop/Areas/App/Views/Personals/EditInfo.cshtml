@@ -1,0 +1,306 @@
+﻿@{
+    ViewBag.Title = "完善信息";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title></title>
+    <script type="text/javascript" src="../../scripts/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../scripts/jquery/Validform_v5.3.2_min.js"></script>
+    <script type="text/javascript" src="../../scripts/lhgdialog/lhgdialog.js?skin=idialog"></script>
+    <script type="text/javascript" src="../../scripts/datepicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="../../scripts/swfupload/swfupload.js"></script>
+    <script type="text/javascript" src="../../scripts/swfupload/swfupload.queue.js"></script>
+    <script type="text/javascript" src="../../scripts/swfupload/swfupload.handlers.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../editor/kindeditor-min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../editor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="../js/layout.js"></script>
+    <link href="../skin/default/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(function () {
+            //初始化表单验证
+            $("#form1").initValidform();
+        })
+</script>
+
+    <style>
+        * {
+            font-family: "微软雅黑";
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+        }
+
+        .biao {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1%;
+        }
+
+            .biao li {
+                font-size: 16px;
+                color: #666666;
+                padding-bottom: 4%;
+                padding-top: 4%;
+                margin-left: 1%;
+            }
+
+            .biao ul {
+                width: 100%;
+                border-bottom: 1px solid #b3b3b3;
+            }
+
+
+
+            .biao .last_1 {
+                border: none;
+            }
+
+        form {
+            width: 88%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 1%;
+            margin-bottom: 10%;
+        }
+
+        label {
+            font-size: 16px;
+            color: #666666;
+            margin-right: 10%;
+            margin-left: 1%;
+        }
+
+        input, label {
+            vertical-align: middle;
+        }
+
+        .tijiao_box {
+            width: 100%;
+            margin-bottom: 150px;
+        }
+
+        .tijiao {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .jr {
+            text-align: center;
+        }
+
+        #DropDownList1 {
+            color: #666666;
+            font-size: 16px;
+        }
+
+        #DropDownList2 {
+            color: #666666;
+            font-size: 16px;
+        }
+
+        #TextBox1 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+            border: none;
+        }
+
+        #TextBox2 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+            border: none;
+        }
+
+        #TextBox4 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+            border: none;
+        }
+
+        #TextBox5 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+            border: none;
+        }
+
+        #TextBox6 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+            border: none;
+        }
+
+        #TextBox7 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+            border: none;
+        }
+
+        #Label1 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+        }
+
+        #FileUpload1 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+        }
+
+        #DropDownList3 {
+            color: #666666;
+            font-size: 16px;
+            width: 60%;
+        }
+
+        #Button1 {
+            color: #FFF;
+            font-size: 16px;
+            background-image: url(juxing_1.png);
+            width: 100%;
+            border: none;
+            line-height: 30px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+
+        #Image1 {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 4%;
+            margin-bottom: 4%;
+        }
+
+        #btnFileUpload {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 4%;
+            margin-bottom: 2%;
+        }
+
+        #FileUpload1 {
+            width: 60%;
+        }
+
+        #RadioButtonList1 {
+            width: 50%;
+            float: left;
+        }
+
+        #btnFileUpload {
+            font-size: 16px;
+            color: #FFF;
+            background-image: url(juxing_1.png);
+            line-height: 30px;
+            border: none;
+        }
+
+        .xb {
+            float: left;
+            padding-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <div class="biao">
+                <ul>
+                    <li>学校名称：<asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged"></asp:DropDownList></li>
+                </ul>
+                <ul>
+                    <li>校区名称：<asp:DropDownList ID="DropDownList2" runat="server"></asp:DropDownList></li>
+                </ul>
+                <ul>
+                    <li>昵称：<asp:TextBox ID="TextBox1" runat="server"></asp:TextBox></li>
+                </ul>
+                <ul>
+                    <li>真名：<asp:TextBox ID="TextBox2" runat="server"></asp:TextBox></li>
+                </ul>
+                <ul>
+                    <li>
+                        <asp:Image ID="Image1" runat="server" Width="100" Height="100" />
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        头像：<asp:FileUpload ID="FileUpload1" runat="server" />
+                        <asp:Button ID="btnFileUpload" runat="server" Text="上传"
+                                    OnClick="btnFileUpload_Click" />
+                        <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        性别：<asp:RadioButtonList ID="RadioButtonList1" runat="server" RepeatDirection="Horizontal">
+                            <asp:ListItem>男</asp:ListItem>
+                            <asp:ListItem>女</asp:ListItem>
+                        </asp:RadioButtonList>
+                    </li>
+                </ul>
+                <ul>
+                    <li>身份证号：<asp:TextBox ID="TextBox4" runat="server"></asp:TextBox></li>
+                </ul>
+                <ul>
+                    <li>有效地址：<asp:TextBox ID="TextBox5" runat="server"></asp:TextBox></li>
+                </ul>
+                <ul>
+                    <li>
+                        出生日期：
+                        <asp:TextBox ID="TextBox6" runat="server" CssClass="input date" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" datatype="/^\s*$|^\d{4}\-\d{1,2}\-\d{1,2}\s{1}(\d{1,2}:){2}\d{1,2}$/" errormsg="请选择正确的日期" sucmsg=" " />
+                    </li>
+                </ul>
+                <ul>
+                    <li>Email：<asp:TextBox ID="TextBox7" runat="server"></asp:TextBox></li>
+                </ul>
+                <ul>
+                    <li>服务仓库：<asp:DropDownList ID="DropDownList3" runat="server"></asp:DropDownList></li>
+                </ul>
+                <div class="tijiao_box">
+                    <div class="tijiao">
+                        <asp:Button ID="Button1" runat="server" Style="color: #FFF; font-size: 16px; background: #0095b3; border: none;" Text="下一步" OnClick="Button1_Click" /><a href="#">进入阿拉丁</a>
+                    </div>
+                </div>
+
+            </div>
+    </form>
+</body>
+</html>
+

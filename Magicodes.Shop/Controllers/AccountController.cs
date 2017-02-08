@@ -24,7 +24,6 @@ namespace Magicodes.Shop.Controllers
             {
                 return _identityManager.UserManager;
             }
-
         }
 
         //

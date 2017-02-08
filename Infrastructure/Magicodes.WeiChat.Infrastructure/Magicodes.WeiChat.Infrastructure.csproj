@@ -96,10 +96,6 @@
       <HintPath>..\..\packages\Magicodes.Tasks.1.0.6166.21558\lib\net45\Magicodes.Tasks.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Magicodes.WeChat.SDK, Version=1.0.6158.39612, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Magicodes.WeChat.SDK.1.0.6158.39612\lib\net45\Magicodes.WeChat.SDK.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -230,6 +226,7 @@
     <Compile Include="Logging\LoggerExtensions.cs" />
     <Compile Include="MvcExtension\Ajax\AjaxResponse.cs" />
     <Compile Include="MvcExtension\Filters\AntiXssAttribute.cs" />
+    <Compile Include="MvcExtension\Filters\GroupFilter.cs" />
     <Compile Include="MvcExtension\Filters\Helper\EncoderHelper.cs" />
     <Compile Include="MvcExtension\Filters\ShowDetailExceptionFilter.cs" />
     <Compile Include="MvcExtension\Filters\StopwatchAttribute.cs" />
@@ -272,6 +269,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Magicodes.WeChat.SDK\Magicodes.WeChat.SDK.csproj">
+      <Project>{1f6e23a6-cd4a-4181-8f91-9bb4a446d52e}</Project>
+      <Name>Magicodes.WeChat.SDK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unity\Magicodes.WeiChat.ComponentModel\Magicodes.WeiChat.ComponentModel.csproj">
       <Project>{628A3418-49B3-49FA-B323-DA6668E9CB1D}</Project>
       <Name>Magicodes.WeiChat.ComponentModel</Name>

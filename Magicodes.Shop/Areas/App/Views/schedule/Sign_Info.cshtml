@@ -1,0 +1,92 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeChatStore.Sign_Record
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>公告详情</title>
+    <style>
+        * {
+            font-family: "微软雅黑";
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+            background-color: #e6e6e6;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #333333;
+            text-align: center;
+            margin-top: 2%;
+        }
+
+        .column {
+            width: 88%;
+            margin: 0 auto;
+            margin-top: 2%;
+        }
+
+            .column p {
+                font-size: 16px;
+                color: #808080;
+                margin-top: 1%;
+            }
+
+        h3 {
+            margin: 0;
+            width: 88%;
+            margin: 0.5% auto;
+            font-size: 16px;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div>
+            <div class="column">
+                <p style="color:#f00">*当您有一天没有签到时，签到记录将自动归零</p>
+                <p>会员昵称：@ViewBag._nickName</p>
+                <p>已签到天数:@Model.Sign_num 天</p>
+                <p>还需要签到：@Model.NeedDay 天</p>
+                <p>将会得到签到奖励：@Model.Reword </p>
+            </div>
+            <div style='text-align:center; border-top:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6; padding:2% 0;'>
+                <a href="@Url.Action("Index","schedule")">回到首页</a>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

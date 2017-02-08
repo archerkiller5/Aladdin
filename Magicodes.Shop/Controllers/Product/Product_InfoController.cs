@@ -299,7 +299,7 @@ namespace Magicodes.Shop.Controllers.Product
         }
 
         /// <summary>
-        ///     跳转产品图片上传页面
+        /// 跳转产品图片上传页面
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -514,9 +514,15 @@ namespace Magicodes.Shop.Controllers.Product
         [HttpPost]
         public async Task<ActionResult> GetAttributeList(Guid? TypeId)
         {
-            var ajaxResponse = new AjaxResponse<List<Product_Attribute>>();
+            //var ajaxResponse = new AjaxResponse<List<Product_Attribute>>();
+            //var attributeList =
+            //    await db.Product_Attributes.Where(p => p.TypeId == TypeId).OrderBy(p => p.Sort).ToListAsync();
+            //ajaxResponse.Result = attributeList;
+            //ajaxResponse.Success = true;
+            //return Json(ajaxResponse);
+            var ajaxResponse = new AjaxResponse<List<Product_Type>>();
             var attributeList =
-                await db.Product_Attributes.Where(p => p.TypeId == TypeId).OrderBy(p => p.Sort).ToListAsync();
+                await db.Product_Types.Where(p => p.Id == TypeId).ToListAsync();
             ajaxResponse.Result = attributeList;
             ajaxResponse.Success = true;
             return Json(ajaxResponse);

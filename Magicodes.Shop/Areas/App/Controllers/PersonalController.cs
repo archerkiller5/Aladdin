@@ -24,20 +24,24 @@ using Magicodes.WeiChat.Data.Models.User;
 using Magicodes.WeiChat.Domain;
 using Magicodes.WeiChat.Infrastructure;
 using Magicodes.WeiChat.Infrastructure.MvcExtension.Filters;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
+using Magicodes.WeChat.SDK.Apis.User;
+using System.Web;
 
 namespace Magicodes.Shop.Areas.App.Controllers
 {
+    //暂时不用
     [RouteArea("App")]
     public class PersonalController : AppBaseController
     {
         private readonly LoggerBase log = Loggers.Current.DefaultLogger;
-
+        
         [HttpGet]
         // GET: App/Personal
         [WeChatOAuth]
         public  ActionResult Index()
         {
-             
             log.Log(LoggerLevels.Trace, "进入个人中心主页");
             log.Log(LoggerLevels.Trace, "openid：" + WeiChatApplicationContext.Current.WeiChatUser.OpenId);
             log.Log(LoggerLevels.Trace, " db.Log_Points：" + db.Log_Points.ToList().Count);
@@ -75,8 +79,25 @@ namespace Magicodes.Shop.Areas.App.Controllers
             log.Log(LoggerLevels.Trace, "进入Authentication方法");
             var lst =
                     db.User_Infos.Find(WeiChatUser.OpenId);
+            List<ListItem> li = new List<ListItem>();
+            foreach (int s in Enum.GetValues(typeof(WeChatSexTypes)))
+            {
+                li.Add(new ListItem { Value=s.ToString(), Text  = Enum.GetName(typeof(WeChatSexTypes), s) });
+            }
+            ViewBag.Seax = new SelectList(li,dataTextField: "text", dataValueField:"value" ,selectedValue: lst.Sex);
             return View(lst);
         }
+
+        //public List<ListItem> ToListItem<T>()
+        //{
+        //    List<ListItem> li = new List<ListItem>();
+        //    foreach (int s in Enum.GetValues(typeof(T)))
+        //    {
+        //        li.Add(new ListItem { Value = s.ToString(), Text = Enum.GetName(typeof(T), s) });
+        //    }
+        //    return li;
+        //}
+
 
         /// <summary>
         ///     地址信息

@@ -19,6 +19,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Magicodes.WeChat.SDK.Apis.User;
 using Magicodes.WeiChat.ComponentModel.DataAnnotations;
 using Magicodes.WeiChat.Data.Models.Interface;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Magicodes.WeiChat.Data.Models
 {
@@ -103,16 +105,20 @@ namespace Magicodes.WeiChat.Data.Models
         /// <summary>
         ///     用户所在的分组ID
         /// </summary>
-        [Display(Name = "分组Id")]
-        public int? GroupId { get; set; }
+        [Display(Name = "分组Ids")]
+        [ExportIgnore]
+        public string GroupIds { get; set; }
 
         /// <summary>
         ///     所在用户组
         /// </summary>
         [Display(Name = "所在用户组")]
-        [NotMapped]
-        [ExportIgnore]
-        public WeiChat_UserGroup UserGroup { get; set; }
+        public ICollection<WeiChat_UserGroup> UserGroups { get; set; }
+        //public WeiChat_User()
+        //{
+        //    //公共默认分组
+        //    GroupIds.Add(-1);
+        //}
 
         /// <summary>
         ///     是否允许测试
@@ -123,6 +129,10 @@ namespace Magicodes.WeiChat.Data.Models
 
         [ExportIgnore]
         public int TenantId { get; set; }
+        /// <summary>
+        /// 用户属于多个组
+        /// </summary>
+        ///public virtual ICollection<WeiChat_UserGroup> Group { get; set; }
     }
 
     /// <summary>
@@ -135,10 +145,11 @@ namespace Magicodes.WeiChat.Data.Models
         public int Id { get; set; }
 
         /// <summary>
-        ///     分组id，由微信分配
+        /// 分组id，由微信分配
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "分组id")]
+        //多对多修改
         public int GroupId { get; set; }
 
         /// <summary>
@@ -156,5 +167,9 @@ namespace Magicodes.WeiChat.Data.Models
         public int UsersCount { get; set; }
 
         public int TenantId { get; set; }
+        /// <summary>
+        /// 组里有多个用户
+        /// </summary>
+        //public ICollection<WeiChat_User> WeiChatUsers { get; set; }
     }
 }

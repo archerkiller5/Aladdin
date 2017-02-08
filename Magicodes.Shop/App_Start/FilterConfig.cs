@@ -12,6 +12,7 @@ using Magicodes.WeiChat.Data.Models.Log;
 using Magicodes.WeiChat.Data.Models.Site;
 using Magicodes.WeiChat.Infrastructure;
 using System.Data.Entity;
+using Magicodes.WeiChat.Infrastructure.MvcExtension.Filters;
 
 namespace Magicodes.Shop
 {
@@ -129,6 +130,7 @@ namespace Magicodes.Shop
                         Code = filter.Code,
                         CreateBy = WeiChatApplicationContext.Current.GetUserId(httpcontext),
                         CreateTime = DateTime.Now,
+                        //？？是左边为null取右边的
                         CustomData = (httpcontext.Items["CustomData"] ?? string.Empty).ToString(),
                         Exception = (filter.Exception == null ? null : filter.Exception.ToString()),
                         ExecutionDuration = filter.ExecutionDuration,
@@ -217,7 +219,7 @@ namespace Magicodes.Shop
                         return;
                     }
                     //var tenantId = WeiChatApplicationContext.Current.GetTenantId(httpContextBase);
-                    
+                    //菜单权限
                     var siteMenus = httpContextBase.Session["Menus"] as List<Site_Menu>;
                     if (siteMenus == null)
                     {

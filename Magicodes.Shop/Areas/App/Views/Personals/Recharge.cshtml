@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "充值";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>充值</title>
+    <style>
+        * {
+            font-family: "微软雅黑";
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+        }
+
+        ul {
+            width: 88%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10%;
+        }
+
+            ul li {
+                font-size: 16px;
+                padding-bottom: 2%;
+                padding-top: 2%;
+                color: #808080;
+            }
+
+                ul li input {
+                    line-height: 16px;
+                    width: 40%;
+                    border: none;
+                    outline: none;
+                }
+
+        .tijiao_box {
+            width: 100%;
+            margin-top: 10%;
+        }
+
+        .tijiao {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1">
+        <div>
+            <div class="biao">
+                <ul>
+                    <li>充值额度：<asp:TextBox ID="TextBox1" onkeypress="if (event.keyCode < 48 || event.keyCode >57) event.returnValue = false;" runat="server"></asp:TextBox><asp:Button ID="Button1" style="color:#FFF; font-size:16px; background:#0095b3; border:none;" runat="server" Text="提交" OnClick="Button1_Click" /></li>
+                    <li>
+                        <asp:RegularExpressionValidator ID="Rev2" runat="server" Display="Dynamic" ControlToValidate="TextBox1" ErrorMessage="只能输入数字" ValidationExpression="^[0-9]*$" />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" Display="Dynamic" ErrorMessage="不能为空"></asp:RequiredFieldValidator>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+

@@ -54,18 +54,18 @@ namespace Magicodes.WeiChat.Infrastructure.MvcExtension.Filters
             var request = httpContextBase.Request;
             _logger.Log(LoggerLevels.Trace, string.Format("正在获取授权...{0}", request.Url));
             //如果用户已经验证或者已经获取微信信息，则不再验证（提高效率）
-            if (WeiChatApplicationContext.Current.WeiChatUser != null)
-            {
-                _logger.Log(LoggerLevels.Trace, string.Format("用户已经验证或者已经获取微信信息，不再验证...{0}", request.Url));
-                return;
-            }
+            //if (WeiChatApplicationContext.Current.WeiChatUser != null)
+            //{
+            //    _logger.Log(LoggerLevels.Trace, string.Format("用户已经验证或者已经获取微信信息，不再验证...{0}", request.Url));
+            //    return;
+            //}
             var tenantId = WeiChatApplicationContext.Current.TenantId;
             //为了防止遇到用户关注多个租户的多个公众号的问题，因此此处添加租户Id参数
             var cookieName = string.Format("{0}_{1}", WeiChatApplicationContext.OpenIdCookieName, tenantId);
             var userSesstionName = string.Format("{0}_{1}", WeiChatApplicationContext.UserSessionName, tenantId);
             //用户的OPENID
             var openIdCookie = request.Cookies[cookieName];
-            //openIdCookie = new HttpCookie(cookieName) { Value = "o3Q4xv-V3srSWzLyqsvGwyjGeO3E" };
+            openIdCookie = new HttpCookie(cookieName) { Value = "o3Q4xv9pXYCBk-pdpvgqWTbs8aLY" };
             var code = request.QueryString["code"];
             var state = request.QueryString["state"];
 
@@ -176,17 +176,17 @@ namespace Magicodes.WeiChat.Infrastructure.MvcExtension.Filters
             #endregion
             #region 如果没有验证，则进行验证
 
-            else if (string.IsNullOrEmpty(openIdCookie?.Value))
-            {
-                var redirectUrl = request.Url.ToString();
+            //else if (string.IsNullOrEmpty(openIdCookie?.Value))
+            //{
+            //    var redirectUrl = request.Url.ToString();
 
-                var cookie = new HttpCookie(RedirectUrlCookieName) { Value = redirectUrl };
-                httpContextBase.Response.Cookies.Add(cookie);
-                //获取授权Url
-                var url = WeChatApisContext.Current.OAuthApi.GetAuthorizeUrl(redirectUrl, _state,WeChat.SDK.Apis.OAuth.OAuthScopes.snsapi_base);
-                _logger.Log(LoggerLevels.Trace, string.Format("跳转至微信服务器获取授权...\n{0}\n{1}", redirectUrl, url));
-                filterContext.Result = new RedirectResult(url);
-            }
+            //    var cookie = new HttpCookie(RedirectUrlCookieName) { Value = redirectUrl };
+            //    httpContextBase.Response.Cookies.Add(cookie);
+            //    //获取授权Url
+            //    var url = WeChatApisContext.Current.OAuthApi.GetAuthorizeUrl(redirectUrl, _state,WeChat.SDK.Apis.OAuth.OAuthScopes.snsapi_base);
+            //    _logger.Log(LoggerLevels.Trace, string.Format("跳转至微信服务器获取授权...\n{0}\n{1}", redirectUrl, url));
+            //    filterContext.Result = new RedirectResult(url);
+            //}
             #endregion
             #region 如果已验证
 

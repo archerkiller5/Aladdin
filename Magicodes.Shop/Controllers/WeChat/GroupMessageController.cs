@@ -78,10 +78,11 @@ namespace Magicodes.Shop.Controllers.WeChat
                     {
                         var sexType = (WeChatSexTypes) ((int) model.SexType - 1);
                         q = q.Where(p => p.Sex == sexType);
-                        if (!string.IsNullOrEmpty(model.UserGroupId))
+                        if (!string.IsNullOrEmpty(model.UserGroupIds))
                         {
-                            var groupId = Convert.ToInt32(model.UserGroupId);
-                            q = q.Where(p => p.GroupId == groupId);
+                            //var groupId = Convert.ToInt32(model.UserGroupIds);
+                            //q = q.Where(p => p.GroupIds.Contains(groupId));
+                            q = q.Where(p => p.GroupIds.Contains(model.UserGroupIds));
                         }
                     }
                     switch (model.MessageType)
@@ -111,7 +112,7 @@ namespace Magicodes.Shop.Controllers.WeChat
                             }
                             else
                             {
-                                var result = GroupMessageApi.SendGroupMessageByGroupId(AccessToken, model.UserGroupId,
+                                var result = GroupMessageApi.SendGroupMessageByGroupId(AccessToken, model.UserGroupIds,
                                     model.MediaId, messageType, true);
                                 if (result.errcode != ReturnCode.请求成功)
                                 {

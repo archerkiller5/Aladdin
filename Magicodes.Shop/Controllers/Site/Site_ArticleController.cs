@@ -26,7 +26,7 @@ using Webdiyer.WebControls.Mvc;
 using Magicodes.WeiChat.Infrastructure;
 using Magicodes.WeiChat.Data.Models;
 using Magicodes.WeiChat.Infrastructure.MvcExtension.Filters;
-using MvcCheckBoxList.Model;
+
 using System.Collections.Generic;
 
 namespace Magicodes.Shop.Controllers.Site
@@ -125,7 +125,6 @@ namespace Magicodes.Shop.Controllers.Site
         }
 
 
-      
 
         // GET: Site_Article/Details/5
         public async Task<ActionResult> Details(Guid? id)
@@ -137,8 +136,9 @@ namespace Magicodes.Shop.Controllers.Site
                 return HttpNotFound();
             return View(site_Article);
         }
-       [WeChatOAuth]
-       [AllowAnonymous]
+        [HttpGet]
+        [AllowAnonymous]
+        [WeChatOAuth]
         public async Task<ActionResult> DetailContent(Guid? id)
         {
             if (id == null)
@@ -149,29 +149,30 @@ namespace Magicodes.Shop.Controllers.Site
                 return HttpNotFound();
             if (site_Article.UserGroups == "0")
             {
-                if (site_Article.OriginalUrl != null || site_Article.OriginalUrl != "")
+                if (site_Article.OriginalUrl != null && site_Article.OriginalUrl.ToString().Trim () != "")
                     return Redirect(site_Article.OriginalUrl);
                 else
                     return PartialView(site_Article);
             }
             else
             {
-                string str=WeiChatApplicationContext.Current.WeiChatUser.OpenId;
-                
+                string str = WeiChatApplicationContext.Current.WeiChatUser.OpenId;
+
                 WeiChat_User us = db.WeiChat_Users.Find(str);
                 if (us != null)
                 {
-                    if (us.GroupId.ToString() == site_Article.UserGroups)
+                    if (us.GroupIds.ToString() == site_Article.UserGroups)
                     {
-                        if (site_Article.OriginalUrl != null || site_Article.OriginalUrl != "")
+                        if (site_Article.OriginalUrl != null && site_Article.OriginalUrl.ToString().Trim() != "")
                             return Redirect(site_Article.OriginalUrl);
                         else
                             return PartialView(site_Article);
                     }
-                    
-                } 
+
+                }
                 return Content("没有权限查看");
             }
+
         }
         // GET: Site_Article/Create
         public ActionResult Create(Guid resourcesTypeId)
@@ -192,8 +193,8 @@ namespace Magicodes.Shop.Controllers.Site
             //    currentArticleGroup.Add(temp);
             //}
             //ArtGroup.ArticleGroups = currentArticleGroup;
-            ViewBag.UserGroup = new SelectList( db.WeiChat_UserGroups.ToList() ,dataTextField:"Name", dataValueField: "GroupId", 
-                selectedValue:0);
+            ViewBag.UserGroup = new SelectList(db.WeiChat_UserGroups.ToList(), dataTextField: "Name", dataValueField: "GroupId",
+selectedValue: 0);
 
             return View();
         }
@@ -211,25 +212,35 @@ namespace Magicodes.Shop.Controllers.Site
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public async Task<ActionResult> Create(
-            [Bind(Include = "Id,Content,ResourcesTypeId,Summary,Name,SiteUrl,Url,CreateTime,OriginalUrl,FrontCoverImageUrl,UserGroups")] Site_Article
+            Site_Article
                 site_Article)
         {
             if (ModelState.IsValid)
             {
                 //site_Article.Content = site_Article.Content.Replace("\"", "'");
-                SetImgUrls(site_Article);
-                
-                SetModel(site_Article, default(Guid));
-                db.Site_Articles.Add(site_Article);
+                //SetImgUrls(site_Article);
+                var site = new Site_Article();
+               
+                site.ResourcesTypeId = site_Article.ResourcesTypeId;
+                site.Name = site_Article.Name;
+                site.Summary = site_Article.Summary;
+                site.Content = site_Article.Content;
+                site.OriginalUrl = site_Article.OriginalUrl;
+                site.FrontCoverImageUrl = site_Article.FrontCoverImageUrl;
+                string a = Request.Form["UserGroups"];
+                site.UserGroups = a;
+                site.CreateTime = DateTime.Now;
+                SetModel(site, default(Guid));
+                db.Site_Articles.Add(site);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index", new {type = site_Article.ResourcesTypeId});
             }
-            ViewBag.ResourcesTypeId =
-                new SelectList(db.Site_ResourceTypes.Where(p => p.ResourceType == SiteResourceTypes.Article).ToList(),
-                    dataTextField: "Title", dataValueField: "Id", selectedValue: site_Article.ResourcesTypeId);
+            //ViewBag.ResourcesTypeId =
+            //    new SelectList(db.Site_ResourceTypes.Where(p => p.ResourceType == SiteResourceTypes.Article).ToList(),
+            //        dataTextField: "Title", dataValueField: "Id", selectedValue: site_Article.ResourcesTypeId);
 
-            ViewBag.UserGroup = new SelectList(db.WeiChat_UserGroups.ToList(), dataTextField: "Name", dataValueField: "GroupId",
-                selectedValue: site_Article.UserGroups );
+            //ViewBag.UserGroup = new SelectList(db.WeiChat_UserGroups.ToList(), dataTextField: "Name", dataValueField: "GroupId",
+            //    selectedValue: site_Article.UserGroups);
             return View(site_Article);
         }
 
@@ -287,10 +298,19 @@ namespace Magicodes.Shop.Controllers.Site
             ViewBag.ResourcesTypeId =
                 new SelectList(db.Site_ResourceTypes.Where(p => p.ResourceType == SiteResourceTypes.Article).ToList(),
                     dataTextField: "Title", dataValueField: "Id", selectedValue: site_Article.ResourcesTypeId);
-
-
+            //List<int> usergroupid = site_Article.UserGroups.Split(',').Select(m=> int.Parse(m)).ToList();
+            //ViewBag.UserGroupid = usergroupid;
             ViewBag.UserGroup = new SelectList(db.WeiChat_UserGroups.ToList(), dataTextField: "Name", dataValueField: "GroupId",
-    selectedValue: site_Article.UserGroups);
+selectedValue: site_Article.UserGroups);
+
+            //List<WeiChat_UserGroup> UserGroups = new List<WeiChat_UserGroup>();
+            //foreach (var item in usergroupid)
+            //{
+            //    var temp = db.WeiChat_UserGroups.ToList().Where(m=>m.Id ==  item ).FirstOrDefault();
+            //    UserGroups.Add(temp);
+            //}
+            //ViewBag.UserGroups = UserGroups;
+            
             return View(site_Article);
         }
 
@@ -300,24 +320,32 @@ namespace Magicodes.Shop.Controllers.Site
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public async Task<ActionResult> Edit(
-            [Bind(Include = "Id,Content,ResourcesTypeId,Summary,Name,SiteUrl,Url,CreateTime,OriginalUrl,TenantId,FrontCoverImageUrl,UserGroups")] Site_Article site_Article)
+        public async Task<ActionResult> Edit(Site_Article site_Article)
         {
             if (ModelState.IsValid)
             {
                 //site_Article.Content = site_Article.Content.Replace("\"", "'");
-                SetImgUrls(site_Article);
-                SetModelWithChangeStates(site_Article, site_Article.Id);
+                //    SetImgUrls(site_Article);
+                var site = db.Site_Articles.Find(site_Article.Id);
+               
+                site.ResourcesTypeId = site_Article.ResourcesTypeId;
+                site.Name = site_Article.Name;
+                site.Summary = site_Article.Summary;
+                site.Content = site_Article.Content;
+                site.OriginalUrl = site_Article.OriginalUrl;
+                site.FrontCoverImageUrl = site_Article.FrontCoverImageUrl;
+                string a = Request.Form["UserGroups"];
+                site.UserGroups = a;
+
+               // SetModelWithChangeStates(site, site_Article.Id);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", new {type = site_Article.ResourcesTypeId});
+        //        ViewBag.ResourcesTypeId =
+        //            new SelectList(db.Site_ResourceTypes.Where(p => p.ResourceType == SiteResourceTypes.Article).ToList(),
+        //                dataTextField: "Title", dataValueField: "Id", selectedValue: site_Article.ResourcesTypeId);
+        //        ViewBag.UserGroup = new SelectList(db.WeiChat_UserGroups.ToList(), dataTextField: "Name", dataValueField: "GroupId",
+        //selectedValue: site_Article.UserGroups);
+                return RedirectToAction("Index");
             }
-            ViewBag.ResourcesTypeId =
-                new SelectList(db.Site_ResourceTypes.Where(p => p.ResourceType == SiteResourceTypes.Article).ToList(),
-                    dataTextField: "Title", dataValueField: "Id", selectedValue: site_Article.ResourcesTypeId);
-
-            ViewBag.UserGroup = new SelectList(db.WeiChat_UserGroups.ToList(), dataTextField: "Name", dataValueField: "GroupId",
-    selectedValue: site_Article.UserGroups);
-
             return View(site_Article);
         }
         

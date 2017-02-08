@@ -1,0 +1,350 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>阿拉丁系统</title>
+</head>
+<body>
+    <div>
+        <!--头部-->
+        <div class="xinxi_big_box">
+            <div class="xinxi_box">
+                <div class="header">
+                    <a class="zi" href="/Member/edit_info.aspx" target="_blank">修改信息</a><br />
+                    <a class="zi" href="/Member/out.aspx" target="_blank">注销</a>
+                </div>
+                <div class="xinxi">
+                    <asp:Image ID="Image1" runat="server" Height="100px" Width="100px" />
+                    <p class="p1"></p>
+                    <p class="p_3">等级：</p>
+                </div>
+                <div class="xinxi_1">
+                    <div class="xinxi_2">
+                        <p></p>
+                        <p>积分</p>
+                    </div>
+                    <div class="xinxi_2">
+                        <p></p>
+                        <p>金币</p>
+                    </div>
+                    <div class="xinxi_2">
+                        <p></p>
+                        <p>余额</p>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!--功能导航-->
+        <div class="nav_big_box">
+            <div class="nav_box">
+                <a class="nav" href="/Member/Recharge.aspx" target="_blank">
+                    <img src="/images/chongzhizhifu.png">
+                    <span class="zi">充值</span>
+                </a>
+                <a class="nav" href="/Member/reward.aspx">
+                    <img src="/images/qiandao.png">
+                    <span class="zi">发布悬赏</span>
+                </a>
+                <a class="nav" href="/Member/publish_task.aspx">
+                    <img src="/images/wodedingdan.png">
+                    <span class="zi">任务列表</span>
+                </a>
+                <a class="nav" href="/Member/extract.aspx">
+                    <img src="/images/fabu.png">
+                    <span class="zi">提现</span>
+                </a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!--列表-->
+        <!--底部导航-->
+        <div class="footer_nav_box">
+            <a class="nav_box nav_box1" href="/shangcheng/index.aspx?wid=34">
+                <img src="/images/shouye.png">
+                <span>电子商城</span>
+            </a>
+            <a class="nav_box" href="/Member/daiban_task.aspx">
+                <img src="/images/daibanrenwu.png">
+                <span>待办任务</span>
+            </a>
+            <a class="nav_box nav_box2" href="/Member/index.aspx">
+                <img src="/images/gerenzhongxin_1.png">
+                <span>个人中心</span>
+            </a>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <style>
+        * {
+            font-family: "微软雅黑";
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+        }
+
+        .clearfix {
+            clear: both;
+        }
+
+        body {
+            width: 100%;
+            margin: 0;
+        }
+        /*头部*/
+        .xinxi_big_box {
+            width: 100%;
+            background-image: url(/images/huiyuanbeijing.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header {
+            padding-right: 20px;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            background-image: url(/images/dingdan.png);
+            background-repeat: no-repeat;
+            background-size: 14px 14px;
+            background-position: right center;
+        }
+
+            .header a {
+                color: #FFF;
+                font-size: 14px;
+            }
+
+        .xinxi_1 {
+            margin-top: 20px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .xinxi img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+
+        .xinxi p {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 5px;
+            color: #FFF;
+        }
+
+        .xinxi_1 .xinxi_2 {
+            width: 33.3%;
+            float: left;
+        }
+
+        .xinxi_2 p {
+            text-align: center;
+            font-size: 16px;
+            color: #FFF;
+        }
+        /*功能导航*/
+        .nav_big_box {
+            width: 100%;
+            background-color: #e6e6e6;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav_box .nav {
+            float: left;
+        }
+
+        .nav {
+            width: 25%;
+        }
+
+            .nav img {
+                width: 50px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .nav .zi {
+                display: block;
+                text-align: center;
+                font-size: 14px;
+                margin-top: 6px;
+                color: #000;
+            }
+        /*列表*/
+        .gonggao_box {
+            width: 100%;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .gonggao {
+            display: block;
+            width: 88%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .gonggao .pingtai {
+                float: left;
+                padding-top: 4%;
+                padding-bottom: 4%;
+                font-size: 16px;
+                color: #000000;
+            }
+
+            .gonggao img {
+                float: right;
+                width: 10px;
+                margin-top: 20px;
+            }
+
+        .last {
+            margin-bottom: 80px;
+        }
+
+        .qiandao_box {
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .qiandao {
+            display: block;
+            width: 33.33%;
+            float: left;
+        }
+
+        .qiandao1 {
+            border-left: solid 1px #e6e6e6;
+            border-right: solid 1px #e6e6e6;
+            box-sizing: border-box;
+        }
+
+        .qiandao span {
+            display: block;
+            text-align: center;
+            color: #333333;
+            font-size: 12px;
+            line-height: 30px;
+        }
+
+        .qiandao img {
+            margin: 0 auto;
+            height: 30px;
+            margin-top: 10px;
+        }
+        /*底部导航*/
+        .footer_nav_box {
+            width: 100%;
+            background-color: #3a8e99;
+            z-index: 2;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+        }
+
+            .footer_nav_box .nav_box {
+                display: block;
+                width: 33.33%;
+                padding-top: 10px;
+            }
+
+                .footer_nav_box .nav_box img {
+                    margin-left: auto;
+                    margin-right: auto;
+                    height: 20px;
+                }
+
+                .footer_nav_box .nav_box span {
+                    display: block;
+                    text-align: center;
+                    color: #FFF;
+                    font-size: 16px;
+                    line-height: 30px;
+                }
+
+            .footer_nav_box .nav_box {
+                float: left;
+            }
+
+                .footer_nav_box .nav_box:hover {
+                    background-color: #4cb7c5;
+                }
+
+            .footer_nav_box .nav_box2 {
+                background-color: #4cb7c5;
+            }
+
+        .pp .p_1 {
+            float: left;
+        }
+
+        .pp .p_2 {
+            float: right;
+            margin-right: 2%;
+        }
+
+        .column_box {
+            width: 100%;
+            border-bottom: 1px solid #e6e6e6;
+        }
+
+        .last_column_box {
+            width: 100%;
+        }
+
+        .column {
+            width: 88%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .column a {
+                display: block;
+                font-size: 16px;
+                color: #808080;
+                margin-top: 4%;
+                margin-bottom: 4%;
+            }
+
+        .pp {
+            width: 88%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</body>
+</html>

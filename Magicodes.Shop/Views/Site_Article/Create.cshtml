@@ -63,7 +63,6 @@
                                     @Html.ValidationMessageFor(model => model.OriginalUrl, "", new {@class = "text-danger"})
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 @Html.LabelFor(model => model.FrontCoverImageUrl, new { @class = "control-label col-sm-2" })
                                 <div class="col-sm-10">
@@ -75,44 +74,16 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.UserGroups, new { @class = "control-label col-sm-2" })
+                              <label class="control-label col-sm-2">所在分组</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownList("UserGroups", ViewBag.UserGroup as SelectList, new { @class = "form-control" })
+                                    <div class="input-group m-b">
+                                       
+                                        @Html.CheckBoxList("UserGroups", ViewBag.UserGroup as SelectList, new { @class = "form-control" })
+
+                                    </div>
                                     @*<span class="help-block m-b-none">辅助性描述文字。</span>*@
-                                    @Html.ValidationMessageFor(model => model.UserGroups, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.UserGroups, new { @class = "control-label col-sm-2" })
-                                <div class="col-sm-10">
-                                    
-                                    @foreach (var a in ViewBag.UserGroup)
-                                    {
-                                        
-                                            <li>
-                                                @if (Model!=null && Model.UserGroups.Contains(a.Value))
-                                                {
-                                                    <input type="checkbox" name="SelectedGroupIds" value="@a.Text" id="@a.Value" checked="checked" />
-                                                    <label for="@a.Value">@a.Text</label>
-                                                }
-                                                else
-                                                {
-                                                    <input type="checkbox" name="SelectedGroupIds" value="@a.Text" id="@a.Value" />
-                                                    <label for="@a.Value">@a.Text</label>
-                                                }
-                                            </li>
-                                        
-
-                                    }
-                                    @Html.ValidationMessageFor(model => model.UserGroups, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-
-
-
-
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-sm-10">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>

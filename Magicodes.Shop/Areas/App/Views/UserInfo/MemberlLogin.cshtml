@@ -40,7 +40,7 @@
         </p>
         @*<h3>@ViewBag.Title</h3>*@
         <div class="m-t">
-            @using (Html.BeginForm("MemberlLogin", "UserInfo", new { ViewBag.retu }, FormMethod.Post, new { @class = "m-t", role = "form" }))
+            @using (Html.BeginForm("MemberlLogin", "UserInfo", new { ViewBag.retu }, FormMethod.Get, new { @class = "m-t", role = "form" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })

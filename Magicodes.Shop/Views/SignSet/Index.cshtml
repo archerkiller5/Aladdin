@@ -1,0 +1,109 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeChatStore.Sign_Setup
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head id="Head1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>签到设置</title>
+    @Scripts.Render("/bundles/knockout")
+        @Scripts.Render("~/bundles/jquery")
+        <script src="~/Content/unify/plugins/fancybox/lib/jquery-1.9.0.min.js"></script>
+    <script src="~/Scripts/knockout-3.3.0.debug.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/unify/plugins/master-slider/documentation/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+    function ViewModel(){
+    	var self=this;
+    	this.selects=ko.observableArray([{optiontext:"",num:""}]);
+    }
+    this.addTemplate=function(data){
+    	console.debug(data);
+    	data.selects.push({optionText:"",num:""});
+    }
+    this.delTemplate = function (data) {
+        console.debug(data);
+        data.selects.pop();
+        console.debug("del")
+    }
+        $(function () {
+        window.CurrentModel=new ViewModel();
+        ko.applyBindings(window.CurrentModel);
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            //初始化表单验证
+            $("#form1").initValidform();
+        });
+        $()
+    </script>
+</head>
+<body class="mainbody">
+    <script type="text/html" id="Template">
+        <div>
+            奖励类型：<br/>
+            <!-- ko foreach:selects -->
+            <br />奖励类型：<br />
+            <select name="Reward_type" id="Reward_type">
+                <option selected>——————请选择——————</option>
+                <option value="金币">金币</option>
+                <option value="经验">经验</option>
+                <option value="代金券">代金券</option>
+            </select><br />
+            悬赏值：<br />
+            <input type="text" id="RewardNumber" name="RewardNumber" /><br />
+            <!-- /ko -->
+            <input type="button" value="添加选项" class="btn btn-default" data-bind="click:self.addTemplate,data:$data" />
+            <input type="button" value="删除" data-bind="click:self.delTemplate,data:$data" /><br />
+        </div>
+    </script>
+    <form id="form">
+        <!--导航栏-->
+        <div>
+            <a href="Sign_list.aspx" class=""><i></i><span>签到列表</span></a>
+        </div>
+        <div class="line10"></div>
+        <!--/导航栏-->
+        <!--内容-->
+        <div class="content-tab-wrap">
+            <div id="floatHead" class="content-tab">
+                <div class="content-tab-ul-wrap">
+                    <ul class="nav nav-tabs">
+                        <li><a href="" class ="selected" data-toggle="tab">签到设置</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <dl>
+                <dt>签到次数：</dt>
+                <dd>
+                    @*<asp:TextBox ID="TextBox2" runat="server" Width="105px"></asp:TextBox>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" Display="Dynamic" ControlToValidate="TextBox2" ErrorMessage="只能输入数字" ValidationExpression="^[0-9]*$" />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBox2" ErrorMessage="悬赏值不能为空"></asp:RequiredFieldValidator>*@
+                    @Html.EditorFor(model => model.Frequency, new { htmlAttributes = new { @class = "form-control", style = "width:250px" } })
+                    @Html.ValidationMessageFor(model => model.Frequency, "", new { @class = "text-danger" })
+                </dd>
+            </dl>
+            <div data-bind="template:{name:'Template'}"></div>
+                    @*<asp:TextBox ID="TextBox1" runat="server" Width="105px"></asp:TextBox>
+                        <asp:RegularExpressionValidator ID="Rev2" runat="server" Display="Dynamic" ControlToValidate="TextBox1" ErrorMessage="只能输入数字" ValidationExpression="^[0-9]*$" />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" ErrorMessage="悬赏值不能为空"></asp:RequiredFieldValidator>*@
+        </div>
+        <div id="field_tab_content" class="tab-content" style="display: none"></div>
+        <!--/内容-->
+        <!--工具栏-->
+        <div class="page-footer">
+            <div class="btn-list">
+                <input type="button" ID="btnSubmit" value="提交保存" class="btn btn-default" OnClick="btnSubmit_Click" />
+                <input name="btnReturn" type="button" value="返回上一页" class="btn btn-default" onclick="javascript: history.back(-1);" />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!--/工具栏-->
+    </form>
+</body>
+</html>

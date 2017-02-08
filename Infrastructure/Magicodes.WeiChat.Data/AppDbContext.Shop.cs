@@ -265,7 +265,16 @@ namespace Magicodes.WeiChat.Data
         /// </summary>
         public DbSet<Activity_EssayQuestionTopic> Activity_EssayQuestionTopics { get; set; }
         #endregion
-
+        #region 投票
+        /// <summary>
+        /// 投票
+        /// </summary>
+        public DbSet<Activity_Vote> Activity_Votes { get; set; }
+        /// <summary>
+        /// 投票选项
+        /// </summary>
+        public DbSet<Activity_VoteOption> Activity_VoteOptions { get; set; }
+        #endregion
         #region 卡券
         /// <summary>
         /// 门店
@@ -274,7 +283,29 @@ namespace Magicodes.WeiChat.Data
         /// <summary>
         /// 卡券
         /// </summary>
-        public DbSet<Card_CrouponInfo> Card_CrouponInfos { get; set; } 
+        public DbSet<Card_CrouponInfo> Card_CrouponInfos { get; set; }
         #endregion
+        #region 签到
+        /// <summary>
+        /// 签到记录
+        /// </summary>
+        public DbSet<Sign_Record> Sign_Records { get; set; }
+        /// <summary>
+        /// 签到奖励
+        /// </summary>
+        public DbSet<Sign_Setup> Sign_Setups { get; set; }
+        /// <summary>
+        /// 签到奖励选项
+        /// </summary>
+        public DbSet<Sign_Reward> Sign_RewardOptions { get; set; }
+        #endregion
+        /// <summary>
+        /// 用户学校
+        /// </summary>
+        public DbSet<User_School> User_Schools { get; set; }
+        /// <summary>
+        /// 用户表
+        /// </summary>
+        public DbSet<AppUserInfo> AppUserInfos { get; set; }
     }
 }

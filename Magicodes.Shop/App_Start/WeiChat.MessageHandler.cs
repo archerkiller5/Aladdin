@@ -113,7 +113,7 @@ namespace Magicodes.Shop
                             {
                                 City = userInfoResult.City,
                                 Country = userInfoResult.Country,
-                                GroupId = userInfoResult.GroupId,
+                                GroupIds = userInfoResult.GroupIds,
                                 HeadImgUrl = userInfoResult.Headimgurl,
                                 Language = userInfoResult.Language,
                                 NickName = userInfoResult.NickName,
@@ -132,7 +132,7 @@ namespace Magicodes.Shop
                         {
                             user.City = userInfoResult.City;
                             user.Country = userInfoResult.Country;
-                            user.GroupId = userInfoResult.GroupId;
+                            user.GroupIds = userInfoResult.GroupIds;
                             user.HeadImgUrl = userInfoResult.Headimgurl;
                             user.Language = userInfoResult.Language;
                             user.NickName = userInfoResult.NickName;

@@ -36,6 +36,7 @@ namespace Magicodes.WeiChat.Infrastructure.Tenant
             db.EnableFilter(tenantFilterName);
             //设置多租户过滤
             db.SetFilterScopedParameterValue(tenantFilterName, "tenantId", tenantId);
+            
         }
 
         /// <summary>

@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* CSS Document */
+body
+{ margin: 10px auto; font: 75%/120% Verdana, Arial, Helvetica, sans-serif; }
+.menu_list { width:88%; margin-left:auto; margin-right:auto;}
+.menu_head { font-size:20px; padding: 5px 0px; cursor: pointer; position: relative; margin:1px; font-weight:bold; background: url(left.png) center right no-repeat; }
+.menu_body { display:none; }
+.menu_body a { display:block; color:#808080; font-size:16px; background-color: #FFF; padding-left:10px; font-weight: normal; text-decoration:none; padding-top:4px; padding-bottom:4px; }
+.menu_body a:hover { color: #000000; text-decoration:underline; }
+.xiala{ width:100%; border:solid 1px #e6e6e6; border-top:none; border-left:none; border-right:none; padding-top:2%; padding-bottom:2%;}

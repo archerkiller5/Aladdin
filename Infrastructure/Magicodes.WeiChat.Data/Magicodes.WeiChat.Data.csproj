@@ -149,6 +149,8 @@
     <Compile Include="Models\Activity\Activity_SurveyChoiceTopic.cs" />
     <Compile Include="Models\Activity\Activity_SurveyOption.cs" />
     <Compile Include="Models\Activity\Activity_SurveyTopicBase.cs" />
+    <Compile Include="Models\Activity\Activity_Vote.cs" />
+    <Compile Include="Models\Activity\Activity_VoteOption.cs" />
     <Compile Include="Models\Activity\LotteryTypes.cs" />
     <Compile Include="Models\Activity\Personal_Lottery.cs" />
     <Compile Include="Models\Activity\Personal_Survey.cs" />
@@ -196,8 +198,14 @@
     <Compile Include="Models\System\BackgroundJobLog.cs" />
     <Compile Include="Models\User\User_Address.cs" />
     <Compile Include="Models\User\User_BindPhone.cs" />
-    <Compile Include="Models\User\User_Info.cs" />
+    <Compile Include="Models\WeChatStore\Depots.cs" />
+    <Compile Include="Models\WeChatStore\AppUserInfo.cs" />
+    <Compile Include="Models\WeChatStore\Sign_Record.cs" />
+    <Compile Include="Models\WeChatStore\Sign_Setup.cs" />
+    <Compile Include="Models\WeChatStore\TasksList.cs" />
+    <Compile Include="Models\WeChatStore\User_Info.cs" />
     <Compile Include="Models\WeChatStore\Store_Info.cs" />
+    <Compile Include="Models\WeChatStore\User_School.cs" />
     <Compile Include="Models\WeiChat_AdminBase.cs" />
     <Compile Include="Models\WeiChat\KeyWords.cs" />
     <Compile Include="Models\WeiChat\Material.cs" />
@@ -226,7 +234,6 @@
     <None Include="Models\WeiChat\KeyWords.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

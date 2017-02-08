@@ -67,7 +67,8 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
         public async Task<ActionResult> Create([Bind(Include = "Name")] WeiChat_UserGroup weiChat_UserGroup)
         {
             weiChat_UserGroup.UsersCount = 0;
-            weiChat_UserGroup.GroupId = 0;
+            //多对多修改
+            //weiChat_UserGroup.GroupIds.Add(-1);
             if (ModelState.IsValid)
             {
                 if (db.WeiChat_UserGroups.Any(p => p.Name == weiChat_UserGroup.Name))
@@ -78,7 +79,8 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                 var result = WeChatApisContext.Current.UserGroupApi.Create(weiChat_UserGroup.Name);
                 if (result.IsSuccess())
                 {
-                    weiChat_UserGroup.GroupId = result.Group.Id;
+                    //多对多修改
+                    weiChat_UserGroup.GroupId=result.Group.Id;
                     weiChat_UserGroup.TenantId = TenantId;
                     db.WeiChat_UserGroups.Add(weiChat_UserGroup);
                     await db.SaveChangesAsync();

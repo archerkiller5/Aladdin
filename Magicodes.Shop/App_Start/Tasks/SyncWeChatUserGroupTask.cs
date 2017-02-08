@@ -55,15 +55,16 @@ namespace Magicodes.Shop.App_Start.Tasks
                     {
                         TenantManager.Current.EnableTenantFilter(db, tenantId);
                         db.WeiChat_UserGroups.RemoveRange(
-                db.WeiChat_UserGroups.Where(p => !db.WeiChat_Users.Any(p1 => p1.GroupId == p.GroupId)));
+                db.WeiChat_UserGroups.Where(p => !db.WeiChat_Users.Any(p1 => p1.GroupIds.Any(d=>d==p.GroupId))));
                         db.SaveChanges();
 
                         var tenantGroups = db.WeiChat_UserGroups.ToList();
                         var groups = (from item in result.Groups
-                                      where !tenantGroups.Any(p => p.GroupId == item.Id)
+                                          //where !tenantGroups.Any(p => p.GroupIds == item.Id)
+                                      where !tenantGroups.Any(p => p.GroupId==item.Id)
                                       select new WeiChat_UserGroup
                                       {
-                                          GroupId = item.Id,
+                                          //GroupIds = item.Id,
                                           Name = item.Name,
                                           UsersCount = item.Count,
                                           TenantId = tenantId

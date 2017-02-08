@@ -80,7 +80,7 @@
             //将选择的图片上传到服务器
             this.uploadToServer = function() {
                 //wc_weichat.js中已封装并缓存，无需定义隐藏域等临时存储
-                if (wc.weiChat.uploader.imgs.length > 0) {
+                if (wc.weiChat.uploader.imgs.length > 0){
                     //上传图片（通过JSSDK将图片上传到微信服务器。注意是微信服务器。微信将作为临时素材存储，返回的serverId即媒体素材Id）
                     wc.weiChat.uploader.uploads({
                             //全部上传完成事件

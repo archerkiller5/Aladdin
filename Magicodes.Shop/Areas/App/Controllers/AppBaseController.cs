@@ -31,7 +31,6 @@ namespace Magicodes.Shop.Areas.App.Controllers
         internal const string TenantIdSessionName = "Magicodes.TenantId";
         private readonly Lazy<LoggerBase> _logger = new Lazy<LoggerBase>(() => Loggers.Current.ControllerLogger);
         protected AppDbContext db = new AppDbContext();
-
         /// <summary>
         ///     日志记录器
         /// </summary>

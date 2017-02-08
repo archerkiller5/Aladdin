@@ -81,7 +81,9 @@ namespace Magicodes.Shop.Areas.App.Controllers.Api
             foreach (var mediaId in ids)
             {
                 var fileName = DateTime.Now.ToString("yyyy-MM-dd");
+                //文件保存的名字
                 var fileSaveName = Guid.NewGuid().ToString("N") + ".png";
+                //租户Id
                 var dirName = TenantId.ToString();
                 var path = Path.Combine(HttpContext.Current.Server.MapPath("~/MediaFiles"), dirName);
                 if (!Directory.Exists(path))
@@ -103,6 +105,7 @@ namespace Magicodes.Shop.Areas.App.Controllers.Api
                     IsFrontCover = !db.Site_Images.Any(p => p.ResourcesTypeId == typeId),
                     MediaId = result.media_id,
                     Name = fileName,
+                    //站内地址
                     SiteUrl = string.Format("/MediaFiles/{0}/{1}", dirName, fileSaveName),
                     Url = result.url,
                     ResourcesTypeId = typeId

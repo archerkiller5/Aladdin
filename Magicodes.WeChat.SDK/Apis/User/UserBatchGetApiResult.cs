@@ -125,7 +125,7 @@ namespace Magicodes.WeChat.SDK.Apis.User
             ///     用户所在的分组ID
             /// </summary>
             [JsonProperty("groupid")]
-            public int GroupId { get; set; }
+            public string GroupIds { get; set; }
         }
     }
 }

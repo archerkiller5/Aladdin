@@ -28,12 +28,20 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
         // GET: /WeiChatUsers/
         public ActionResult Index(int pageIndex = 1, int pageSize = 12, int? groupId = null)
         {
+            //var q = db.WeiChat_Users.AsQueryable();
+            //if (groupId != null)
+            //    q = q.Where(p => p.GroupId == groupId);
+            //var pagedList = new PagedList<WeiChat_User>(
+            //    q.OrderByDescending(p => p.SubscribeTime)
+            //        .Skip((pageIndex - 1)*pageSize).Take(pageSize).ToList(),
+            //    pageIndex, pageSize, q.Count());
+            //return View(pagedList);
             var q = db.WeiChat_Users.AsQueryable();
             if (groupId != null)
-                q = q.Where(p => p.GroupId == groupId);
+                q = q.Where(p => p.GroupIds.Any(c=>c==groupId));
             var pagedList = new PagedList<WeiChat_User>(
                 q.OrderByDescending(p => p.SubscribeTime)
-                    .Skip((pageIndex - 1)*pageSize).Take(pageSize).ToList(),
+                    .Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList(),
                 pageIndex, pageSize, q.Count());
             return View(pagedList);
         }

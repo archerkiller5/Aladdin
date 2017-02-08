@@ -1,6 +1,4 @@
-﻿
-@using MvcCheckBoxList.Model;
-@using Magicodes.Shop.Helpers;
+﻿@using Magicodes.Shop.Helpers;
 @model Magicodes.WeiChat.Data.Models.WeiChat_User
 @{
                 ViewBag.Title = "个人中心";
@@ -9,7 +7,7 @@
 
 
 
-< div class="aui-content my-header">
+<div class="aui-content my-header">
     <div class="my-info">
         <img src="@Model.HeadImgUrl"/>
         <p class="nickname">@(Model.NickName)  
@@ -40,29 +38,28 @@
 
 <div class="aui-content">
     <ul class="aui-list-view aui-in">
-        <li class="aui-list-view-cell" data-url='@Url.TenantAction("MyOrder", "Personal")'>
-            <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>我的新闻
+        <li class="aui-list-view-cell" data-url='@Url.TenantAction("Index", "AppWeiChat_User")'>
+            <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>我的通讯录
         </li>
-
-        @*<li class="aui-list-view-cell" data-url='@Url.TenantAction("MyOrder", "Personal")'>
+        <li class="aui-list-view-cell" data-url='@Url.TenantAction("MyOrder", "Personal")'>
             <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>我的
         </li>
         <li class="aui-list-view-cell" data-url="@Url.TenantAction("MyBill", "Personal")">
          <i class="aui-iconfont aui-icon-read aui-bg-danger"></i>我的账单
-     </li>
-     <li class="aui-list-view-cell" data-url="@Url.TenantAction("CashApply", "Personal")">
-         <i class="aui-iconfont aui-icon-same aui-bg-info"></i>提现申请
-     </li>
-     <li class="aui-list-view-cell" data-url="@Url.TenantAction("CashRecord", "Personal")">
-         <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>提现记录
-     </li>
-     <li class="aui-list-view-cell" data-url="@Url.TenantAction("MyAddress", "Personal")">
-         <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我的收货地址
-     </li>
+         </li>
+         <li class="aui-list-view-cell" data-url="@Url.TenantAction("CashApply", "Personal")">
+             <i class="aui-iconfont aui-icon-same aui-bg-info"></i>提现申请
+         </li>
+         <li class="aui-list-view-cell" data-url="@Url.TenantAction("CashRecord", "Personal")">
+             <i class="aui-iconfont aui-icon-form aui-bg-danger"></i>提现记录
+         </li>
+         <li class="aui-list-view-cell" data-url="@Url.TenantAction("MyAddress", "Personal")">
+             <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我的收货地址
+         </li>
 
-    <li class="aui-list-view-cell" data-url="@Url.TenantAction("Pinjia","Personal")">
-         <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我要评价
-     </li>*@
+        <li class="aui-list-view-cell" data-url="@Url.TenantAction("Pinjia","Personal")">
+             <i class="aui-iconfont aui-icon-edit aui-bg-success"></i>我要评价
+         </li>
     </ul>
     @*<footer class="aui-nav" id="aui-footer">
         <ul class="aui-bar-tab">

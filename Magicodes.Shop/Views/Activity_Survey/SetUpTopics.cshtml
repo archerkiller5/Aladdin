@@ -50,6 +50,10 @@
             this.AddOption = function (data) {
                 console.debug(data);
                 data.Options.push({ OptionText: "" });
+            };
+            this.DelTopic = function (data) {
+                console.debug(data);
+                data.Topics.pop();
             }
             this.GetTopicTemplateName = function (data) {
                 return typeof (data) !== "undefined" && typeof (data.TopicType) !== "undefined" ? data.TopicType + "Template" : "Template";
@@ -81,7 +85,7 @@
                     success: function (data) {
                         setTimeout(function () {
                             parent.location.reload();
-                        }, 200);
+                        }, 2000);
                     }
                 });
             }
@@ -159,6 +163,7 @@
                 <li class="aui-list-view-cell">
                     <div class="aui-col-xs-6 aui-padded-10">
                         <div class="aui-btn aui-btn-block" data-bind="click:AddTopic">添加</div>
+                        <div class="aui-btn aui-btn-block" data-bind="click:DelTopic">删除</div>
                     </div>
                     <div class="aui-col-xs-6 aui-padded-10">
                         <div class="aui-btn aui-btn-block aui-btn-success" data-bind="click:Submit">提交</div>

@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Magicodes.WeiChat.Data.Models.Interface;
+using System.Collections.Generic;
 
 namespace Magicodes.WeiChat.Data.Models
 {

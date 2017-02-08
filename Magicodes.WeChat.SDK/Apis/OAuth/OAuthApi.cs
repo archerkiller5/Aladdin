@@ -32,7 +32,7 @@ namespace Magicodes.WeChat.SDK.Apis.Token
         /// <returns></returns>
         public OAuthTokenApiResult Get(string code)
         {
-            var url = string.Format("https://api.weixin.qq.com/sns/{0}/access_token?grant_type=authorization_code&appid={1}&secret={2}&code={3}", ApiName, AppConfig.AppId, AppConfig.AppSecret, code);
+            var url = string.Format("https://api.weixin.qq.com/sns/{0}/access_token?appid={1}&secret={2}&code={3}&grant_type=authorization_code", ApiName, AppConfig.AppId, AppConfig.AppSecret, code);
             var result = Get<OAuthTokenApiResult>(url);
             result.ExpiresTime = DateTime.Now.AddSeconds(result.Expires - 30);
             return result;
@@ -47,7 +47,13 @@ namespace Magicodes.WeChat.SDK.Apis.Token
         /// <returns></returns>
         public GetUserInfoApiResult GetUserInfo(string oauthAccessToken, string openId, string lang = "zh_CN")
         {
-            var url = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang={2}", oauthAccessToken, openId, lang);
+            //ouath2.0 认证
+            //var url = string.Format("https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang={2}", oauthAccessToken, openId, lang);
+            //普通认证
+            var url = string.Format("https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}", oauthAccessToken, openId);
+
+            Logger.Log(Magicodes.Logger.LoggerLevels.Trace, url);
+           
             var result = Get<GetUserInfoApiResult>(url);
             return result;
         }

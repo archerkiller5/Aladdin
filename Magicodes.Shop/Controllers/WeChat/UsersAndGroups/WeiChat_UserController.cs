@@ -28,6 +28,10 @@ using Webdiyer.WebControls.Mvc;
 using Magicodes.Shop.Models;
 using Magicodes.WeChat.SDK.Apis.User;
 using Magicodes.WeiChat.Data.Models.User;
+using Magicodes.WeiChat.Infrastructure;
+using System.Collections.Generic;
+using System.Web.UI.WebControls;
+using System.Text;
 
 namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
 {
@@ -37,9 +41,9 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
         public async Task<ActionResult> Index(string q, int pageIndex = 1, int pageSize = 10,
             ExportTypes exportType = ExportTypes.None)
         {
-          //  WeiChatViewUserAndUserInfo WeiChat = new WeiChatViewUserAndUserInfo();
+            //  WeiChatViewUserAndUserInfo WeiChat = new WeiChatViewUserAndUserInfo();
             var queryable = db.WeiChat_Users.AsQueryable();
-      
+
             if (!string.IsNullOrWhiteSpace(q))
                 queryable =
                     queryable.Where(
@@ -60,12 +64,19 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                 pageIndex, pageSize, await queryable.CountAsync());
             var myGroups = db.WeiChat_UserGroups.Where(p => p.TenantId == TenantId).ToList();
             foreach (var item in pagedList)
-                item.UserGroup = myGroups.FirstOrDefault(p => p.GroupId == item.GroupId);
+            {
+                //item.UserGroup = myGroups.FirstOrDefault(p => p.GroupId == item.GroupId);
+                foreach (int c in item.GroupIds)
+                {
+                    //取userGroups跟myGroups取出来等同于groupid的值,
+                    item.UserGroups=item.UserGroups.Union(myGroups.Where(p => p.GroupId==c).ToArray()).ToArray();
+                }
+            }
             ViewBag.UserGroups = new SelectList(myGroups, "GroupId", "Name");
             return View(pagedList);
         }
-
-        public ActionResult IndexView(string q, int pageIndex = 1, int pageSize = 12, int? groupId = null)
+        //多对多修改
+        public ActionResult IndexView(string q, int pageIndex = 1, int pageSize = 12, int groupId = -1)
         {
             var queryable = db.WeiChat_Users.AsQueryable();
             if (!string.IsNullOrWhiteSpace(q))
@@ -74,8 +85,8 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                         p =>
                             p.NickName.Contains(q) || p.City.Contains(q) || p.Country.Contains(q) ||
                             p.Province.Contains(q) || p.Remark.Contains(q));
-            if (groupId != null)
-                queryable = queryable.Where(p => p.GroupId == groupId);
+            if (groupId != -1)
+                queryable = queryable.Where(p => p.GroupIds.Contains(groupId.ToString()));
             var pagedList = new PagedList<WeiChat_User>(
                 queryable
                     .OrderByDescending(p => p.SubscribeTime)
@@ -90,10 +101,14 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            var weiChat_User = await db.WeiChat_Users.FindAsync(id);
-            if (weiChat_User == null)
+            WeiChatViewUserAndUserInfo weichaeview = new WeiChatViewUserAndUserInfo();
+
+            weichaeview.User = await db.WeiChat_Users.FindAsync(id);
+            weichaeview.Userinfo = await db.User_Infos.FindAsync(id);
+            if (weichaeview.User == null)
                 return HttpNotFound();
-            return View(weiChat_User);
+
+            return View(weichaeview);
         }
 
         [HttpPost]
@@ -141,15 +156,14 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(
             WeiChatViewUserAndUserInfo model)
-            
         {
             if (ModelState.IsValid)
             {
-                var weichat =  new WeiChat_User();
+                var weichat = new WeiChat_User();
                 var info = new User_Info();
-               
+
                 //weichat .OpenId= model.User.OpenId;
-             
+
                 weichat.NickName = model.User.NickName;
                 weichat.Sex = model.User.Sex;
                 weichat.City = model.User.City;
@@ -160,8 +174,8 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                 weichat.SubscribeTime = model.User.SubscribeTime;
                 weichat.UnionId = model.User.UnionId;
                 weichat.Remark = model.User.Remark;
-                weichat.GroupId = model.User.GroupId;
-               // info.UserNo = model.Userinfo.UserNo;
+                weichat.GroupIds = model.User.GroupIds;
+                // info.UserNo = model.Userinfo.UserNo;
                 info.Userid = model.Userinfo.Userid;
                 info.Pwd = model.Userinfo.Pwd;
                 info.Email = model.Userinfo.Email;
@@ -170,6 +184,7 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                 info.TrueName = model.Userinfo.TrueName;
                 info.IdCard = model.Userinfo.IdCard;
                 info.Address = model.Userinfo.Address;
+                info.Sex = weichat.Sex;
                 info.WorkPlace_1 = model.Userinfo.WorkPlace_1;
                 info.WorkPlace_2 = model.Userinfo.WorkPlace_2;
                 info.WorkPlace_3 = model.Userinfo.WorkPlace_3;
@@ -180,39 +195,59 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                 info.Tel_2 = model.Userinfo.Tel_2;
                 info.Tel_3 = model.Userinfo.Tel_3;
                 weichat.OpenId = info.Userid;
+                info.OpenId = info.Userid;
                 info.CreateTime = DateTime.Now;
                 info.State = 0;
                 info.Integral = 0;
+                info.TenantId = WeiChatApplicationContext.Current.WeiChatUser.TenantId;
                 info.Balance = 0;
                 info.LastLoginOn = DateTime.Now;
-
+                info.LoginCount = 0;
+                //info.RememberMe =true;
+                //添加
                 db.WeiChat_Users.Add(weichat);
-
                 await db.SaveChangesAsync();
-
+                //添加
+                db.Configuration.ValidateOnSaveEnabled = false;
                 db.User_Infos.Add(info);
-
                 await db.SaveChangesAsync();
+                db.Configuration.ValidateOnSaveEnabled = true;
 
-                
 
             }
             return RedirectToAction("Index");
 
         }
- 
+
         // GET: WeiChat_User/Edit/5
         public async Task<ActionResult> Edit(string id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            WeiChatViewUserAndUserInfo weiChat_User=new WeiChatViewUserAndUserInfo();
-            
+            WeiChatViewUserAndUserInfo weiChat_User = new WeiChatViewUserAndUserInfo();
             weiChat_User.User = await db.WeiChat_Users.FirstOrDefaultAsync(p => p.OpenId == id);
-            weiChat_User.Userinfo = await db.User_Infos.FirstOrDefaultAsync(m => m.OpenId == id);
-            if (weiChat_User == null)
+            if (weiChat_User.User == null)
+            {
                 return HttpNotFound();
-            weiChat_User.User.UserGroup = db.WeiChat_UserGroups.FirstOrDefault(p => p.GroupId == weiChat_User.User.GroupId);
+            }
+
+            weiChat_User.Userinfo = await db.User_Infos.FirstOrDefaultAsync(m => m.OpenId == id);
+
+            List<ListItem> li = new List<ListItem>();
+            foreach (int s in Enum.GetValues(typeof(WeChatSexTypes)))
+            {
+                li.Add(new ListItem { Value = s.ToString(), Text = Enum.GetName(typeof(WeChatSexTypes), s) });
+            }
+            ViewBag.Seax = new SelectList(li, dataTextField: "text", dataValueField: "value", selectedValue: "1");
+            //多对多修改
+            //weiChat_User.User.UserGroups = db.WeiChat_UserGroups.Where(p => weiChat_User.User.GroupIds.Contains(p.GroupIds)).ToArray();
+            foreach (var d in weiChat_User.User.GroupIds)
+            {
+                foreach (var group in db.WeiChat_UserGroups.Where(p => p.GroupId == d))
+                {
+                    weiChat_User.User.UserGroups.Add(group);
+                };
+            }
             return View(weiChat_User);
         }
 
@@ -229,57 +264,68 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                 //var result = WeChatApisContext.Current.UserApi.SetRemark(model.User.OpenId, model.User.Remark);
                 //if (result.IsSuccess())
                 //{
-                    var mo = await db.WeiChat_Users.FindAsync(model.User.OpenId);
+                var mo = await db.WeiChat_Users.FindAsync(model.User.OpenId);
 
-                    var info = await db.User_Infos.FindAsync(model.User.OpenId);
-                if (info == null) {
+                var info = await db.User_Infos.FindAsync(model.User.OpenId);
+                if (info == null)
+                {
                     var infos = new User_Info();
-                   infos.OpenId = model.User.OpenId;
+                    infos.OpenId = model.User.OpenId;
                     infos.CreateTime = DateTime.Now;
                     infos.State = 0;
                     infos.Integral = 0;
                     infos.Balance = 0;
+                    infos.TenantId = WeiChatApplicationContext.Current.WeiChatUser.TenantId;
                     infos.LastLoginOn = DateTime.Now;
+
                     db.User_Infos.Add(infos);
                     await db.SaveChangesAsync();
                     info = await db.User_Infos.FindAsync(model.User.OpenId);
                 }
-               
-                    mo.NickName = model.User.NickName;
-                    mo.Sex = model.User.Sex;
-                    mo.City = model.User.City;
-                    mo.Language = model.User.Language;
-                    mo.Country = model.User.Country;
-                    mo.Province = model.User.Province;
-                    mo.HeadImgUrl = model.User.HeadImgUrl;
-                    mo.SubscribeTime = model.User.SubscribeTime;
-                    mo.UnionId = model.User.UnionId;
-                    mo.Remark = model.User.Remark;
-                    mo.GroupId = model.User.GroupId;
-                   // info.UserNo = model.Userinfo.UserNo;
-                    info.Userid = model.Userinfo.Userid;
-                    info.Pwd = model.Userinfo.Pwd;
-                    info.Email = model.Userinfo.Email;
-                    info.Mobile = model.Userinfo.Mobile;
-                   
-                    info.TrueName = model.Userinfo.TrueName;
-                    info.IdCard = model.Userinfo.IdCard;
-                    info.Address = model.Userinfo.Address;
-                    info.WorkPlace_1 = model.Userinfo.WorkPlace_1;
-                    info.WorkPlace_2 = model.Userinfo.WorkPlace_2;
-                    info.WorkPlace_3 = model.Userinfo.WorkPlace_3;
-                    info.Business_scope_1 = model.Userinfo.Business_scope_1;
-                    info.Business_scope_2 = model.Userinfo.Business_scope_2;
-                    info.Business_scope_3 = model.Userinfo.Business_scope_3;
-                    info.Tel_1 = model.Userinfo.Tel_1;
-                    info.Tel_2 = model.Userinfo.Tel_2;
-                    info.Tel_3 = model.Userinfo.Tel_3;
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                
+
+                mo.NickName = model.User.NickName;
+                mo.Sex = model.User.Sex;
+                mo.City = model.User.City;
+                mo.Language = model.User.Language;
+                mo.Country = model.User.Country;
+                mo.Province = model.User.Province;
+                mo.HeadImgUrl = model.User.HeadImgUrl;
+                mo.SubscribeTime = model.User.SubscribeTime;
+                mo.UnionId = model.User.UnionId;
+                mo.Remark = model.User.Remark;
+                mo.GroupIds = model.User.GroupIds;
+
+                info.Userid = model.Userinfo.Userid;
+                info.Pwd = model.Userinfo.Pwd;
+                info.Email = model.Userinfo.Email;
+                info.Mobile = model.Userinfo.Mobile;
+
+                info.TrueName = model.Userinfo.TrueName;
+                info.IdCard = model.Userinfo.IdCard;
+                info.Address = model.Userinfo.Address;
+                info.WorkPlace_1 = model.Userinfo.WorkPlace_1;
+                info.WorkPlace_2 = model.Userinfo.WorkPlace_2;
+                info.WorkPlace_3 = model.Userinfo.WorkPlace_3;
+                info.Business_scope_1 = model.Userinfo.Business_scope_1;
+                info.Business_scope_2 = model.Userinfo.Business_scope_2;
+                info.Business_scope_3 = model.Userinfo.Business_scope_3;
+                info.Tel_1 = model.Userinfo.Tel_1;
+                info.Tel_2 = model.Userinfo.Tel_2;
+                info.Tel_3 = model.Userinfo.Tel_3;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+
                 //ModelState.AddModelError(string.Empty, result.GetFriendlyMessage());
             }
-            model.User.UserGroup = db.WeiChat_UserGroups.FirstOrDefault(p => p.GroupId == model.User.GroupId);
+            foreach (var d in model.User.GroupIds)
+            {
+                foreach (var ff in db.WeiChat_UserGroups.Where(p => p.GroupId == d))
+                {
+                    model.User.UserGroups.Add(ff);
+                };
+            }
+            //model.User.UserGroups = db.WeiChat_UserGroups.FirstOrDefault(p => p.GroupId == model.User.GroupIds);
+             
             return View();
         }
 
@@ -304,6 +350,7 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
             db.WeiChat_Users.Remove(weiChat_User);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+
         }
 
         // POST: WeiChat_User/BatchOperation/{operation}
@@ -334,13 +381,13 @@ namespace Magicodes.Shop.Controllers.WeChat.UsersAndGroups
                         case "MOVE":
 
                             #region 移动
-
                             {
                                 var result = WeChatApisContext.Current.UserGroupApi.MemeberUpdate(ids, groupId);
                                 if (result.IsSuccess())
                                 {
                                     foreach (var item in models)
-                                        item.GroupId = groupId;
+                                        //item.GroupIds = groupId;
+                                       //StringBuilder sb=new StringBuilder(item.GroupIds);
                                     await db.SaveChangesAsync();
                                     ajaxResponse.Success = true;
                                     ajaxResponse.Message = string.Format("已成功操作{0}项！", models.Count);

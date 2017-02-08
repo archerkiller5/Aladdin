@@ -27,6 +27,7 @@ using Magicodes.Storage;
 using Magicodes.Notify;
 using Magicodes.WeiChat.Data.Models.Site;
 using Magicodes.Tasks;
+using System.Collections.Generic;
 
 namespace Magicodes.WeiChat.Infrastructure
 {
@@ -76,7 +77,6 @@ namespace Magicodes.WeiChat.Infrastructure
         {
             get { return HttpContext.Current == null ? null : HttpContext.Current.User.Identity.GetUserId(); }
         }
-
         /// <summary>
         ///     租户Id（如果是系统租户则能获取到参数中的租户Id）
         /// </summary>
@@ -87,7 +87,6 @@ namespace Magicodes.WeiChat.Infrastructure
                 return GetTenantId(HttpContext.Current.Request.RequestContext.HttpContext);
             }
         }
-
         /// <summary>
         ///     租户信息
         /// </summary>
@@ -113,6 +112,7 @@ namespace Magicodes.WeiChat.Infrastructure
                 var tenantId = TenantId;
                 var userSesstionName = string.Format("{0}_{1}", UserSessionName, tenantId);
                 var cookieName = string.Format("{0}_{1}", OpenIdCookieName, tenantId);
+                var usergroup = string.Format("groupname_{0}", tenantId);
                 //从Session里获取
                 if (HttpContext.Current.Session[userSesstionName] != null)
                 {
@@ -187,7 +187,6 @@ namespace Magicodes.WeiChat.Infrastructure
             //通过Session获取租户Id
             if (context.Session != null && context.Session[TenantIdSessionName] != null)
                 tenantId = Convert.ToInt32(context.Session[TenantIdSessionName]);
-
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
                 //代理租户Id

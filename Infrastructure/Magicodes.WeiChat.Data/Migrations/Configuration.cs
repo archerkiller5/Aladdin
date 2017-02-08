@@ -24,6 +24,8 @@ using Magicodes.WeiChat.Data.Models.Site;
 using Microsoft.AspNet.Identity;
 using Magicodes.WeiChat.Data.Models.Product;
 using Magicodes.WeiChat.Data.Models.Advert;
+using System.Data.Entity;
+using Magicodes.WeiChat.Data.Models.WeChatStore;
 
 namespace Magicodes.WeiChat.Data.Migrations
 {
@@ -43,7 +45,7 @@ namespace Magicodes.WeiChat.Data.Migrations
             var tenant = context.Admin_Tenants.FirstOrDefault(p => p.IsSystemTenant);
             if (tenant == null)
             {
-                tenant = new Admin_Tenant {IsSystemTenant = true, Name = "系统租户", Remark = "系统租户，勿删！"};
+                tenant = new Admin_Tenant { IsSystemTenant = true, Name = "系统租户", Remark = "系统租户，勿删！" };
                 context.Admin_Tenants.Add(tenant);
                 context.SaveChanges();
             }
@@ -51,7 +53,7 @@ namespace Magicodes.WeiChat.Data.Migrations
             #region 添加用户和角色
 
             //全局管理员多租户Id为1
-            var store = new AppUserStore(context) {TenantId = tenant.Id};
+            var store = new AppUserStore(context) { TenantId = tenant.Id };
             var userManager = new UserManager<AppUser, string>(store);
             var roleManager = new RoleManager<AppRole>(new AppRoleStore(context));
             //系统管理员
@@ -308,7 +310,7 @@ namespace Magicodes.WeiChat.Data.Migrations
 
             #region 初始化商品标签
             //精品排行标签
-            if(context.Product_Tags.Find(new Guid("527BD456-2411-4BAB-A67B-4760752D7198")) == null)
+            if (context.Product_Tags.Find(new Guid("527BD456-2411-4BAB-A67B-4760752D7198")) == null)
             {
                 var jpphTag = new Product_Tag
                 {
@@ -351,7 +353,7 @@ namespace Magicodes.WeiChat.Data.Migrations
             }
             #endregion
             #region 初始化默认广告位
-            if(context.Advert_Types.Find(new Guid("6FAC25BF-DBE1-423D-93C8-FB31D98D8F72")) == null)
+            if (context.Advert_Types.Find(new Guid("6FAC25BF-DBE1-423D-93C8-FB31D98D8F72")) == null)
             {
                 var advertType = new Advert_Type
                 {
@@ -366,50 +368,176 @@ namespace Magicodes.WeiChat.Data.Migrations
                 context.SaveChanges();
             }
             #endregion
+            #region 添加WeiChat_User
+            if (!context.WeiChat_Users.Any())
+            {
+                var weichatuser = new WeiChat_User
+                {
+                    OpenId = "o3Q4xv9pXYCBk-pdpvgqWTbs8aLY",
+                    Subscribe = true,
+                    NickName = "差不多先生",
+                    Sex = WeChat.SDK.Apis.User.WeChatSexTypes.Man,
+                    City = "linfen",
+                    Country = "中国",
+                    Province = "山西",
+                    Language = "zh_CN",
+                    HeadImgUrl = "http://wx.qlogo.cn/mmopen/rycTXpWzibw2l9v7TNN0uFGcjQzHCic6tcOy8dLLnkPTZdP7rZxsSXXQCRJRjoXpKWhkRXnOol544kE6S5Of6uRg/0",
+                    UnionId = "1",
+                    Remark="9054",
+                    GroupIds="102",
+                    AllowTest = false,
+                    TenantId = 1,
+                    SubscribeTime = DateTime.Parse("2016 - 11 - 24 08:58:56.000")
+                };
+                context.WeiChat_Users.Add(weichatuser);
+                context.SaveChanges();
+        }
+            #endregion
+            #region 添加AppUserInfo
+            if (!context.AppUserInfos.Any(p => p.OpenId == "o3Q4xv9pXYCBk - pdpvgqWTbs8aLY"))
+            {
+                var appUserInfo = new AppUserInfo
+                {
+                    //Id = new Guid(),
+                    UserNo = 1,
+                    OpenId = "o3Q4xv9pXYCBk - pdpvgqWTbs8aLY",
+                    Member_loginname = "bb",
+                    Member_password = "123",
+                    Nick_name = "bb",
+                    Member_ID = 5,
+                    Real_Name = "我靠",
+                    Empiric_Num = 1,
+                    Gold_Num = 100,
+                    Balance = 100,
+                    ServiceShop_ID = 5,
+                    Member_img = new Guid(),
+                    Sex = Enumusersexs.男,
+                    School_ID = 2,
+                    Birth_Date = DateTime.Now,
+                    Status = EnumUserStates.Normal,
+                    TenantId = 0,
+                    CreateTime = DateTime.Now
+                };
+        context.AppUserInfos.Add(appUserInfo);
+                context.SaveChanges();
+            }
+            #endregion
+            #region 创建学校跟学院
+            if (!context.User_Schools.Any())
+            {
+                var user_School1 = new User_School
+                {
+                    School_Name = "中北大学",
+                    ParentID = 0,
+                    School_Address = "太原",
+                    CreateDate = DateTime.Now
+                };
+    var user_School2 = new User_School
+    {
+        School_Name = "山西大学",
+        ParentID = 0,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+    var user_School3 = new User_School
+    {
+        School_Name = "太原理工大学",
+        ParentID = 0,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+    var user_campus1 = new User_School
+    {
+        School_Name = "土木工程学院",
+        ParentID = user_School1.ID,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+    var user_campus2 = new User_School
+    {
+        School_Name = "软件工程学院",
+        ParentID = user_School1.ID,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+    var user_campus3 = new User_School
+    {
+        School_Name = "环境工程学院",
+        ParentID = user_School1.ID,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+    var user_campus4 = new User_School
+    {
+        School_Name = "人文学院",
+        ParentID = user_School1.ID,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+
+    var user_campus5 = new User_School
+    {
+        School_Name = "软件学院",
+        ParentID = user_School2.ID,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+                context.User_Schools.Add(user_campus5);
+                var user_campus6 = new User_School
+    {
+        School_Name = "土木工程学院",
+        ParentID = user_School2.ID,
+        School_Address = "太原",
+        CreateDate = DateTime.Now
+    };
+                context.User_Schools.Add(user_campus1); context.User_Schools.Add(user_campus2); context.User_Schools.Add(user_campus3); context.User_Schools.Add(user_campus4); context.User_Schools.Add(user_campus5); context.User_Schools.Add(user_campus6); context.User_Schools.Add(user_School3); context.User_Schools.Add(user_School2); context.User_Schools.Add(user_School1);
+                context.SaveChanges();
+            }
+            #endregion
         }
     }
 
     internal class MenuDataSeedHelper
+{
+    private static int orderNo;
+
+    public static Site_Menu CreateRootMenu(string title, string action, string controller, string url,
+        string iconCls)
     {
-        private static int orderNo;
-
-        public static Site_Menu CreateRootMenu(string title, string action, string controller, string url,
-            string iconCls)
+        orderNo++;
+        var id = Guid.NewGuid();
+        return new Site_Menu
         {
-            orderNo++;
-            var id = Guid.NewGuid();
-            return new Site_Menu
-            {
-                Id = id,
-                Title = title,
-                Action = action,
-                Controller = controller,
-                Url = url,
-                IconCls = iconCls,
-                Path = id.ToString("N"),
-                OrderNo = orderNo,
-                Tag = "Tenant"
-            };
-        }
-
-        public static Site_Menu CreateChildMenu(Guid parentId, string title, string action, string controller,
-            string url, string iconCls)
-        {
-            orderNo++;
-            var id = Guid.NewGuid();
-            return new Site_Menu
-            {
-                Id = id,
-                ParentId = parentId,
-                Title = title,
-                Action = action,
-                Controller = controller,
-                Url = url,
-                IconCls = iconCls,
-                Tag = "Tenant",
-                Path = string.Format("{0}-{1}", parentId.ToString("N"), id.ToString("N")),
-                OrderNo = orderNo
-            };
-        }
+            Id = id,
+            Title = title,
+            Action = action,
+            Controller = controller,
+            Url = url,
+            IconCls = iconCls,
+            Path = id.ToString("N"),
+            OrderNo = orderNo,
+            Tag = "Tenant"
+        };
     }
+
+    public static Site_Menu CreateChildMenu(Guid parentId, string title, string action, string controller,
+        string url, string iconCls)
+    {
+        orderNo++;
+        var id = Guid.NewGuid();
+        return new Site_Menu
+        {
+            Id = id,
+            ParentId = parentId,
+            Title = title,
+            Action = action,
+            Controller = controller,
+            Url = url,
+            IconCls = iconCls,
+            Tag = "Tenant",
+            Path = string.Format("{0}-{1}", parentId.ToString("N"), id.ToString("N")),
+            OrderNo = orderNo
+        };
+    }
+}
 }

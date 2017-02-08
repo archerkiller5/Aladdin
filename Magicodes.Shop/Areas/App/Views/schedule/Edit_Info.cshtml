@@ -1,0 +1,258 @@
+﻿@model Magicodes.WeiChat.Data.Models.WeChatStore.AppUserInfo
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<script src="~/Content/unify/plugins/fancybox/lib/jquery-1.9.0.min.js"></script>
+<script src="~/content/unify/plugins/sky-forms-pro/skyforms/js/jquery.validate.min.js"></script>
+<script src="~/Scripts/ajaxfileupload.js"></script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit_Info</title>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#School").change(function () { GetCampus() })
+        });
+        function GetCampus() {
+            $("#Campus").empty();//清空学院select控件
+            var url = "/schedule/GetCampusList?schoolId=" + $("#School").val();
+            $.getJSON(url, function (data) {
+                $.each(data, function (i, item) {
+                    $("<option></option>").val(item["ID"]).text(item["School_Name"]).appendTo($("#Campus"));
+                });
+            })
+        }
+        $(
+            function () {
+            $("#buttonUpload").click(function () {
+                $.ajaxFileUpload({
+                    //url: "/schedule/Upload",//处理图片地址
+                    url: "/schedule/Upload",
+                    secureuri: false,
+                    fileElementId: "upImg",//file控件id
+                    //data: {"type":ImgType},
+                    dataType: "json",
+                    success: function (data, status) {
+                        if (typeof (data.error) !== "undefined") {
+                            if (data.error != "") {
+                                alert(data.error);
+                            } else {
+                                alert(data.msg);
+                            }
+                        }
+                    },
+                    error: function (data, status, e) {
+                        alert(e);
+                    }
+                })
+            })
+        });
+        //$(function () {
+        //    $("#buttonUpload").click(function () {
+        //        $.ajaxFileUpload({
+        //            url: "/schedule/Upload",//处理图片地址
+        //            //url: "/Home/Upload",
+        //            secureuri: false,
+        //            fileElementId: "upImg",//file控件id
+        //            //data: {"type":ImgType},
+        //            dataType: "json",
+        //            success: function (data, status) {
+        //                if (typeof (data.error) !== "undefined") {
+        //                    if (data.error != "") {
+        //                        alert(data.error);
+        //                    } else {
+        //                        alert(data.msg);
+        //                    }
+        //                }
+        //            },
+        //            error: function (data, status, e) {
+        //                alert(e);
+        //            }
+        //        })
+        //    })
+        //});
+    </script>
+</head>
+<body>
+    @Html.Partial("MasterPage")
+    @using (Html.BeginForm())
+    {
+        <div>
+            <div class="biao">
+                @Html.AntiForgeryToken()
+                <ul>
+                    <li>学校名称：@Html.DropDownList("School", ViewBag.school as SelectList, "——————请选择——————", new { @class = "form-control" })</li>
+                </ul>
+                <ul>
+                    <li>校区名称：<select id="Campus"><option>——————请选择——————</option></select></li>
+                </ul>
+                <ul>
+                    <li>
+                        昵称：@Html.EditorFor(model => model.Nick_name, new { htmlAttributes = new { @class = "form-control", style = "width:250px" } })
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        真名：@Html.TextBoxFor(model => model.Real_Name, new { @value = "11111" })
+                        @Html.ValidationMessageFor(model => model.Real_Name, "", new { @class = "text-danger" })
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <img alt="" style="display:none;" id="result" src="" />
+                    </li>
+                    <li>
+                        <input name="upImg" id="upImg" style="width:200px;height:25px;" size="38" type="file" /><br />
+                        <input type="button" id="buttonUpload" value="上传" />
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        性别：@Html.RadioButtonFor(model => model.Sex, 0)男 &nbsp;
+                        @Html.RadioButtonFor(model => model.Sex, 1)女 &nbsp;
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        身份证号：@Html.EditorFor(model => model.IDNumber, new { htmlAttributes = new { @class = "form-control", style = "width:250px" } })
+                        @Html.ValidationMessageFor(model => model.IDNumber, "", new { @class = "text-danger" })
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        有效地址：@Html.EditorFor(model => model.Adress, new { htmlAttrbutes = new { @class = "form-control", style = "width:250px" } })
+                        @Html.ValidationMessageFor(model => model.Adress, "", new { @class = "text-danger" })
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        出生日期：@Html.EditorFor(model => model.Birth_Date, new { htmlAttrbutes = new { @class = "form-control", style = "width:250px" } })
+
+                    </li>
+                </ul>
+                <ul>
+                    <li>电子邮箱：@Html.EditorFor(model => model.Email, new { htmlAttrbutes = new { @class = "form-control", style = "width:250px" } })</li>
+                </ul>
+                <ul>
+                    <li>服务仓库：@*@Html.DropDownList()*@</li>
+                </ul>
+                <div class="tijiao_box">
+                    <div class="col-md-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>&nbsp;提交</button>
+                        <a href="@Url.Action("Index")" class="btn btn-primary"><i class="fa fa-mail-reply"></i>&nbsp;返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @*@section Scripts {
+            @Scripts.Render("~/plugins/iCheck")
+            <script type="text/javascript">
+                $(function () {
+                    $('.i-checks')
+                        .iCheck({
+                            checkboxClass: 'icheckbox_square-green',
+                            radioClass: 'iradio_square-green',
+                        });
+                    $('select').addClass("form-control");
+                });
+
+                function checkContactNumber() {
+                    $("#error").css("display", "none");
+                    var mobile = $.trim($("#PhoneNumber").val());
+                    var isMobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+                    var isPhone = /^(?:(?:0\d{2,3})-)?(?:\d{7,8})(-(?:\d{3,}))?$/;;
+                    var error =
+                        "<label id=\"error\" class=\"validate_input_error\" style=\"color:red;\">请正确填写电话号码，例如:13511111111或010-11111111</label>";
+                    //如果为1开头则验证手机号码
+                    if (mobile.substring(0, 1) == 1) {
+                        if (!isMobile.exec(mobile) && mobile.length != 11) {
+                            $("#PhoneNumber").after(error);
+                            $("#PhoneNumber").focus();
+                            return false;
+                        }
+                    }
+                        //如果为0开头则验证固定电话号码
+                    else if (mobile.substring(0, 1) == 0) {
+                        if (!isPhone.test(mobile)) {
+                            $("#PhoneNumber").after(error);
+                            $("#PhoneNumber").focus();
+                            return false;
+                        }
+                    }
+                        //否则全部不通过
+                    else {
+                        $("#PhoneNumber").after(error);
+                        $("#PhoneNumber").focus();
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+
+        }*@
+    <style type="text/css">
+        /* 图片展示样式 */
+        .images_zone {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            float: left;
+            margin: 3px 5px 3px 0;
+            background: #f0f0f0;
+            border: 5px solid #f0f0f0;
+        }
+
+            .images_zone span {
+                display: table-cell;
+                text-align: center;
+                vertical-align: middle;
+                overflow: hidden;
+                width: 120px;
+                height: 120px;
+            }
+
+                .images_zone span img {
+                    width: 120px;
+                    vertical-align: middle;
+                }
+
+            .images_zone a {
+                text-align: center;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                background: rgba(255,255,255,0.5);
+                display: block;
+                width: 100%;
+                height: 20px;
+                line-height: 20px;
+                display: none;
+                font-size: 12px;
+            }
+        /* 进度条样式 */
+        .up_progress {
+            width: 300px;
+            height: 13px;
+            font-size: 10px;
+            line-height: 14px;
+            overflow: hidden;
+            background: #e6e6e6;
+            margin: 5px 0;
+            display: none;
+        }
+
+            .up_progress .progress-bar {
+                height: 13px;
+                background: #11ae6f;
+                float: left;
+                color: #fff;
+                text-align: center;
+                width: 0%;
+            }
+    </style>
+</body>
+</html>

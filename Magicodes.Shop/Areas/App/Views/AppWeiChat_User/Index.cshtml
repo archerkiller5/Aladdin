@@ -1,0 +1,133 @@
+﻿@using Magicodes.WeiChat.Unity
+@using Webdiyer.WebControls.Mvc
+@model PagedList<Magicodes.WeiChat.Data.Models.WeiChat_User>
+@{
+    ViewBag.Title = "群通讯录";
+    Layout = "~/Areas/App/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="aui-content aui-text-center amount-info">
+    <div class="aui-col-xs-3  ">
+        <strong class="aui-iconfont aui-icon-people aui-text-info"></strong>
+        <p>头像</p>
+    </div>
+    <div class="aui-col-xs-3  "  >
+        <string class="aui-iconfont aui-icon-people aui-text-info"></string>
+        <p>昵称</p>
+    </div>
+    <div class="aui-col-xs-3 "  >
+        <string class="aui-iconfont aui-icon-location aui-text-info"></string>
+        <p>位置</p>
+    </div>
+    <div class="aui-col-xs-3 "  >
+        <string class="aui-iconfont aui-icon-search aui-text-info"></string>
+        <p>详细</p>
+    </div>
+</div>
+    @foreach (var item in Model)
+    {
+        <div class="aui-content aui-text-center amount-info">
+        <div class="aui-col-xs-3  ">
+        <img class="img-circle" widli="38" height="38" src="@item.HeadImgUrl" />
+        </div>
+        <div class="aui-col-xs-3  ">
+            @Html.DisplayFor(modelItem => item.NickName )
+        </div>
+        <div class="aui-col-xs-3 ">
+            @Html.DisplayFor(modelItem => item.Country )@Html.DisplayFor(modelItem => item.Province )@Html.DisplayFor(modelItem => item.City )
+        </div>
+        <div class="aui-col-xs-3  ">
+            <a class="btn btn-white" href="@Url.Action("Details", new {id = item.OpenId})">详细</a>
+        </div>
+    </div>
+    }
+
+
+
+
+
+
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/Content/plugins/select2/select2Styles")
+    @Styles.Render("~/plugins/laddaStyles")
+ 
+    <style type="text/css">
+        div {
+            font-size: small;
+            text-align: center;
+        } 
+        .my-header {
+            background-color: #e74c3c;
+            margin-bottom: 0;
+            position: relative;
+        }
+
+        .my-info {
+            bottom: 0;
+            padding: 10px;
+            position: relative;
+            text-align: center;
+            widli: 100%;
+        }
+
+            .my-info img {
+                border-radius: 50%;
+                height: 80px;
+                widli: 80px;
+            }
+
+            .my-info p.nickname {
+                color: #ffffff;
+                font-size: 18px;
+                margin-top: 5px;
+            }
+
+        .aui-list-view-cell {
+            line-height: 26px;
+        }
+
+        .amount-info {
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+            .amount-info p {
+                font-size: 0.75em;
+            }
+
+                .amount-info p sulong {
+                    font-size: 18px;
+                }
+
+        .aui-list-view-cell {
+            line-height: 26px;
+        }
+
+        .amount-info .aui-col-xs-4 {
+            height: 80px;
+            padding: 15px 0;
+            position: relative;
+        }
+
+            .amount-info .aui-col-xs-4:after {
+                -webkit-ulansform: scale(1);
+                -webkit-ulansform-origin: 0 0; 
+                border-left: 1px solid #ddd;
+                bottom: 0;
+                content: '';
+                display: block;
+                left: 0;
+                pointer-events: none;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            .amount-info .aui-col-xs-4:first-child:after {
+                border: none;
+            }
+    </style>
+}
